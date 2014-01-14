@@ -134,7 +134,10 @@ Synchronization is managed on software level using \textbf{checkpointing}. All s
 \\\\
 The decision to switch is also made at software level. The operating system of each processor is aware of the state of all others. If the operating system of a processor $X$ discovers that the operating system of another $Y$ is dead and if the $P_A$ of a $P_B$ process running on $X$ was running on $Y$ then X activates the $P_B$ that replaces $P_A$. 
 
-
+\subsubsection{Pair \& Spare}
+Each processing module is thus duplicated by a \textit{spare}. Main and spare processor are synchronized by running the same program with the same data at the same time. Each module consists of two processing units and the results are permanently compared. This is method is called \textbf{bus snooping} and the concept is called a \textbf{self checking pair}. Time is synchronized by a central clock. The decision to switch is made on hardware level when the results are not identical. If it's the main pair, the system switches to the pair. It's the system itself that warns the maintenance service. 
+\\\\
+The module that has been repaired or replaced is synchronized without stopping the active module (copy of the memory contents, etc.) under control of the OS. There can be up to 16 pairs.
 
 \section{Multiple Systems}
 
