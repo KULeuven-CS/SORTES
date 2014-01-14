@@ -1,0 +1,110 @@
+\documentclass[11pt]{book}
+
+% Essential
+\usepackage[dutch]{babel}
+\usepackage{titling}
+
+% Optional
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage[official]{eurosym}
+\usepackage{xcolor}
+\usepackage{subfiles}
+\usepackage{framed}
+\usepackage[strict]{changepage}
+
+\usepackage[printwatermark]{xwatermark}
+\newwatermark[allpages,color=gray!50,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
+
+
+% Titleplage
+\title{SORTES}
+\date{\today}
+\author{Jonas Devlieghere}
+ 
+% Margins
+\setlength{\topmargin}{0in}
+\setlength{\footskip}{0.5in}
+\setlength{\textwidth}{6.5in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{8.5in}
+
+% Listings 
+\lstset{
+	basicstyle=\scriptsize,
+	breaklines=true,
+	captionpos=b,
+	extendedchars=true,
+	frame=lines,
+	numbers=left,
+	numberstyle=\tiny,
+	keywordstyle=\bfseries,
+	showstringspaces=false,
+	tabsize=2,
+	title=\lstname 
+}
+
+\lstdefinestyle{cstyle}{
+  language=C
+}
+
+% Personal Preferences
+%\setlength\parindent{0pt}
+
+%\newcommand{\imageSrc}{images/}
+%\newcommand{\codeSrc}{code/}
+
+
+% Theorem styles
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{conj}{Conjecture}[section]
+\newtheorem{exmp}{Example}[section]
+
+% Blockquote
+\newenvironment{blockquote}{%
+  \def\FrameCommand{%
+    \hspace{1pt}%
+    
+    {\color{black}\vrule width 4pt}%
+    {\color{lightgray}\vrule width 4pt}%
+    \colorbox{lightgray}%
+  }%
+  \MakeFramed{\advance\hsize-\width\FrameRestore}%
+  \noindent\hspace{-4.55pt}% disable indenting first paragraph
+  \begin{adjustwidth}{}{7pt}%
+  \vspace{2pt}\vspace{2pt}%
+}
+{%
+  \vspace{2pt}\end{adjustwidth}\endMakeFramed%
+}
+
+\begin{document}
+
+\frontmatter
+
+% Title Page
+\maketitle
+
+% Table of Contents Page
+\tableofcontents
+
+\mainmatter
+
+\subfile{chapters/chapter1}
+
+% Appendix
+\appendix 
+
+% References
+\bibliographystyle{plain}
+\bibliography{references}
+\nocite{*}
+
+\end{document}
