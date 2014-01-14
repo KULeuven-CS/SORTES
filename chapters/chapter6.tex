@@ -116,10 +116,25 @@ A restart is handled by copying the state of the current main processor to the s
 It's important that the watchdogs doesn't fail! Only if it fails without disrupting the system's mission it is simple and robust.
 
 
-
-
-
 \subsubsection{TANDEM Solution}
+This implementation does not feature a watchdog. It manages 2 to 16 autonomous processors with each 
+\begin{multicols}{2}
+\begin{itemize}
+	\item Their own power supply.
+	\item Their own copy of the OS.
+	\item Well informed of the state of each other.
+	\item Processors interconnected by two busses.
+	\item Their own I/O channel.
+	\item Peripherals controller connected to two channels.
+	\item Monitored by a spy circuit that informs a control processor and the operator of a detected problem.
+\end{itemize}
+\end{multicols}
+
+Synchronization is managed on software level using \textbf{checkpointing}. All software has been designed to run in the TANDEM fault tolerant environment. For each running process $P_A$ there is a shadow process $P_B$ on another processor. On a regular basis $P_A$ sends its state to $P_B$. This is done using a helper toolbox but introduces 15\% to 30\% overhead.
+\\\\
+The decision to switch is also made at software level. The operating system of each processor is aware of the state of all others. If the operating system of a processor $X$ discovers that the operating system of another $Y$ is dead and if the $P_A$ of a $P_B$ process running on $X$ was running on $Y$ then X activates the $P_B$ that replaces $P_A$. 
+
+
 
 \section{Multiple Systems}
 
