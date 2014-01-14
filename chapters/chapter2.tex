@@ -1,16 +1,13 @@
 \documentclass[../main.tex]{subfiles} 
 
 \renewcommand{\imageSrc}{../images/}
-\setcounter{secnumdepth}{4}
 
 \begin{document}
 \chapter{Design strategy for embedded real-time systems}
-%\chapter{Development method for embedded real-time systems software}
 
-\section{Embedded real-time software design}
-\subsection{Introduction}
+\section{Introduction}
 
-\subsubsection{Time-related constraints}
+\subsection{Time-related constraints}
 The following constraints should be carefully examined before designing the system: 
 \begin{itemize}
 	\item Constraints related to the device under control of the system. 
@@ -25,7 +22,7 @@ The following constraints should be carefully examined before designing the syst
 
 
 
-\subsubsection{Software architecture}
+\subsection{Software architecture}
 Real-time software has a two-layer architecture: 
 \begin{enumerate}
 	\item real-time application layer
@@ -36,7 +33,7 @@ Both layers are equally important in designing a real-time system and should be 
 The OS can be designed alongside the application or existing solutions can be used. 
 Mostly using a specifically designed OS is generally faster since versatility costs time.
 
-\subsection{Design Strategy}
+\section{Design Strategy}
 The creation of a real-time system is done using 6 steps. These steps are listed below and each step is discussed further in this section. 
 \begin{enumerate}
 	\item Specify the problem. (see \ref{sss:specify_problem})
@@ -50,7 +47,7 @@ The creation of a real-time system is done using 6 steps. These steps are listed
 
 
 
-\subsubsection{Specify the problem}
+\subsection{Specify the problem}
 \label{sss:specify_problem}
 The first and most important step in designing is specifying the problem. This is ``classical'' analysis work.
 Errors mad in this step of the process are most costly so caution is advised. 
@@ -62,7 +59,7 @@ The following models can help you in this step.
 	\item[behavioural model] Model of the desired behaviour e.g. state machines of components. 
 \end{description}
 
-\paragraph{Analysis}
+\subsubsection{Analysis}
 The analysis can cover an existing physical system (control systems are more frequently replaced than factories!) or specifications for a future physical system.
 
 In the latter case the following should be considered.
@@ -76,7 +73,7 @@ Because of these questions the created model should be shown to the author of th
 
 
 
-\subsubsection{Design the software architecture}
+\subsection{Design the software architecture}
 \label{sss:design}
 Next the software architecture can be designed by refining the behavioural model. 
 Two types of systems can be distinguished:
@@ -105,13 +102,11 @@ That's why it's advised to try and \emph{maximalise parallelism} in the behaviou
 This gives us a group of simpler sequential state machines evolving in parallel and interacting only when needed. The following interactions are possible:
 \begin{itemize}
 	\item information transfer
-	\item synchronisations
-	\item exclusions
-	\item filiations (relationships?)
+	\item synchronisations \item exclusions \item filiations (relationships?)
 \end{itemize}
 
 
-\subsubsection{Identify the services the system layer must provide}
+\subsection{Identify the services the system layer must provide}
 \label{sss:services}
 See what kind of (common) services should be required in the system layer. 
 This is ``classical'' analysis work of the behavioural model used to deduce the needed system services
@@ -119,7 +114,7 @@ This is ``classical'' analysis work of the behavioural model used to deduce the 
 
 
 
-\subsubsection{Validation or design of the system layer}
+\subsection{Validation or design of the system layer}
 \label{sss:valid}
 In  this step the system layer is evaluated or created depending on whether an OS is available.
 
@@ -153,7 +148,7 @@ Another categorisation is possible based on how services are activated:
 	\item External Events (e.g. When a character is received, activation by interrupts). 
 \end{itemize}
 
-\subsubsection{Specify the data processing activities}
+\subsection{Specify the data processing activities}
 \label{sss:activities}
 Each of the behavioural states of the software should be complemented with descriptions of the data processing activities at that state.
 How these activities are represented depends on the type of data to be processed.
@@ -162,14 +157,12 @@ Sometimes these descriptions can be as simple as a few lines of C/C++ or even a 
 
 
 
-\subsubsection{Write the program(s)}
+\subsection{Write the program(s)}
 \label{sss:write}
 The design was top down but the writing of the programs should be bottom-up. So first the system layer and next the application layer. 
 Testing is vitally important so test as soon as as possible.
 
-
-
-\subsection{Identification of suitable hardware}
+\section{Identification of suitable hardware}
 
 
 \end{document}
