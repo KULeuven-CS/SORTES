@@ -168,12 +168,12 @@ A minimal system layer implementation is described here.
 \paragraph{scheduling}
 We simplify scheduling by assuming there are only two kinds of tasks:
 \begin{itemize}
-	\item short tasks: Performend in reponse to an external event.
-	\item periodic tasks: Tasks reexectued with a fixed periodicity. Periodicity can be absolute (e.g. 2ms) or relative (e.g. X 3 times as often as Y).
+	\item short tasks: Performed in response to an external event.
+	\item periodic tasks: Tasks re-executed with a fixed periodicity. Periodicity can be absolute (e.g. 2ms) or relative (e.g. X 3 times as often as Y).
 \end{itemize}
 
 Short tasks can be implemented as interrupt routines. 
-Controlling these tasks can be done with interupt masks and (static) priorities can be assigned according to the associated interrupt lines.
+Controlling these tasks can be done with interrupt masks and (static) priorities can be assigned according to the associated interrupt lines.
 
 Periodic tasks should be implemented with a timer/clock (naive implementation is possible but dirty).
 To do so use clock interrupts and at each tick launch the needed tasks.
@@ -188,7 +188,7 @@ An example can be seen in figure \ref{f:perd_ex}.
 \end{figure}
 
 Using this kind of scheduling doesn't put a 100\% load on the cpu.
-The lengths of the task can also varry a little if the sum of durations remains under the clock period.
+The lengths of the task can also vary a little if the sum of durations remains under the clock period.
 When calculating the clock period interrupt tasks should be taken into account.
 
 \paragraph{Task synchronisation}
@@ -196,7 +196,7 @@ We'll explain a simple form of synchronisation next.
 The idea is that a tasks can suspend the execution of another until a given event.
 First the scheduler must be warned that the task has been suspended.
 Next some bookkeeping needs to be done in the table of tasks.
-Make the appropriate task unrunnable by add a code representing an event that reactives it in the ``lock'' field.
+Make the appropriate task un-runnable by adding a code representing an event that reactivates it in the ``lock'' field.
 To restart the task another task will have to detect the unlocking event and make the ``lock'' field null again. 
 If more locked tasks have the same unlocking event a choice must be made to either unlock the first task (or with highest priority) or all the tasks waiting. 
 
@@ -211,7 +211,7 @@ Two methods can be distinguished communication by shared variables and by messag
 
 
 \paragraph{Mutual Exclusion}
-On a monoprocessor this can somtimes be achieved with temporarily disabling interrupts.
+On a monoprocessor this can sometimes be achieved with temporarily disabling interrupts.
 In any other case this can be implemented by using atomic READ/MODIFY/WRITE assembly language instructions.
 On a multiprocessor the memory access between the READ and WRITE will be blocked for all but one processor.
 Examples of READ/MODIFY/WRITE instructions are: TSET (test \& set) and ASL (arithmetic shift left). 
@@ -231,7 +231,7 @@ A better choice would be an extensible language (e.g. C or FORTH).
 Interactions with the system in such languages goes through functions linked with the program that are not part of the language definition. 
 A program can thus be interfaced with any system layer by writing a new set of system interface functions (in the language or assembly).
 There are even some dedicated languages for embedded systems. 
-These are usually imperative languages including following built-in fuctionallities for:
+These are usually imperative languages including following built-in functionalities for:
 \begin{itemize}
 	\item Hardware Interaction (e.g. interrupt routines).
 	\item Multiprogramming management
@@ -264,7 +264,7 @@ The following are rules the linker/compiler should take into account:
 Three main documentation documents are required:
 \begin{description}
 	\item[For the user] Manual and description of behaviour, functionalities of the program.
-	\item[For the system engineer] Guidelines to set up and deploy the program succesfully. 
-	\item[For the designer] This should be exstensive documentation of all 6 steps for the designer himself or his possible successors. When documenting a posteriori there is a risk to forget important design decisions or strategic choices by focusing to much on the last implementation details. 
-
+	\item[For the system engineer] Guidelines to set up and deploy the program successfully. 
+	\item[For the designer] This should be extensive documentation of all 6 steps for the designer himself or his possible successors. When documenting a posteriori there is a risk to forget important design decisions or strategic choices by focusing to much on the last implementation details. 
+\end{description}
 \end{document}
