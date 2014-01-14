@@ -1,0 +1,28 @@
+\documentclass[../main.tex]{subfiles} 
+
+\renewcommand{\imageSrc}{../images/}
+
+\begin{document}
+\chapter{Design and development method for embedded real-time systems software}
+
+\section{Embedded real-time software design}
+\subsection{Introduction}
+\subsubsection{Time-related constraints}
+The following constraints should be carefully examined before desiging the system: 
+\begin{itemize}
+	\item Constraints related to the device under control of the system. 
+	\item Constraints related to the computer(s) running the software. 
+		\begin{description}
+			\item[If you CAN'T choose this] first thing to check if the computer can meet the needed constraints of the device it will control.
+				\item[If you CAN  chose this] Design software first assuming you have unlimited computing resources. Then select a suitable computing infrastructure.
+		\end{description} 
+	The goal of this strategy is to avoid that the infrastructure you selected is not able to meet the timing constraints. On top of that it helps to focus on the most important constraints of the device that will be controlled while designing the software.
+\end{itemize}
+
+\subsubsection{Software architecture}
+\subsection{Design Strategy}
+\subsection{Design language: ASG}
+\subsection{Identitfication of suitable hardware}
+
+
+\end{document}
