@@ -1,6 +1,7 @@
 \documentclass[../main.tex]{subfiles} 
 
 \renewcommand{\imageSrc}{../images/}
+\setcounter{secnumdepth}{6}
 
 \begin{document}
 \chapter{Design and development method for embedded real-time systems software}
@@ -8,7 +9,7 @@
 \section{Embedded real-time software design}
 \subsection{Introduction}
 \subsubsection{Time-related constraints}
-The following constraints should be carefully examined before desiging the system: 
+The following constraints should be carefully examined before designing the system: 
 \begin{itemize}
 	\item Constraints related to the device under control of the system. 
 	\item Constraints related to the computer(s) running the software. 
@@ -20,9 +21,88 @@ The following constraints should be carefully examined before desiging the syste
 \end{itemize}
 
 \subsubsection{Software architecture}
+Real-time software has a two-layer architecture: 
+\begin{enumerate}
+	\item real-time application layer
+	\item real-time operating system layer
+\end{enumerate}
+
+Both layers are equally important in designing a real-time system and should be carefully designed or chosen.
+The OS can be designed alongside the application or existing solutions can be used. 
+Mostly using a specifically designed OS is generally faster since versatility costs time.
+
 \subsection{Design Strategy}
-\subsection{Design language: ASG}
-\subsection{Identitfication of suitable hardware}
+The creation of a real-time system is done using 6 steps. These steps are listed below and each step is discussed further in this section. 
+\begin{enumerate}
+	\item Specify the problem. (see \ref{sss:specify_problem})
+	\item Design the software architecture. (see \ref{sss:design})
+	\item Identify the services the system layer must provide. (see \ref{sss:services})
+	\item Validation or design of the system layer. (see \ref{sss:valid})
+	\item Specify the data processing activities. (see \ref{sss:activities})
+	\item Write the program(s). (see \ref{sss:write})
+\end{enumerate}
+
+\subsubsection{Specify the problem}
+\label{sss:specify_problem}
+The first and most important step in designing is specifying the problem. 
+If an error is made here 
+Try to do this without preselecting a solution.
+
+The following models can help you in this step.
+\begin{description}
+	\item[structural model] Model of all the components, subsystems that can work in parallel.
+	\item[behavioural model] Model of the desired behaviour e.g. state machines of components. 
+\end{description}
+
+\subsubsection{Design the software architecture}
+\label{sss:design}
+Next the software architecture can be designed by refining the behavioural model. 
+Two types of systems can be distinguished:
+\begin{description}
+	\item[Reactive system] The desired behaviour of the controlled device depends on the commands from the system we are designing.
+		In this case the behaviour of the software must be \emph{structurally similar} to that of the \textbf{controlled system}.
+		The software sends commands to force the expected behaviour of the controlled device.
+	\item[Data processing system] The behaviour of the software must be \emph{structurally similar} to that of the \textbf{monitored system} and is driven by events occurring in that system.
+\end{description}
+
+In both cases the following process should be followed:
+\begin{itemize}
+	\item Model structure of the physical system. 
+	\item Make behavioural model of the physical system.
+	\item Make behavioural model of the software system.
+\end{itemize}
+
+The last step should give you a rough skeleton of the application layer.
+
+\subsubsection{Identify the services the system layer must provide}
+\label{sss:services}
+See what kind of (common) services should be required in the system layer. 
+
+\subsubsection{Validation or design of the system layer}
+\label{sss:valid}
+In  this step the system layer is evaluated or created depending on whether an OS is available.
+
+If an is OS available it should be evaluated as follows:
+\begin{itemize}
+	\item Does it provide the required services and respect the real-time constraints? 
+	\item If not can it be adapted to satisfy these?
+	\item If not can the proposed solution for the application layer be adapted to the possibilities of the available OS?
+\end{itemize}
+If no OS is available design the system layer so that it contains all the needed services of step 3.
+
+\subsubsection{Specify the data processing activities}
+\label{sss:activities}
+Each of the behavioural states of the software should be complemented with descriptions of the data processing activities at that state.
+How these activities are represented depends on the type of data to be processed.
+Sometimes these descriptions can be as simple as a few lines of C/C++ or even a ladder diagram.
+
+
+\subsubsection{Write the program(s)}
+\label{sss:write}
+The design was top down but the writing of the programs should be bottom-up. So first the system layer and next the application layer. 
+Testing is vitally important so test as soon as as possible.
+
+\subsection{Identification of suitable hardware}
 
 
 \end{document}
