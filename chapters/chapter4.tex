@@ -1,0 +1,117 @@
+\documentclass[../main.tex]{subfiles} 
+
+\renewcommand{\imageSrc}{../images/}
+
+\begin{document}
+\chapter{Real-Time Operating Systems}
+
+\section{Scheduling}
+The scheduling problem in a real-time operating system is finding a suitable order of task  execution, more specifically one that satisfies the real-time constraints. When dealing with \textit{hard real-time systems}, these constraints need to be satisfied, no matter what. The problem is twofold:
+
+\begin{enumerate}
+	\item \textbf{Are there schedules that satisfy the constraints?} \\
+	Can deadlines be maintained? What's the worst case processing time? To answer these questions processing time must be bound, resources must be available and interaction between processes possible. 
+	\item \textbf{If such schedule(s) exist, find one!}
+\end{enumerate}
+
+\subsection{Classic Real-Time Scheduling}
+\subsubsection{Static Scheduling}
+With static scheduling all decision are made \textbf{before the system is started}. Schedulability analysis is performed statically without the system running. Usually the program will consist of a loop that performs all tasks in sequence. Sometimes tasks are only executed a limited amount of times each iteration. The loop runs either continuously or is started every clock tick. The last approached is used by most programmable logic controllers.
+\\\\
+Interrupts are often disabled, since they are not really necessary when we know on beforehand what's going to happen. If there are interrupt routines, they are taken into account as high priority periodical tasks which run at the highest possible repetition rate of the interrupt.
+\\\\
+Static scheduling is only suitable for simple and immutable systems. However, system that do not change do not exist, so when anything changes the scheduling analysis needs to be repeated. This can be a problem, for example when a component needs urgent replacement by a non-identical one.
+
+\subsubsection{Dynamic Scheduling}
+Dynamic scheduling is used when static scheduling is not appropriate. 
+\begin{enumerate}
+	\item Perform a rough static scheduling analysis to evaluate the \textbf{worst-case processing time}. Also verify that, unless the scheduler makes a gross fault, the scheduler will be able to satisfy all timing constraints. 
+	\item Let a dynamic scheduler chose the order of execution of tasks.
+	\item Unless it can be proven that the scheduler always makes the right choice, test should cover as many situations as possible in order to verify timing constraints are met.
+\end{enumerate}
+
+Every mutli-tasking operating system (real-time or not) includes a scheduler. The classical qualities expected from the scheduler in an ordinary operating system consist of :
+\begin{itemize}
+	\item \textbf{Fairness}: All tasks should receive a fair chair of computing time.
+	\item Optimization of the mean \textbf{response time} 
+	\item Optimization of \textbf{available processing time} 
+\end{itemize}
+The real-time scheduler on the other hand has only one goal: guarantee that all real-time tasks will be finished before their deadline. 
+\\\\
+Independent of whether the scheduler is real-time, they can be divided in two classes:
+\begin{itemize}
+	\item \textbf{Non preemptive}: when the a task is allowed to run, the scheduler waits for the task to finish before allowing another task to run.
+	\item \textbf{Preemptive}: the scheduler may suspend the execution of a running task when it judges appropriate.  
+\end{itemize}
+
+\begin{blockquote}
+At frist sight, a preemptive scheduler who can suspend tasks in favor of more urgent tasks will obtain better results. This is not always the case because resource conflicts can arise. If  the lower priority task has locked a resource which is needed by the more urgent task, this tasks may not be suspend before this resource is freed. If this is not the case, the higher priority task would simply block, waiting for the resource.
+\end{blockquote}
+
+There are 3 techniques available for selecting the next task to run on a non-periodic real-time system.
+\begin{itemize}
+	\item \textbf{Fixed Priorities} \\
+	Each task is assigned a fixed priority which has to be chosen with care. The priority should incorporate the urgency as well as the criticality of the task. The scheduler always selects the task with all its resource available and the highest priority. This technique is easy to implement but if there's always a task with a high priority, the lower priority task might be overrun.
+	
+	\item \textbf{Closest Deadline First} \\
+	The scheduler selects the task closest to its deadline. This implies the deadline of each task is known. This can only be known at run time. 	
+	
+	\item \textbf{Least Laxity First} \\
+	This scheduling technique selects the tasks with the lowest latency. If the task is started after that time, it cannot respect its deadline. The deadline and maximum execution times of tasks must be known.	
+	\begin{center}
+		$	\textit{laxety} = t_{\textit{deadline}} - t_{\textit{now}} - \textit{task execution time}$
+	\end{center}
+	\end{itemize}
+	
+\subsubsection{Priority Inheritance}
+A scheduler always selects one of the tasks that are ready to run, which means all its resources are available. This can be a problem when several tasks need the same resource and one tasks needs the resource without it being released between subsequent runs.
+
+\begin{exmp}
+A task could have to send a message over the network to another machine. As long as the message is not entirely transmitted, no other task may send over the network. If not, what would travel on the network would be the beginning of the first message, followed by the second message, followed by the end of the first message. The resulting traffic would not make any sense.
+\end{exmp}
+
+To avoid the problem mentioned, a task can use a \textbf{mutex} on the resource he needs. If the mutex is free, the task can reserve it for itself, otherwise it waits for it to be released. The task is then suspended and only restarted when the resource is free.
+\\\\
+Consider the following problem called the \textbf{priority inversion} problem illustrated below.
+\begin{exmp}
+There are 3 tasks $T_i$ close to their deadlines with priority $i$. If there were no resource problems the scheduler would select them in the following order: $T_1, T_2, T_3$. Task $T_1$ and $T_3$ need the same resource. Assume that $T_3$ is running and using the resource and the scheduler learns that $T_1$ and $T_2$ must be run urgently. This is what would happen:
+\begin{enumerate}
+	\item The scheduler suspends $T_3$ which is holding the resource.
+	\item Since $T_1$ cannot run, $T_2$ is chosen.
+	\item After $T_2$ only $T_3$ is available and the scheduler consequently activates it.
+	\item Finally $T_1$ is run as soon as $T_3$ finishes.
+\end{enumerate} 
+Because of the resource,$T_2$ has been executes before T1 instead of the opposite: This is called the priority inversion problem. What should have happened is that $T_3$ was allowed to finish so that the resource was released and $T_1$ could run before $T_2$.
+\end{exmp}
+To enforce correct behaviour, \textbf{priority inheritance} is used. The list of resources needed by each task is known by the scheduler. When a lower priority task is running and uses a necessary recource, that task temporarily inherits the more urgent task's priority untill the resource is freed.
+\\\\
+Notes:
+\begin{itemize}
+	\item The higher the number of tasks with different priorities who need the same resource, the more often this problem arises. 
+	\item The longer a task uses a resource, the more this task will slow down a higher priority task even with our solution.
+	\item If several tasks need a same set of resources at the same time, they must lock all resources atomically. If not, a deadlock might occur.
+\end{itemize}
+
+\subsubsection{Effect of Interrupts}
+An interrupt management system behaves like a preemptive scheduler with fixed priorities. It shares the responsibility of allocating the computer's processing time with the scheduler but is hierarchically of greater importance.
+\\\\
+The scheduler of the operating system can only allocate the processing time left by the interrupt routines. If we aim to have the system mainly managed by the scheduler, interrupt routines should be very short. The interrupt should inform the scheduler but the latter will have to decide for itself to activate it or not.
+\\\\
+For timing calculations, one can try to estimate the maximum amount of time lost by interrupt routines and add this value to the task's own processing time.
+
+\subsubsection{Periodic Tasks}
+An interesting special case is that of systems that only  have periodic tasks but with a different value of periodicity. If all tasks are independent and if it is possible to satisfy all timing constraints then the scheduler that always activates the task with the highest repetition rate will meet all the deadlines. This approach is called \textbf{rate monotonic scheduling}. Unfortunately, situations where all tasks are independent are rare.
+
+\subsection{Reservation Scheduling}
+Rather than executing the scheduling algorithm every time a new task must be selected, \textbf{Reservation Scheduling} will make this choice on beforehand, as soon as the necessary information is available. 
+
+
+\subsection{Example: MicroC/OS-II}
+
+\section{Peripherals and IO}
+\section{Communication}
+\section{Time Management and Synchronization}
+
+
+
+\end{document}
