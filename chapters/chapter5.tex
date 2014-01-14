@@ -1,7 +1,7 @@
 \documentclass[../main.tex]{subfiles} 
 
-\renewcommand{\imageSrc}{../images/}
-\renewcommand{\codeSrc}{../code/}
+%\renewcommand{\imageSrc}{../images/}
+%\renewcommand{\codeSrc}{../code/}
 
 \begin{document}
 \chapter{Real-Time Operating Systems}
@@ -141,7 +141,7 @@ Reservation schedulers take into account both urgency and criticality of a task.
 \\\\
 Why don't all real-time systems use reservation schedulers? This is because if the system has the necessary resources to never miss a deadline, a classic scheduler is able to do the job. However, since more and more real-time systems are computer controlled, overdimensioning the controlling computers is not always a good idea, especially not when they are battery operated. Reservation schedulers may in that case be the better choice.
 
-\subsection{Example: MicroC/OS-II}
+\section{Example: MicroC/OS-II}
 \textit{Information presented in this section is based on the book of Jean Labrosse, MicroC/OS-II, The Real-Time Kernel, Second Edition, ISBN-13:978-1-57820-103-7. The presentation is different.}
 \\\\
 MicroC/OS-II is a commercial product of Micrium. However, higher education institutions may use, without charge for teaching purposes, as well the sources of this software as the executable programs themselves.
@@ -167,13 +167,169 @@ The \texttt{main()} function initializes the operating system abd the data struc
 \end{itemize}
 All this is performed by the function \texttt{OSTaskCreate()}. The rest of the program consists of the functions corresponding to the tasks and of other functions.
 
+\subsection{Tasks in MicroC/OS-II}
+The code of the functions inside the body of a task in MicroC/OS-II must respect two constraints:
+\begin{enumerate}
+	\item \textbf{It may never reach the final bracket of the fonction nor call \texttt{return()}.} Indeed, each tasks has its own stack, and the function that is the body of a task is at the absolute top of this stack: there is nothing above, so, it is impossible to return to a calling program. A way to satisfy this requirement is to include in this function, possibly after an initialization phase an infinite loop. Another option is calling a self destruction function when the task has finished its job \texttt{OSTaskDel(OS\_PRIO\_SELF);}.
+	\item \textbf{It may not run continuously.} Since  MicroC/OS-II is preemptive, if a task could run continuously, no task of lower priority would ever be allowed to run.
+\end{enumerate}
+If you want a task to be allowed to run as often as possible you could give it the lowest priority. If the application must include several such tasks, a function should be written for each one and the lowest priority task might be an infinite loop calling all these functions. However, it should be noted that it is rarely useful to let a task run continuously. Running the function more frequently than needed therefore is wasted activity. It is often sufficient to wake up the task an certain amount of times per second and let it go back to sleep afterwards.
 
+\subsubsection{Task States in MicroC/OS-II}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{\imageSrc/microCOS_states.png}
+    \caption{MicroC/OS-II States}
+    \label{mcosii}
+\end{figure}
 
+A task is in either of the states shown in figure \ref{mcosii}.
+\begin{itemize}
+	\item When the task is created, the task is \textbf{ready} to run.
+	\item When the task is selected by the scheduler it's in the \textbf{running} state.
+	\begin{itemize}
+		\item The task can be suspended by an interrupt.
+		\item The task can switch to the \textbf{waiting} state because it's waiting or suspended by another task.
+	\end{itemize}
+	\item When the task is suspended due to an interrupt, the task switches to the \textbf{ISR} state. An \textit{Interrupt Service Routine} is a sequence of assembly language instructions that saves the processors registers on the stack and calls a C function or runs assembly code that:
+	\begin{itemize}
+	\item Warns the OS that an ISR starts by calling \texttt{OSIntEnter();}.
+	\item Acknowledges the interrupt request on the interface to the interrupting device in order to clear the request.
+	\item May reset the interrupt mechanism, that was temporarily deactivated by the hardware at the start of the ISR.
+	\item Performs the appropriate processing according to the event announced by the interrupt.
+	\item Warns the OS when it has finished by calling \texttt{OSIntExit();}. This function verifies whether there was a  higher priority task waiting. If this is the case the processor proceeds with this new task and puts the current one in the \textbf{ready} state.
+	\end{itemize}
+\end{itemize}
+
+\subsubsection{The Main Task Management Functions}
+The tasks of a real-time application generally require to cooperate with each other. In order to do this in an organized manner, we need two techniques: \textbf{mutual exclusion} to gain exclusive access to a shared resource and a \textbf{rendez-vous} or \textbf{barrier} to meet each other after each task has completed.
+
+\paragraph{Mutual Exclusion} The most useful service offered by MicroC/OS-II is the mutual exclusion \textbf{mutex} which is associated with each shared resource. When a task wants to obtain a mutex that is not free, it waits. It's also possible to check the availability of the mutex without moving to the waiting state. Priority inheritance is supported.
+
+\paragraph{Barrier} Event Flags organize the \textit{rendez-vous} between tasks. They are sets of bits (8/16/32) that may be set to 0 or 1 by tasks or ISRs. Tasks wait for a given pattern of bits to appear. Because this mechanism is so general it allows for complex conditions. 
 
 \section{Peripherals and IO}
+System services will be as simple as possible. The more complex the system is, the harder it is to guarantee its constraints. This approach is called the \textbf{RISC Philosophy}. 
+\\\\
+From a technical point of view interrupts routines are short to avoid interference with scheduling. Disk management, if any, tries to avoid disk access in actions that must be performed before a hard deadline. Contiguous files have sometimes been recommended for real-time systems. Their inconvenience however, exceed their advantages: each one must be created with the maximum size (which is a waste of space) and there is no advantage if blocks are read one by one.
+
+\subsection{I/O with MicroC/OS-II}
+MicroC/OS-II is a portable operating system. It consists of architecture independent and architecture dependent functions. Porting MicroC/OS-II means rewriting the latters; these are generally not visible by the application programs: they are underneath the architecture independent functions
+\\\\
+I/O functions are the exception: they are architecture dependent but visible by application programs. They are not part of the MicroC/OS-II distribution because they can differ as well by their interface as by their implementation in each application. They must thus be written by the application developper.
+
+
+
 \section{Communication}
+There are 3 ways to organize inter-process communications:
+\begin{itemize}
+	\item \textbf{Shared Data}: requires a mutex to guarantee data integrity.
+	\item \textbf{Messages}: require a lot of overhead.
+	\item \textbf{Unstructured Flows}: requires correct interpretation.
+\end{itemize}
+The communication model should not be mistaken for its implementation. The message system can be implemented for example using shared memory.
+\\\\
+The message model is easy to implement and has the advantage that it is asynchronous: the logistics are handled by the system, thus no need of mutex like for shared data.
+
+\subsection{Communication with MicroC/OS-II}
+MicroC/OS-II functions allow 3 types of communications, all based on shared data structures but corresponding either to a shared data model or a message model.
+
+\subsubsection{Communication by Shared Data}
+Shared data structures are declared, for instance, as static global variables. To avoid interference between tasks, mutexes can be used to reserve exclusive access when needed.
+
+\subsubsection{CMailbox Communication}
+MicroC/OS-II provides a service called \textbf{mbox}, allowing to transfer a pointer to a data structure from one task to another. They allow transferring the permission to access  the pointed data structure from one task to another.
+
+
+\subsubsection{Communication by messages queue}
+The mboxes allow synchronizing a task on arrival of data produced by another task. However, because only 1 message at a time can be in a mbox, the sender (producer) can run ahead of the receiver (comsumer). This is a common problem in a data processing system. 
+Message queues are a solution to this problem. Instead of a pointer to a message, they include a pointer to an array of pointers to messages. Like in any queue, the first message in the queue is the first message received.
+
 \section{Time Management and Synchronization}
+We expect a good clock to be \textbf{measurable}, \textbf{chronoscopic} (increasing monotonously and without discontinuities), to have a known precision and to be fault tolerant. In a centralised system, there is no real problem if the quartz is sufficiently precise and stable. A clock can be derived from this and all times can be measured with this clock
 
+\subsection{Time Management with MicroC/OS-II}
+MicroC/OS-II includes a few time related functions based on regular interrupts of a timer. These interrupts are called \textbf{ticks}. At each tick, a 32 bit counter is incremented. If ticks happen every millisecond, there will be $85.4 10^6$ a day. This counter will reset to 0 after a little less than 50 days.
 
+\subsection{Clocks in Distributed Systems}
+Computer clocks are based on quartz oscillators that provide a stable frequency. However, although stable, the frequencies of different quartz oscillators are never identical. In order to synchronize clocks, a mean time must be defined.
+\\\\
+Clock adjustments must be progressive: increase the rate of slow clocks and decrease that of fast clock. Setting the time is no option since that would invalidate the chronoscopic property. Doing this might require a special electrical circuit.
+\\\\
+\subsubsection{ault Tolerant Average}
+The FTA Algorithm is designed to synchronize clocks in a distributed system. There are two variants. The first ignores communication delays between systems, the second don't.
+\\\\
+When communication delays are ignored, each system broadcasts a message announcing its local time. Each system deduces the time-lag between its own clock and the others. The $k$ most different values from the mean are ignored. The correction to apply is the mean value of the time lags that have not been rejected.The correction is applied progressively, by slightly modifying the clock rate for a limited amount of time.
+\[
+C_i = \frac{1}{N-k}\sum^{N-k}_{j=1}D_ji
+\]
+\begin{exmp}
+If $N = 2$ and $k=0$ then
+\[
+C_1 = \frac{D}{2} \;\;\; C_2 = -\frac{D}{2}
+\]
+\end{exmp}
+
+The second variant does take communication delays into account. These delays trouble the correct measurement between the clocks: the time lag needs to be eliminated before calculating the mean time. We consider two cases: in the first one the delay is \textbf{symmetrical} and \textbf{predictable}. The second assumes the delay is predictable but \textbf{not symmetric}.
+
+\paragraph{Symmetrical and Predictable Delay} We consider two systems: $A$ and $B$. System $A$ sends a message to $B$ including the time, measured in $A$, when the message was sent: $t_{a,0}$. Now $B$ receives the message at time $t_{b,1}$. With $D_{b,a}$ the time lag and $d_t$ the communication delay:
+\[
+t_{b,1} - t{a,0} = D_{b,a} + d_t = \Delta_l
+\]
+In the same way, $B$ sends a message including its transmission time $T_{b,0}$.
+\[
+t_{a,1'} - t_{b,1'} = D_{a,b} + d_t = \Delta_2
+\]
+No $A$ can compute
+\[
+\Delta_l + \Delta_2 = (D_{b,a} + d_t) + (D_{a,b} + d_t)
+\]
+Because $D_{b,a} = -D_{a,b}$ we know
+\[
+d_1 = \frac{\Delta_l + \Delta_2}{2}
+\]
+Ethernet is symmetrical but unpredictable because of collisions. So, the previous method could be applied if there were no collisions. Fortunately collision effects can easily be eliminated. The systems have to perform a few successive measurements of the time-lag instead of a single one. If the network is not overloaded, several results will be identical to the minimal value, which is the correct value.
+
+\paragraph{Non Symmetrical Predictable Delay} Now we have to find the relation between the two communication delays.
+\[
+d_1( a \rightarrow b) = d_E + d_{t,ab} + d_R
+\]
+Here is 
+\begin{itemize}
+	\item $d_E$ the processing delay at the sender
+	\item $d_{rab}$ the network transmission delay
+	\item $d_R$ the processing delay at the receiver
+\end{itemize}
+Using a second measurement from $A$ to $A$ yields
+\[
+d_p( a \rightarrow a) = d_E + d_{t,ab} + d_{t,ba} + d_R
+\]
+\[
+\Delta_l + \Delta_2 = 2d_E + 2d_R + d_{t,ab} + d_{t,ba}
+\]
+\[
+\Delta_{A \rightarrow A} = d_E + d_R + d_{t,ab} + d_{t,ba}
+\]
+According to the relative positions of the stations, one knows the relation between $d_{r,ab}$ and $d_{r,ba}$.
+
+\subsubsection{Clock Resolution}
+The following symbols are used:
+\begin{itemize}
+	\item $\Delta$: accuracy of the synchronization
+	\item $g$: clock resolution
+\end{itemize}
+It's necessary that $| \Delta | \leq g \leq | 2 \Delta |$:
+\begin{itemize}
+	\item A higher resolution is not significant: it amounts only to adding insignificant decimals.
+	\item A coarser resolution does not make fully use of the synchronization of the clocks.
+\end{itemize}
+In these conditions, one can identify the order of two events occurring on different sites, provided that they are at least two clock ticks apart.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{\imageSrc/timings.jpg}
+    \caption{Clock Resolution}
+    \label{mcosii}
+\end{figure}
 
 \end{document}
