@@ -1,6 +1,7 @@
 \documentclass[../main.tex]{subfiles} 
 
 \renewcommand{\imageSrc}{../images/}
+\renewcommand{\codeSrc}{../code/}
 
 \begin{document}
 \chapter{Real-Time Operating Systems}
@@ -105,8 +106,69 @@ An interesting special case is that of systems that only  have periodic tasks bu
 \subsection{Reservation Scheduling}
 Rather than executing the scheduling algorithm every time a new task must be selected, \textbf{Reservation Scheduling} will make this choice on beforehand, as soon as the necessary information is available. 
 
+If it is possible to schedule a task between the current time and the moment there will be no known tasks left to execute, a schedule is prepared. If the previous is not possible, the scheduler decides what tasks should be sacrificed, based on their importance (criticality) rather than their urgency. Sacrificed tasks may be replaced by shorter ones aimed at limiting the impact of sacrificing the task. Tasks that are urgent but not critical may simply be dropped.
+
+\begin{exmp}
+The considered system is an airplane. An example of a shorter task to replace the sacrificed task is the case where, if the plane cannot be saved, he is ejected. An example of a dropped task is fuel optimization when it must be leveled urgently.
+\end{exmp}
+
+This scheduling approach is implemented in two parts:
+\begin{enumerate}
+	\item \textbf{Pre-Scheduler} prepares a scenario.
+	\item \textbf{Dispatcher} activates tasks according to the scenario. It resembles the static scheduler, it has nothing to decide.
+\end{enumerate} 
+
+\subsubsection{Reservation Scheduling Types}
+
+There are two types of reservation schedulers for both the scheduler and the dispatcher. We're considering the scheduler first.\\\\
+The first variant has the pre-scheduler simply check that the timing constraints can be satisficed and accepts or rejects tasks. The dispatcher works like a classical dynamic scheduler. This introduces the risk that the fact that there is one schedule that meets all timing requirements does not mean that all possible schedule do. The dispatcher could still make the wrong choice.
+\\\\
+The second variant has the pre-scheduler build itself a schedule that it has proved to meet the requirements. The dispatcher then executes it without changing anything. This variant is considered to be the best.
+\\\\
+The dispatcher can be preemptive or non preemptive. In the first case The pre-scheduler must decide when the dispatcher will suspend each running task. The problem here is that there must be a way to make sure a long task is not cut at the wrong moment. The solution is making use of \textbf{critical sections}. The scheduler then knows not to cut the task at that time. 
+\\\\
+When non preemptive scheduling is used no task can have a shorter guaranteed response time than the duration of the longest task.
+\\\\
+In conclusion there are 3 acceptable solutions:
+\begin{itemize}
+	\item \textbf{Non preemptive with short tasks}. It's up to the programmer to decide where to cut.
+	\item \textbf{Preemptive with a scheduler that knows were not to cut}. The programmer must indicate these sections.
+	\item \textbf{Preemptive with short critical sections}. Sections are so short that the chance of them being cut is negligible. 
+\end{itemize}
+
+\subsubsection{Assessment of Reservation Schedulers}
+Reservation schedulers take into account both urgency and criticality of a task. A classic dynamic scheduler will always select the most urgent task, but this is not always the best choice. Reservation schedulers make their decision earlier so they can balance their decision based on all known factors. They can decide to sacrifice a an urgent task for a more important one.
+\\\\
+Why don't all real-time systems use reservation schedulers? This is because if the system has the necessary resources to never miss a deadline, a classic scheduler is able to do the job. However, since more and more real-time systems are computer controlled, overdimensioning the controlling computers is not always a good idea, especially not when they are battery operated. Reservation schedulers may in that case be the better choice.
 
 \subsection{Example: MicroC/OS-II}
+\textit{Information presented in this section is based on the book of Jean Labrosse, MicroC/OS-II, The Real-Time Kernel, Second Edition, ISBN-13:978-1-57820-103-7. The presentation is different.}
+\\\\
+MicroC/OS-II is a commercial product of Micrium. However, higher education institutions may use, without charge for teaching purposes, as well the sources of this software as the executable programs themselves.
+\\\\
+In MicroC/OS-II, each task has a different priority (a value between 4 and 60, 4 being the highest and 60 the lowest) and the scheduler is a simple dispatcher that will always launch the highest priority task. This may look rather primitive, but it is actually rather versatile because the priority of tasks may be changed dynamically. MicroC/OS-II uses that feature internally to avoid priority inversion, but it could also be used to give a task the role of pre-scheduler. However, using the same value to identify a task and his priority can be a nuisance to handle if the priority changes relatively often.
+\\\\
+The operating system is simply linked with the application: the main() function of the program is the OS; the code of application tasks is implemented as C functions called by this main().
+
+\lstinputlisting[style=cstyle, label=microC/OS-II]{\codeSrc/microcosii.c}
+
+The private memory areas of each task mus be declared as a global static variable, arrays are used to store the stack of tasks. Variables shared by several tasks (there is none in this example) must also be declared as global static variables. The EVENT structures associated with events that tasks can be waiting for must be declared as global static variables too:
+\begin{itemize}
+	\item Interrupts
+	\item Mutex and semaphores,
+	\item Task synchronization
+\end{itemize}
+The \texttt{main()} function initializes the operating system abd the data structures used and one or several tasks. Each task can launch other tasks. The last operation of \texttt{main()} is to start the scheduler. Initializing a task means associate with that task:
+\begin{itemize}
+	\item The function can execute the tasks.
+	\item A pointer to the data structure of the task (where static variables are stored)
+	\item A pointer to the top of the task's stack
+	\item The initial priority of the task
+\end{itemize}
+All this is performed by the function \texttt{OSTaskCreate()}. The rest of the program consists of the functions corresponding to the tasks and of other functions.
+
+
+
 
 \section{Peripherals and IO}
 \section{Communication}
