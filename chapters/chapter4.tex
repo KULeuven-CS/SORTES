@@ -1,8 +1,5 @@
 \documentclass[../main.tex]{subfiles} 
 
-%\renewcommand{\imageSrc}{../images/}
-%\renewcommand{\codeSrc}{../code/}
-
 \begin{document}
 \chapter{Real-Time Operating Systems}
 
@@ -150,7 +147,7 @@ In MicroC/OS-II, each task has a different priority (a value between 4 and 60, 4
 \\\\
 The operating system is simply linked with the application: the main() function of the program is the OS; the code of application tasks is implemented as C functions called by this main().
 
-\lstinputlisting[style=cstyle, label=microC/OS-II]{\codeSrc/microcosii.c}
+\lstinputlisting[style=cstyle, label=microC/OS-II]{code/microcosii.c ../code/microcosii.c}
 
 The private memory areas of each task mus be declared as a global static variable, arrays are used to store the stack of tasks. Variables shared by several tasks (there is none in this example) must also be declared as global static variables. The EVENT structures associated with events that tasks can be waiting for must be declared as global static variables too:
 \begin{itemize}
@@ -178,7 +175,7 @@ If you want a task to be allowed to run as often as possible you could give it t
 \subsubsection{Task States in MicroC/OS-II}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{\imageSrc/microCOS_states.png}
+    \includegraphics[width=\textwidth]{microCOS_states.png}
     \caption{MicroC/OS-II States}
     \label{mcosii}
 \end{figure}
@@ -327,7 +324,7 @@ In these conditions, one can identify the order of two events occurring on diffe
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{\imageSrc/timings.jpg}
+    \includegraphics[width=0.8\textwidth]{timings.jpg}
     \caption{Clock Resolution}
     \label{mcosii}
 \end{figure}

@@ -18,6 +18,8 @@
 \usepackage{framed}
 \usepackage[strict]{changepage}
 \usepackage{tabularx}
+\usepackage{mdframed}
+
 %\usepackage[printwatermark]{xwatermark}
 %\newwatermark[allpages,color=gray!50,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
 
@@ -57,14 +59,24 @@
 % Personal Preferences
 \setlength\parindent{0pt}
 
-\newcommand{\imageSrc}{images/}
-\newcommand{\codeSrc}{code/}
+% Figure Path
+\graphicspath{{images/}{../images/}}
 
-% Theorem styles
+% Theorem Styles
 \theoremstyle{definition}
-\newtheorem{defn}{Definition}[section]
-\newtheorem{conj}{Conjecture}[section]
-\newtheorem{exmp}{Example}[section]
+\newtheorem{asmdefn}{Definition}[section]
+\newtheorem{asmexmp}{Example}[section]
+
+% Boxed Theorems
+\newenvironment{exmp}
+  {\begin{mdframed}\begin{asmexmp}}
+  {\end{asmexmp}\end{mdframed}}
+  
+\newenvironment{defn}
+  {\begin{mdframed}\begin{asmdefn}}
+  {\end{asmdefn}\end{mdframed}}
+    
+  
 
 % Blockquote
 \newenvironment{blockquote}{%
