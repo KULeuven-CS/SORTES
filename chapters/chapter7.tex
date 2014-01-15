@@ -1,15 +1,30 @@
-
 \documentclass[../main.tex]{subfiles} 
-
-\renewcommand{\imageSrc}{../images/}
 
 \begin{document}
 \chapter{Implementing ASG}
-The proposed implementation is intended for rather simple systems running on a single processor. It can, of course be elaborated to suit more complex systems.
+In this chapter we look at how AS can be implemented on different architectures.
 
 \section{Implementing ASG on a Naked Computer}
-
+The proposed implementation is intended for rather simple systems running on a single processor. It can, of course be elaborated to suit more complex systems.
 \subsection{Scheduling Parallel Components}
+A naive way to schedule a set of tasks that may be appropriate in simple systems is the cooperative multitasking loop.
+This is simply having a main loop run with the different tasks in it.
+Depending on the relative frequency the task should run the task is called multiple times.
+This kind of scheduling is non premptive meaning the OS will never interrupt a running task.
+Because of this each task should be as short as possible.
+The worse case respone time will be the sum of the maximum execution times of the functions.
+A simple code example can be seen in \ref{ex:coop_multi}.
+
+\begin{lstlisting}[style=cstyle, caption=Example of cooperative multitasking where task A is run twice as frequent as task B. ,label=ex:coop_multi]
+	while(1){
+		TaskB();
+		TaskA();
+		TaskC();
+		TaskB();
+		TaskD();
+	}
+\end{lstlisting}
+
 \subsection{Implementing Barriers}
 \subsection{Implementing Resource Management}
 \subsection{Handling MINVT \& Timeouts}
