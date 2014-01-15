@@ -13,23 +13,75 @@ Depending on the relative frequency the task should run the task is called multi
 This kind of scheduling is non premptive meaning the OS will never interrupt a running task.
 Because of this each task should be as short as possible.
 The worse case respone time will be the sum of the maximum execution times of the functions.
-A simple code example can be seen in 
-%\ref{ex:coopmulti}.
+A simple code example can be seen in \ref{ex:coopmulti} the comments there should explain what is being done.
 
 %\includelst[ASGExample.c] << doesn't work inside lstinputlisting
-\includelisting{ASGExample.c}{style=cstyle, caption=Example of cooperative multitasking where task A is run twice as frequent as task B., label=ex:coopmulti}
+\includelisting{ASGExample.c}{style=cstyle, caption=Example of cooperative multitasking where task A is run twice as frequent as task B. Each task would represent an ASG (sub)state. , label=ex:coopmulti}
 %\lstinputlisting[style=cstyle, caption=Example of cooperative multitasking where task A is run twice as frequent as task B., label=ex:coop_multi]{../code/ASGExample.c}
 
+\subsection{Implementing Rendez-vous}
+Implementing rendez-vous is easy.
+The state enumeration variables should be external (outside a function).
+Assume that this is the condition to transition to state zzz in component t:
+The state of component u is aaa or bbb while the state of comonent v is qqq.
 
-\subsection{Implementing Barriers}
+Then the following can easily be checked in the function representing state t:
+\begin{center}
+\lstinline{if (((state\_u==aaa)||(state\_u==bbb))&&(state\_v==qqq)) state\_t=zzz;}
+\end{center}
+
 \subsection{Implementing Resource Management}
-\subsection{Handling MINVT \& Timeouts}
+Can easily be done with external boolean variables: TRUE means available, FALSE means BUSY.
+If there should only be transitioned to yyy if resource Y is available \lstinline{state=yyy} (from \ref{ex:coopmulti}) can be replaced with \ref{ex:res}.
 
-\section{Implementating ASG on MicroC/OS-II}
+\begin{lstlisting}[caption=Example of implementing resource management., label=ex:res]
+	if(resource_R){
+		resource_R=FALSE;
+		state=yyy;
+	} // Don't forget to FREE the resource in state yyyy!!!!
+ }
+\end{lstlisting}
+\subsection{Handling MINVT \& Timeouts}
+A software counter counting the amount of overflows in a hardware timer should be used.
+The hardware timer usually generates an interrupt when it overflows. 
+The most significant bits reside in the software and the least significant in the hardware timer.
+Knowing the duration of a tick one can convert the duration of a minvt or timeout into ticks.
+
+When entering a state with minvt or timeout the software time should be stored.
+Then the current time can be checked in the xxx\_W state to see if the timeout is over or minvt has passed.
+
+
+\section{Implementating ASG in C on MicroC/OS-II}
+
+To implement an ASG diagram on top of MicroC/OS-II a couple of changes have to be made.
+We'll discuss them on the basis of the OS function calls.
+Instead of round robin scheduling the OS uses prioritized task scheduling. 
+Because the OS uses static priorities only assign a higher priority to some task if what they do has a much shorter deadline than other tasks.
+Since the scheduling is preemptive be careful with shared resources since at any moment any task can be suspended by a tasks with the higher priority. 
+
+\begin{itemize}
+	\item \lstinline{OSTaskCreate()} All tasks should be created in the main with this function.
+	\item \lstinline{OSTaskSuspend()} Task can be temporairally suspended with this function. All tasks that do not need to run permanently should be put to sleep imediatly after being created.
+	\item \lstinline{OSTaskResume()} Used to resume a task that has been suspended.
+	\item \lstinline{OSTaskFlagPost()} Sets a certain flag to a certain value. Can be used to indicate that a resource is busy/free or a condition is satisfied.  
+	\item \lstinline{OSTaskFlagPend()} Reads a certain flag and returns it value. This can be used to wait for a resource or to put the task to sleep till a trasition condition is satisfied.
+	\item \lstinline{OSTaskTimeDLY()} Further execution of the task that calls this is temporairly suspended for the given time.
+	\item \lstinline{OSTimeGet()} Returns the current time.
+\end{itemize}
 
 \subsection{Scheduling Parallel Components}
-\subsection{Implementing Barriers}
+With the functions above this is an easy task to accomplish.
+\subsection{Implementing Rendez-vous}
+With \lstinline{OSTaskFlagPost()} conditions for the rendez-vous can be set and later read out with \lstinline{OSTaskFlagPend()}.
 \subsection{Implementing Resource Management}
-\subsection{Handling MINVT \& Timeouts}
+This still has to be implemented with mutexes or semaphores.
 
+\subsection{Handling MINVT \& Timeouts}
+If a state has a minvt, one must first get the value of the current time when entering the state (beginning of case xxx), using \lstinline{OSTimeGet()}, then, when when the action is finished (beginning of case xxx\_W one must again measure time with \lstinline{OSTimeGet()} and if the minvt is not over, one must wait for the remaining time with \lstinline{OSTimeDLY()}. 
+
+Timeouts are not implemented by the OS. 
+But it can easily be achieved in the application by creating a ``timeout'' task.
+By default this task is suspended if another tasks that needs a timeout, the temporised task, it starts the timeout task (with \lstinline{OSTaskResume()}).
+The timeout task itselfs then delays for the specified time. After that time it suspends himselfs and sets a flag to wake up the task it was waiting for. 
+If the temporised task exists it's temporised state before the waiting is over it must notify the timeout task.
 \end{document}
