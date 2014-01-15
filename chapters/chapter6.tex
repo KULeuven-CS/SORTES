@@ -1,10 +1,10 @@
 \documentclass[../main.tex]{subfiles} 
 
-\renewcommand{\imageSrc}{../images/}
-\renewcommand{\codeSrc}{../code/}
+%\renewcommand{\imageSrc}{../images/}
+%\renewcommand{\codeSrc}{../code/}
 
-%\begin{document}
-%\chapter{Fault Tolerance}
+\begin{document}
+\chapter{Fault Tolerance}
 
 \section{Fault Classification}
 Faults can either be due to material failure or human failure. 
@@ -140,5 +140,67 @@ Each processing module is thus duplicated by a \textit{spare}. Main and spare pr
 The module that has been repaired or replaced is synchronized without stopping the active module (copy of the memory contents, etc.) under control of the OS. There can be up to 16 pairs.
 
 \section{Multiple Systems}
+The principle of doubled systems is to transfer the activity as quickly as possible from a failing main system to a working spare. The idea of multiple systems is to have enough running resources to let them have a \textbf{vote}. This mean there must be at least 3 modules, and the system should have a \textbf{fail/stop} behavior.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{\imageSrc/tmr1.jpg}
+    \caption{3 Modules}
+    \label{tmr1}
+\end{figure}
+\textbf{Triple Modular Redundancy} or \textbf{TMR} is a particular case for $M$ and $N$. We assume the the system consisting of $N$ components survives if at least $M$ components survive.
+
+\subsection{Survival Probability}
+In order to calculate the probability of survival we have to make some assumptions:
+\begin{itemize}
+	\item Malfunctions of the different components are independent.
+	\item $R$ is the survival probability of a single module alone.
+	\item $R_n$ is the probability that a single module fails.
+\end{itemize}
+The probability that one of the modules fails is
+\[
+R^{n-1} \cdot (1 - R) \cdot C^{n-1}_{n}
+\]
+The number of possible configurations where exactly one module fails is the number of possible combination of taking $(n-1)$ items out of $N$ items.
+\[
+C^{n-1}_{n} = \frac{n!}{1!(n-1)!} = n
+\]
+The probability that exactly $0 \leq k \leq n-m$ modules fail simultaneously 
+\[
+R^{n-k} \cdot (1 - R)^k \cdot C^{n-k}_{n}
+\]
+The probability that at least $m$ survive
+\[
+\sum^{n-m}_{k=0} R^{n-k} \cdot (1 - R)^k \cdot \frac{n!}{k!(n-k!)}
+\]
+If the probability of survival of the voting device is $R_v$, the probability of survival of the system is
+\[
+R_v \cdot \left( \sum^{n-m}_{k=0} R^{n-k} \cdot (1 - R)^k \cdot \frac{n!}{k!(n-k!)} \right)
+\]
+In case of TMR this becomes
+
+\begin{align*}
+R_\text{TMR} & = R_v \cdot \left( \sum^{1}_{k=0} R^{3-k} \cdot (1 - R)^k \cdot \frac{3!}{k!(3-k!)} \right) \\
+& = \left( R^3 + R^2 \cdot (1-R) \cdot 3 \right) \\
+& = \left( 3R^2 - 2R^3 \right)
+\end{align*}
+We consider the case where $R_{\text{TMR}} > R$. Assuming that $R_v = 1$ and $0 < R < 1$. This means
+\[
+3R^2 - 2R^3 > R \rightarrow 3R-2R^2 > 1
+\]
+This equation has two solutions: $R = 1$ and $R = \frac{1}{2}$. This means $R_{\text{TMR}}$ will be preferable to $R$ as long as $R > \frac{1}{2}$. 
+
+\begin{exmp}
+If $R$ decreases exponentially in time as shown on the figure below, TMR improves the reliability of the system a the start but does not extend its useful life.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{\imageSrc/tmr2.jpg}
+    \caption{Lifetime with TMR}
+    \label{tmr1}
+\end{figure}
+\end{exmp}
+
+
+
 
 \end{document}
