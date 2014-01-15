@@ -176,7 +176,7 @@ The code of the functions inside the body of a task in MicroC/OS-II must respect
 If you want a task to be allowed to run as often as possible you could give it the lowest priority. If the application must include several such tasks, a function should be written for each one and the lowest priority task might be an infinite loop calling all these functions. However, it should be noted that it is rarely useful to let a task run continuously. Running the function more frequently than needed therefore is wasted activity. It is often sufficient to wake up the task an certain amount of times per second and let it go back to sleep afterwards.
 
 \subsubsection{Task States in MicroC/OS-II}
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{\imageSrc/microCOS_states.png}
     \caption{MicroC/OS-II States}
@@ -325,7 +325,7 @@ It's necessary that $| \Delta | \leq g \leq | 2 \Delta |$:
 \end{itemize}
 In these conditions, one can identify the order of two events occurring on different sites, provided that they are at least two clock ticks apart.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{\imageSrc/timings.jpg}
     \caption{Clock Resolution}
