@@ -70,10 +70,10 @@ When the event is detected, the action is not necessarily finished, the time spe
 	\item The crossing conditions of \textbf{abort transitions} (figure \ref{asg3}, right) is limited to the absence of a higher priority transition allowed to leave its state.
 \end{enumerate}
 
-\subsection{Diagram Structure}
+\section{Diagram Structure}
 As with similar languages, there are two ways to structure the diagrams: \textbf{parallelism} and \textbf{hierarchy}.
 
-\subsubsection{Hierarchy}
+\subsection{Hierarchy}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\textwidth]{asg4.jpg}
@@ -99,14 +99,29 @@ State A could be exited trough transitions $i$, $j$ and $k$.
 \end{exmp}
 Conditions of a transition must be satisfied for all the states that would be exited. (The system might have to wait for several actions to be completed and several MINVT to be elapsed)
 
-\subsubsection{Parallelism}
+\subsection{Parallelism}
 In ASG, parallelism is always explicit: by entering a state that is refined into several parallel components. Exiting a state through 2 transition at a time is also not allowed in ASG.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{asg7.jpg}
+    \includegraphics[width=0.6\textwidth]{asg7.jpg}
     \caption{ASG Parallelism}
     \label{asg6}
 \end{figure}
+When a state refined in parallel components is entered, the initial substates of all the parallel components are entered at the same time. If the refined state is exited from one of the parallel components, all the parallel components are terminated. (exiting the refined state may be through a regular or trough an abort transition)
+
+\section{ASG Components}
+
+\subsection{Transition Priority Rules}
+One of the crossability conditions of a transition is to have the highest priority of all transitions conflicting with it. Transitions are called conflicting when they are activated and the highest state (in hierarchy) exiting is the same, or an ancestor, of the other state.
+
+\subsection{The Rendez-Vous}
+\subsection{Resources}
+
+\section{Declarative Specificationsr}
+
+\section{Example}
+
+
 
 \end{document}
