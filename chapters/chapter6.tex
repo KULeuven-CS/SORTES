@@ -100,6 +100,13 @@ State A could be exited trough transitions $i$, $j$ and $k$.
 Conditions of a transition must be satisfied for all the states that would be exited. (The system might have to wait for several actions to be completed and several MINVT to be elapsed)
 
 \subsubsection{Parallelism}
+In ASG, parallelism is always explicit: by entering a state that is refined into several parallel components. Exiting a state through 2 transition at a time is also not allowed in ASG.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{asg7.jpg}
+    \caption{ASG Parallelism}
+    \label{asg6}
+\end{figure}
 
 \end{document}
