@@ -1,7 +1,5 @@
 \documentclass[../main.tex]{subfiles} 
 
-%\renewcommand{\imageSrc}{../images/}
-%\renewcommand{\codeSrc}{../code/}
 
 \begin{document}
 \chapter{Fault Tolerance}
@@ -58,7 +56,7 @@ We define the \textbf{mean time between failures (MTBF)} as:
 R is a dimensionless value representing time. The MTBF is the surface under the curve representing the evolution with respect to $R(t)$, which is the percentage of surviving items after $t$.
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{\imageSrc/mtbf1.jpg}
+    \includegraphics[width=0.8\textwidth]{mtbf1.jpg}
     \caption{MTBF Illustration}
     \label{mtbf1}
 \end{figure}
@@ -104,7 +102,7 @@ The problem with active redundancy is threefold:
 \subsubsection{Basic Solution}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{\imageSrc/active_basic.jpg}
+    \includegraphics[width=0.8\textwidth]{active_basic.jpg}
     \caption{Active Redundancy}
     \label{acre}
 \end{figure}
@@ -144,7 +142,7 @@ The principle of doubled systems is to transfer the activity as quickly as possi
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{\imageSrc/tmr1.jpg}
+    \includegraphics[width=0.5\textwidth]{tmr1.jpg}
     \caption{3 Modules}
     \label{tmr1}
 \end{figure}
@@ -194,7 +192,7 @@ This equation has two solutions: $R = 1$ and $R = \frac{1}{2}$. This means $R_{\
 If $R$ decreases exponentially in time as shown on the figure below, TMR improves the reliability of the system a the start but does not extend its useful life.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{\imageSrc/tmr2.jpg}
+    \includegraphics[width=0.6\textwidth]{tmr2.jpg}
     \caption{Lifetime with TMR}
     \label{tmr1}
 \end{figure}

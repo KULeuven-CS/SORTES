@@ -1,9 +1,5 @@
 \documentclass[../main.tex]{subfiles} 
 
-\renewcommand{\imageSrc}{../images/}
-\renewcommand{\codeSrc}{../code/}
-
-
 \begin{document}
 \chapter{ASG Language}
 ASG is a graphical specification language for distributed real-time systems and belongs to the family of hierarchical state languages such as \textit{STATECHARTS}, \textit{TTM} (Timed Transition Models) and \textit{MODECHARTS}. All these languages have been introduced progressively from 1987. The allow to describe the behavior of systems and have enhanced the expressiveness of state machines by introduction of time, hierarchies and parallelism. This avoids the explosion of the number of states and allows reasoning at different abstraction levels. It was intended to be readable by non computer-scientists, in order to be able to verify that what is specified is actually what the "client" wants.
@@ -18,7 +14,7 @@ ASG, which was developed by UCLouvain, has some specific characteristics.
 An ASG diagram consists of \textbf{states} and \textbf{transitions}. Crossing a transition is instantaneous: the system is thus always in a state.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.25\textwidth]{\imageSrc/asg1.jpg}
+    \includegraphics[width=0.25\textwidth]{asg1.jpg}
     \caption{ASG States and Transitions}
     \label{asg1}
 \end{figure}
@@ -50,7 +46,7 @@ The system is in the origin state of the transition \textbf{and} the condition a
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{\imageSrc/asg2.jpg}
+    \includegraphics[width=0.5\textwidth]{asg2.jpg}
     \caption{ASG Transitions}
     \label{asg2}
 \end{figure}
@@ -58,11 +54,10 @@ The system is in the origin state of the transition \textbf{and} the condition a
 The condition is any boolean expression, based on environment variables or booleans indicating a \textit{rendez-vous} or \textit{time-out}. In a distributed system some time is needed in order to detect a state change of a remote variable. To avoid hidden delays the system works with local state changes and the local perception of the remote state. 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.3\textwidth]{\imageSrc/asg3.jpg}
+    \includegraphics[width=0.3\textwidth]{asg3.jpg}
     \caption{ASG Regular and Abort Transition}
     \label{asg3}
 \end{figure}
-//
 When the event is detected, the action is not necessarily finished, the time spent in the state not necessarily larger that MINVT and resources required to enter the destination state of the transition are not necessarily available. This gives cause to two families of transitions. The \textbf{crossing condition} depends on the transition family.
 \begin{enumerate}
 	\item  The crossing conditions of \textbf{regular transitions} (figure \ref{asg3}, left) are the following:
@@ -81,34 +76,28 @@ As with similar languages, there are two ways to structure the diagrams: \textbf
 \subsubsection{Hierarchy}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{\imageSrc/asg4.jpg}
+    \includegraphics[width=0.4\textwidth]{asg4.jpg}
     \caption{ASG Hierarchy}
     \label{asg4}
 \end{figure}
 Any state may be refined in mutually exclusive sub-states. Any such sub-state is a state that may itself be refined. The system is both in the outer state as well as in the sub-state. Actions may be associated with the outer state and with each sub-state, at any level, including the initial sub-states. Action attached to the outer state and to the initial sub-state start simultaneously and are performed in parallel.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{\imageSrc/asg5.jpg}
+    \includegraphics[width=0.6\textwidth]{asg5.jpg}
     \caption{ASG Hierarchic State Leaving}
     \label{asg5}
 \end{figure}
-//
 A transition leaving a state may only end in a sister state (a state belonging to the same refinement), an ancestor state (a state enclosing the current state) or the sister of an ancestor. A state can be exited trough a transition leaving this state itself, leaving a state enclosing this state or leaving a state included in this state.
 \begin{exmp}
-Sstate A could be exited trough transitions $i$, $j$ and $k$.
+State A could be exited trough transitions $i$, $j$ and $k$.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{\imageSrc/asg6.jpg}
+    \includegraphics[width=0.4\textwidth]{asg6.jpg}
     \caption{ASG Example Leaving State}
     \label{asg6}
 \end{figure}
 \end{exmp}
-
-
-
-
-
-
+Conditions of a transition must be satisfied for all the states that would be exited. (The system might have to wait for several actions to be completed and several MINVT to be elapsed)
 
 \subsubsection{Parallelism}
 
