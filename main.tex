@@ -68,12 +68,12 @@
 \newtheorem{asmdefn}{Definition}[section]
 \newtheorem{asmexmp}{Example}[section]
 
-%Listing with, file, caption and label options suitable for partial compiles.
-\newcommand\includelisting[3]{
+%Listing with file as first argument and options as second.
+\newcommand\includelisting[2]{
     \IfFileExists{code/#1}{
-		\lstinputlisting[style=cstyle, caption=#2, label=#3]{code/#1}
+		\lstinputlisting[ #2 ]{code/#1}
     }{
-		\lstinputlisting[style=cstyle, caption=#2, label=#3]{../code/#1}
+		\lstinputlisting[ #2 ]{../code/#1}
     }
 }
 

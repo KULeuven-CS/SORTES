@@ -14,10 +14,10 @@ This kind of scheduling is non premptive meaning the OS will never interrupt a r
 Because of this each task should be as short as possible.
 The worse case respone time will be the sum of the maximum execution times of the functions.
 A simple code example can be seen in 
-%\ref{ex:coop_multi}.
+%\ref{ex:coopmulti}.
 
 %\includelst[ASGExample.c] << doesn't work inside lstinputlisting
-\includelisting{ASGExample.c}{Example of cooperative multitasking where task A is run twice as frequent as task B.}{ex:coopmulti}
+\includelisting{ASGExample.c}{style=cstyle, caption=Example of cooperative multitasking where task A is run twice as frequent as task B., label=ex:coopmulti}
 %\lstinputlisting[style=cstyle, caption=Example of cooperative multitasking where task A is run twice as frequent as task B., label=ex:coop_multi]{../code/ASGExample.c}
 
 
