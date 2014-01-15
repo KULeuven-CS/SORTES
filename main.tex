@@ -62,10 +62,20 @@
 % Figure Path
 \graphicspath{{images/}{../images/}}
 
+
 % Theorem Styles
 \theoremstyle{definition}
 \newtheorem{asmdefn}{Definition}[section]
 \newtheorem{asmexmp}{Example}[section]
+
+%Listing with, file, caption and label options suitable for partial compiles.
+\newcommand\includelisting[3]{
+    \IfFileExists{code/#1}{
+		\lstinputlisting[style=cstyle, caption=#2, label=#3]{code/#1}
+    }{
+		\lstinputlisting[style=cstyle, caption=#2, label=#3]{../code/#1}
+    }
+}
 
 % Boxed Theorems
 \newenvironment{exmp}
@@ -117,6 +127,8 @@
 \part{Asynchronous State Graphs}
 \subfile{chapters/chapter5}
 \subfile{chapters/chapter6}
+\subfile{chapters/chapter7}
+
 
 % Appendix
 \appendix 
