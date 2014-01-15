@@ -114,14 +114,123 @@ When a state refined in parallel components is entered, the initial substates of
 
 \subsection{Transition Priority Rules}
 One of the crossability conditions of a transition is to have the highest priority of all transitions conflicting with it. Transitions are called conflicting when they are activated and the highest state (in hierarchy) exiting is the same, or an ancestor, of the other state.
+\\\\
+Priority Rules:
+\begin{enumerate}
+	\item An abort transition has a higher priority that a regular transition. If the state can be exited through several abort transition, one is selected according to the following rules.
+	\item If the outermost state exited by an abort transition encloses that of another abort transition, the former will have a higher priority.  
+	\item Numbered transitions with a lower number have a higher priority. Unnumbered transitions have the lowest priority.
+	\item A transition activated before another has a higher priority than the latter.	
+	\item If none of the above rules apply, a transition is selected at random.
+\end{enumerate}
 
 \subsection{The Rendez-Vous}
+Rendez-vous labels are associated with states. A rendez-vous happens when all the parallel components active and concerned by the same rendez-vous label are in a state labeled with that rendez-vous. An active parallel component means that the system is in one of its states. A state is concerned with a rendez-vous label is at least one of its states is labeled with it.
+\\\\
+A rendez-vous allows many types of synchronizations between parallel components. The simplest is to trigger a transition in a parallel component when a job is finished in another one. Generally a label will be assigned to the state following the one with the action. If necessary, a empty state (without an action) can be added for this purpose. Another use of the rendez vous is allowing a parallel decomposition to exitin a disciplined way.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{asg8.jpg}
+    \caption{ASG Rendez-Vous}
+    \label{asg8}
+\end{figure}
+
+Nothing guarantees that two transitions (in different parallel components) will transition simultaneously, even if their event has the same rendez-vous point. This is because transition conditions could be delay and if the system is distributed, the event will not necessarily be perceived simultaneously everywhere.
+\\\\
+In a distributed system, the detection of a rendez-vous is not necessarily immediate, but all rendez-vous will be detected, on condition that the time intervals where the rendez-vous states are occupied overlap at least in part. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{asg9.jpg}
+    \caption{ASG Rendez-Vous}
+    \label{asg9}
+\end{figure}
+
 \subsection{Resources}
+Resources allow the system to get temporarily exclusive access to a shared component. When resources are needed in u sub-state of some parallel component, the sub-states are labeled with their required resource.  
 
-\section{Declarative Specificationsr}
 
-\section{Example}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{asg10.jpg}
+    \caption{ASG Resources}
+    \label{asg10}
+\end{figure}
+A parallel component must have obtained exclusive right to use of all the resources necessary in the next state before being allowed to transition to this state.
 
+Resources are requested by a parallel component as soon as the transition to enter this state is activated. Resources are held until either a higher priority transition (through which the source state could exit) is activated or until the state that needed the resource is exited.
+\\
+Obtaining a requested resources may take some time. The system might have to wait until the resources are freed by the previous user, especially when several resources are needed to enter a state. 
+In order to avoid deadlocks when gathering resources needed to cross a transition, a parallel component must always obtain resources in the reverse order of their declaration
+
+\begin{exmp}
+The left component will cause a deadlock if it does not respect the last rule.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{asg11.jpg}
+    \caption{Deadlock}
+    \label{asg11}
+\end{figure}
+\end{exmp}
+The aim of resources is to express mutual exclusion between states of different parallel components.
+\begin{exmp}
+Creating starvation situations with resources, making some states unaccessible is easy, as illustrated below.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{asg12.jpg}
+    \caption{Deadlock}
+    \label{asg12}
+\end{figure}
+However, a static analysis of the diagram allows identifying the sets of mutually exclusive states and those that are not accessible. 
+\end{exmp}
+
+\section{Examples}
+\begin{exmp}
+An elevator will only change direction if there are no more requests left in the current direction. The states \textit{stopped}, \textit{doors opening} and \textit{doors opened} all have a \textbf{MINVT} to give the doors time to open and let people leave the elevator. The \textit{open} state has a time-out after which the doors are closed. Consider the following activation conditions:
+\begin{enumerate}
+	\item detection\_door\_completely\_open
+	\item movement\_requested or open.timeout or close\_doors\_button\_pressed
+	\item presence\_detected\_in\_door\_opening
+	\item detection\_door\_fully\_closed
+	\item always true
+	\item movement\_request\_in\_current\_direction
+	\item arrival\_at\_destination\_floor or arrival\_at\_calling\_floor\_in\_current\_direction or \\ (no\_other\_destination\_ in\_current\_direction and arrival\_at\_calling\_floor\_in\_other\_direction)
+	\item movement requested\_in\_other\_direction or called\_from\_other\_direction
+	\item true
+\end{enumerate}
+In order to be complete, one should add parallel components memorizing movement requests and a component to remove the request at each floor when the destination is reached.
+\end{exmp}
+
+\begin{exmp}
+A sluice has two doors $P_1$ and $P_2$ and 5 sensors $X,Y,Z,V,W$ to detect the presence of a ship. Sensors  $X, Y$ and $Z$ are located in front of the doors and inside the sluice. Sensors $V$ and $W$ are located in such a way that they can detect the presence of the ship when passing the doors. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{asg13.jpg}
+    \caption{Sluice}
+    \label{asg13}
+\end{figure}
+Only one of the sluice's doors may be opened at a time. Outgoing traffic (from X to Z) always has priority.
+\\\\
+\textbf{Sequential Solution}\\
+The sequential solution simply expresses that there are two sequences that are allowed.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{asg14.jpg}
+    \caption{Sequential Solution}
+    \label{asg14}
+\end{figure}
+To be complete, each state should be refined in two sub-states: door sliding and door in position
+\\\\
+\textbf{Parallel Solution} \\
+A resource is used to prevent the two doors to open simultaneously.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{asg15.jpg}
+    \caption{Parallel Solution}
+    \label{asg15}
+\end{figure}
+The purpose of the MINVT in the \textit{open} states is to allow ships to enter or exit the sluice. Otherwise, the doors would just open and close without letting anybody in. 
+\end{exmp}
 
 
 \end{document}
