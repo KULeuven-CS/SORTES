@@ -30,7 +30,7 @@
 \title{SORTES}
 \date{\today}
 \author{Professor Marc Lobelle \\ Jonas Devlieghere \\ Dieter Castel}
- 
+
 % Margins
 \setlength{\topmargin}{0in}
 \setlength{\footskip}{0.5in}
@@ -39,7 +39,7 @@
 \setlength{\evensidemargin}{0in}
 \setlength{\textheight}{8.5in}
 
-% Listings 
+% Listings
 \lstset{
 	basicstyle=\scriptsize,
 	breaklines=true,
@@ -51,7 +51,7 @@
 	keywordstyle=\bfseries,
 	showstringspaces=false,
 	tabsize=2,
-	title=\lstname 
+	title=\lstname
 }
 
 \lstdefinestyle{cstyle}{
@@ -104,18 +104,18 @@
 \newenvironment{exmp}
   {\begin{mdframed}\begin{asmexmp}}
   {\end{asmexmp}\end{mdframed}}
-  
+
 \newenvironment{defn}
   {\begin{mdframed}\begin{asmdefn}}
   {\end{asmdefn}\end{mdframed}}
-    
-  
+
+
 
 % Blockquote
 \newenvironment{blockquote}{%
   \def\FrameCommand{%
     \hspace{1pt}%
-    
+
     {\color{black}\vrule width 4pt}%
     {\color{lightgray}\vrule width 4pt}%
     \colorbox{lightgray}%
@@ -141,6 +141,8 @@
 % Table of Contents Page
 \tableofcontents
 
+\subfile{preface}
+
 \mainmatter
 \part{Real-Time Systems}
 \subfile{chapters/chapter1}
@@ -154,9 +156,9 @@
 
 
 % Appendix
-\appendix 
+\appendix
 
-% Index 
+% Index
 \printindex
 
 % References
