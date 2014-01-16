@@ -12,7 +12,7 @@ Faults can either be due to material failure or human failure.
 		\item Permament (broken optical fiber)
 		\item Transient (cosmic ray changes value bit in memory)
 		\item Internal Fault (overheating due to fan malfunction)
-		\item Environment Fault (power failure with no UPS)
+		\item Environment Fault (power failure with no UPS (Uninterruptible Power Suply))
 	\end{itemize}
 	\item \textbf{Human Faults}
 	\begin{itemize}
@@ -24,32 +24,32 @@ Errors in data processing:
 \begin{center}
 \begin{tabular}{|c|c|c|}
 \hline 
-• & Data NOK & Data OK \\ 
+ & Data NOK & Data OK \\ 
 \hline 
-Data Rejected & • & Error 1 \\ 
+Data Rejected & n/a & Error 1 \\ 
 \hline 
 Faulty Result & Error 2 & Error 3 \\ 
 \hline 
-System Crach & Error 4 & Error 5 \\ 
+System Crash & Error 4 & Error 5 \\ 
 \hline 
 \end{tabular} 
 \end{center}
-Errirs 4 and 5 are \textbf{Fail Stop} errors. They're easy to detect because in case of a problem everything stops. Error 2 and 3 are more vicious, the system continues to work but not as intended. 
+Errors 4 and 5 are \index{Fail Stop Error} \textbf{Fail Stop} errors. They're easy to detect because in case of a problem everything stops. Error 2 and 3 are more vicious, the system continues to work but not as intended. 
 \section{Reliability Metrics}
 Reliability is measured by looking at what happens to a set of similar items. With $N$ the amount of items:
 \begin{itemize}
 	\item $S(t)$ is the number of surviving items after time $t$.
 	\item $F(t)$ is the number of faulty items after time $t$.
 \end{itemize}
-Now we can define the \textbf{reliability} of this kind of itmes as 
+Now we can define the \definebf{reliability} of this kind of items as 
 \[
 R(t) = \frac{S(T)}{N}
 \]
-We define the \textbf{failure rate} as:
+We define the \definebf{failure rate} as:
 \[
 \text{Failure Rate} = \frac{1}{S(t)} \frac{dF(t)}{dt}
 \]
-We define the \textbf{mean time between failures (MTBF)} as:
+We define the \index{MTBF | see {Mean Time Between Failures} } \definebf{Mean Time Between Failures} (MTBF) as:
 \[
 \text{MTBF} = \int_0^{\infty} R(T) dt
 \]
@@ -70,7 +70,7 @@ However, the MTBF cannot always be considered equal to the useful life of an ite
 An MTBF over 500.000 hours are given for hard disks along with a lifetime of 5 years. Knowing that a year includes 8760 hours, it means a MTBF of 57 years. In that case, the MTBF tells only that, after the time of early failures less that about 10\% of the disk might have a problem during their useful life. Disks intended for servers often have a guarantee equal to their lifetime.
 \end{exmp}
 
-Other useful metrics are the \textbf{availability} $A(t)$ and the \textbf{MTTR (Mean Time to Repair)}:
+Other useful metrics are the \definebf{availability} $A(t)$ and the \index{MTTR | see {Mean Time To Repair}} \definebf{Mean Time To Repair} (MTTR):
 \[
 A(t) = \frac{T_{\text{on}}}{T_{\text{on}} + T_{\text{off}}}
 \]
@@ -84,7 +84,7 @@ N_{\text{faults}} = \frac{T_{text{ON}}}{\text{MTBF}}
 A(t) = \frac{\text{MTBF}}{\text{MTBF} + \text{MTTR}}
 \]
 \section{Doubled Systems}
-The purpose of doubled systems is to \textbf{minimize the MTTR}. There are multiple ways to implement doubled systems.
+The purpose of doubled systems is to \textbf{minimize the MTTR}. There are multiple ways to implement \define{doubled systems}.
 
 \subsection{Standby Redundancy}
 With standby redundancy a spare system must be started. This might take up to 15 or 30 minutes before becoming fully operational. Improvements are possible to limit reconfiguration time. (= disconnecting equipment from one system and connecting it to another) Examples are shared peripherals between the main and spare system or the use of dual port peripherals.
@@ -107,7 +107,10 @@ The problem with active redundancy is threefold:
     \label{acre}
 \end{figure}
 
-A health report consists or a regular message indicating that the system is still alive, assuming the system is a \textbf{fail/stop system}. Al alternative might be a signature based on significant components of the system. This signature may be created at regular intervals or at each significant state change. Synchronization is handled by the events occurring at the controller system. A watchdog decides to switch to the spare processor. 
+A health report consists or a regular message indicating that the system is still alive, assuming the system is a \textbf{fail/stop system}.
+An alternative might be a signature based on significant components of the system.
+This signature may be created at regular intervals or at each significant state change.
+Synchronization is handled by the events occurring at the controller system. A watchdog decides to switch to the spare processor. 
 \\\\
 A restart is handled by copying the state of the current main processor to the spare one. During this, the main processor might be stopped. If not, delicate techniques are used to synchronize distributed systems.
 \\\\
@@ -133,7 +136,14 @@ Synchronization is managed on software level using \textbf{checkpointing}. All s
 The decision to switch is also made at software level. The operating system of each processor is aware of the state of all others. If the operating system of a processor $X$ discovers that the operating system of another $Y$ is dead and if the $P_A$ of a $P_B$ process running on $X$ was running on $Y$ then X activates the $P_B$ that replaces $P_A$. 
 
 \subsubsection{Pair \& Spare}
-Each processing module is thus duplicated by a \textit{spare}. Main and spare processor are synchronized by running the same program with the same data at the same time. Each module consists of two processing units and the results are permanently compared. This is method is called \textbf{bus snooping} and the concept is called a \textbf{self checking pair}. Time is synchronized by a central clock. The decision to switch is made on hardware level when the results are not identical. If it's the main pair, the system switches to the pair. It's the system itself that warns the maintenance service. 
+Each processing module is thus duplicated by a \textit{spare}.
+Main and spare processor are synchronized by running the same program with the same data at the same time.
+Each module consists of two processing units and the results are permanently compared.
+This is method is called \definebf{bus snooping} and the concept is called a \definebf{self checking pair}.
+Time is synchronized by a central clock.
+The decision to switch is made on hardware level when the results are not identical.
+If it's the main pair, the system switches to the pair.
+It's the system itself that warns the maintenance service. 
 \\\\
 The module that has been repaired or replaced is synchronized without stopping the active module (copy of the memory contents, etc.) under control of the OS. There can be up to 16 pairs.
 
@@ -189,12 +199,12 @@ We consider the case where $R_{\text{TMR}} > R$. Assuming that $R_v = 1$ and $0 
 This equation has two solutions: $R = 1$ and $R = \frac{1}{2}$. This means $R_{\text{TMR}}$ will be preferable to $R$ as long as $R > \frac{1}{2}$. 
 
 \begin{exmp}
-If $R$ decreases exponentially in time as shown on the figure below, TMR improves the reliability of the system a the start but does not extend its useful life.
+	If $R$ decreases exponentially in time as shown on figure \ref{tmr2} below, TMR improves the reliability of the system a the start but does not extend its useful life.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{tmr2.jpg}
     \caption{Lifetime with TMR}
-    \label{tmr1}
+    \label{tmr2}
 \end{figure}
 \end{exmp}
 
