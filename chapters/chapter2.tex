@@ -56,7 +56,7 @@ Try to do this without preselecting a solution.
 The following models can help you in this step.
 \begin{description}
 	\item[structural model] Model of all the components, subsystems that can work in parallel.
-	\item[behavioural model] Model of the desired behaviour e.g. state machines of components. 
+	\item[behavioral model] Model of the desired behavior e.g. state machines of components. 
 \end{description}
 
 \subsubsection{Analysis}
@@ -75,41 +75,41 @@ Because of these questions the created model should be shown to the author of th
 
 \subsection{Design the software architecture}
 \label{sss:design}
-Next the software architecture can be designed by refining the behavioural model. 
+Next the software architecture can be designed by refining the behavioral model. 
 Two types of systems can be distinguished:
 \begin{description}
-	\item[Reactive system] The desired behaviour of the controlled device depends on the commands from the system we are designing.
-		In this case the behaviour of the software must be \emph{structurally similar} to that of the \textbf{controlled system}.
-		The software sends commands to force the expected behaviour of the controlled device.
-	\item[Data processing system] The behaviour of the software must be \emph{structurally similar} to that of the \textbf{monitored system} and is driven by events occurring in that system.
+	\item[Reactive system] The desired behavior of the controlled device depends on the commands from the system we are designing.
+		In this case the behavior of the software must be \emph{structurally similar} to that of the \textbf{controlled system}.
+		The software sends commands to force the expected behavior of the controlled device.
+	\item[Data processing system] The behavior of the software must be \emph{structurally similar} to that of the \textbf{monitored system} and is driven by events occurring in that system.
 \end{description}
 
 In both cases the following process should be followed:
 \begin{itemize}
 	\item Model structure of the physical system. 
-	\item Make behavioural model of the physical system.
-	\item Make behavioural model of the software system.
+	\item Make behavioral model of the physical system.
+	\item Make behavioral model of the software system.
 \end{itemize}
 
 The last step should give you a rough skeleton of the application layer.
 
 The tasks of the software should be identified.
 A task can be seen as a sequence of states that may evolve parallel.
-Almost always there are multiple possible sequences of states that represent the same global behaviour.
-It is always possible to represent a behaviour with entirely sequential (mutually exclusive) set of states.
+Almost always there are multiple possible sequences of states that represent the same global behavior.
+It is always possible to represent a behavior with entirely sequential (mutually exclusive) set of states.
 But this is not advised in general because the amount of states (and transitions) tends to get very high quickly.
-That's why it's advised to try and \emph{maximalise parallelism} in the behavioural model.
+That's why it's advised to try and \emph{maximize parallelism} in the behavioral model.
 This gives us a group of simpler sequential state machines evolving in parallel and interacting only when needed. The following interactions are possible:
 \begin{itemize}
 	\item information transfer
-	\item synchronisations \item exclusions \item filiations (relationships?)
+	\item synchronisations \item exclusions \item affiliations
 \end{itemize}
 
 
 \subsection{Identify the services the system layer must provide}
 \label{sss:services}
 See what kind of (common) services should be required in the system layer. 
-This is ``classical'' analysis work of the behavioural model used to deduce the needed system services
+This is ``classical'' analysis work of the behavioral model used to deduce the needed system services
 
 
 
@@ -132,13 +132,13 @@ Two categories of services exist:
 	\item Basic services: To implement
 	\begin{itemize}
 		\item scheduler (can be very simple in some cases).
-		\item low level routines: To act as an interface to the hardware (e.g. interrupt routines) or for basic interactions between tasks (e.g. synchronisation)
+		\item low level routines: To act as an interface to the hardware (e.g. interrupt routines) or for basic interactions between tasks (e.g. synchronization)
 	\end{itemize}
 	
 	\item Derived services: Built on top of others (e.g. file systems).
 \end{itemize}
 
-Another categorisation is possible based on how services are activated: 
+Another categorization is possible based on how services are activated: 
 \begin{itemize}
 	\item Activation by application layer. 
 	\begin{itemize}
@@ -150,7 +150,7 @@ Another categorisation is possible based on how services are activated:
 
 \subsection{Specify the data processing activities}
 \label{sss:activities}
-Each of the behavioural states of the software should be complemented with descriptions of the data processing activities at that state.
+Each of the behavioral states of the software should be complemented with descriptions of the data processing activities at that state.
 How these activities are represented depends on the type of data to be processed.
 Sometimes these descriptions can be as simple as a few lines of C/C++ or even a ladder diagram.
 
@@ -191,8 +191,8 @@ Using this kind of scheduling doesn't put a 100\% load on the cpu.
 The lengths of the task can also vary a little if the sum of durations remains under the clock period.
 When calculating the clock period interrupt tasks should be taken into account.
 
-\paragraph{Task synchronisation}
-We'll explain a simple form of synchronisation next. 
+\paragraph{Task synchronization}
+We'll explain a simple form of synchronization next. 
 The idea is that a tasks can suspend the execution of another until a given event.
 First the scheduler must be warned that the task has been suspended.
 Next some bookkeeping needs to be done in the table of tasks.
@@ -200,18 +200,18 @@ Make the appropriate task un-runnable by adding a code representing an event tha
 To restart the task another task will have to detect the unlocking event and make the ``lock'' field null again. 
 If more locked tasks have the same unlocking event a choice must be made to either unlock the first task (or with highest priority) or all the tasks waiting. 
 
-Other synchronisations can be implemented in a similar way.
+Other synchronizations can be implemented in a similar way.
 
 \paragraph{Communications}
 Two methods can be distinguished communication by shared variables and by messages:
 \begin{description}
-	\item[by shared variables] It's simple and fast but shared variables must be written mutual exclusively. This makes the tasks strongly synchronised (long waits may occur).
+	\item[by shared variables] It's simple and fast but shared variables must be written mutual exclusively. This makes the tasks strongly synchronized (long waits may occur).
 	\item[by messages] The OS acts as a go-between. It can buffer the messages. Mutual exclusion is needed between tasks and OS. Waits can occur when the buffer is full. But messages can also be discarded if necessary an appropriate discarding scheme should then be chosen (often fifo). This buffering cause the tasks to be less synchronized.
 \end{description} 
 
 
 \paragraph{Mutual Exclusion}
-On a monoprocessor this can sometimes be achieved with temporarily disabling interrupts.
+On a mono-processor this can sometimes be achieved with temporarily disabling interrupts.
 In any other case this can be implemented by using atomic READ/MODIFY/WRITE assembly language instructions.
 On a multiprocessor the memory access between the READ and WRITE will be blocked for all but one processor.
 Examples of READ/MODIFY/WRITE instructions are: TSET (test \& set) and ASL (arithmetic shift left). 
@@ -234,9 +234,9 @@ There are even some dedicated languages for embedded systems.
 These are usually imperative languages including following built-in functionalities for:
 \begin{itemize}
 	\item Hardware Interaction (e.g. interrupt routines).
-	\item Multiprogramming management
-	\item interprocess communication
-	\item process synchronisation
+	\item Multi-programming management
+	\item Inter-process communication
+	\item Process synchronization
 \end{itemize}
 They also have some security improvements over extensible languages.
 Because they are usually modular and have those built-in functions, verifications of system interactions and syntax is possible by the compiler.
@@ -263,7 +263,7 @@ The following are rules the linker/compiler should take into account:
 \subsubsection{Documentation}
 Three main documentation documents are required:
 \begin{description}
-	\item[For the user] Manual and description of behaviour, functionalities of the program.
+	\item[For the user] Manual and description of behavior, functionalities of the program.
 	\item[For the system engineer] Guidelines to set up and deploy the program successfully. 
 	\item[For the designer] This should be extensive documentation of all 6 steps for the designer himself or his possible successors. When documenting a posteriori there is a risk to forget important design decisions or strategic choices by focusing to much on the last implementation details. 
 \end{description}
