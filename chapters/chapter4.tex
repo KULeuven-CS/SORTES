@@ -266,7 +266,7 @@ In order to \index{Time Synchronization} synchronize clocks, a mean time must be
 Clock adjustments must be progressive: increase the rate of slow clocks and decrease that of fast clock. Setting the time is no option since that would invalidate the chronoscopic property. Doing this might require a special electrical circuit.
 \\\\
 \subsubsection{Fault Tolerant Average}
-The \index{FTA | see {Fault Tolerant Average}}\define{Fault Tolerant Average} (FTA) Algorithm is designed to synchronize clocks in a distributed system. There are two variants. The first ignores communication delays between systems, the second don't.
+The \index{FTA | see {Fault Tolerant Average }}\define{Fault Tolerant Average} (FTA) Algorithm is designed to synchronize clocks in a distributed system. There are two variants. The first ignores communication delays between systems, the second don't.
 \\\\
 When communication delays are ignored, each system broadcasts a message announcing its local time. Each system deduces the time-lag between its own clock and the others. The $k$ most different values from the mean are ignored. The correction to apply is the mean value of the time lags that have not been rejected.The correction is applied progressively, by slightly modifying the clock rate for a limited amount of time.
 \[

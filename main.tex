@@ -83,8 +83,14 @@
    }
 \makeatother
 
-
-
+% Bold Abreviation Index Entry
+\makeatletter
+\newcommand*\defineabrv[2]{
+  \textbf{#1} (#2)
+  \index{#2 | see {#1@\protect\protect\capitalisewords{#1} }}%
+  \index{#1@\protect\capitalisewords{#1}}%
+   }
+\makeatother
 
 % Theorem Styles
 \theoremstyle{definition}
