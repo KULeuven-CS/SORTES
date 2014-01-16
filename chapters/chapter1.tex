@@ -11,7 +11,7 @@ The table below shows how computing systems can be classified. Please note that 
 	\item \textbf{Non Real-Time Data Processing} \\
 	There is no external stimulation of the system, it justs processes data. There are no time constraints.
 	\item \textbf{Real-Time Data Processing} \\
-	The system is paced by their external environment. The response time constraints are twofold: teh \textbf{accept data} rate is dictated by the producer, the \textbf{processing rate} is dependent on the external environment.
+	The system is paced by their external environment. The response time constraints are twofold: the \textbf{accept data} rate is dictated by the producer, the \textbf{processing rate} is dependent on the external environment.
 	\item \textbf{Non Real-Time Reactive (Interactive)} \\
 	Systems stimulated by the human user. The response time is expected to be as short as possible. The pace is set by the slowest entity: the user.
 	\item \textbf{Real-Time Reactive} \\
@@ -21,7 +21,7 @@ The table below shows how computing systems can be classified. Please note that 
 Real-Time systems have a response time constraint. Usually this constraint is not really a timing constraint but rather an expression relative to a physical measurement unit.
 
 \begin{exmp}
-Take for example a carriage that must be stopped before it hits a bumper. The physical measurement unit here is \textbf{distance}. This constraint can easily be converted to a timing constraint given it's initial speak, braking characteristics etc. 
+Take for example a carriage that must be stopped before it hits a bumper. The physical measurement unit here is \textbf{distance}. This constraint can easily be converted to a timing constraint given it's initial speed, braking characteristics, etc. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\textwidth]{carriage.jpg}
@@ -30,12 +30,12 @@ Take for example a carriage that must be stopped before it hits a bumper. The ph
 \end{figure}
 \end{exmp}
 
-However, since a computer has no notion of distance, specifications in terms of physical units have to be converted to a timing constraint. When it comes to specifications on the other hand, it's better to include the original constraint than the computed timing constraint. This being sayd, the real-time programmer usually is only in charge of the computing system and cannot modify the original parameters.
-
+However, since a computer has no notion of distance, requirements in terms of physical units have to be converted to a timing constraint. When it comes to specifications on the other hand, it's better to include the original constraint than the computed timing constraint. This being said, the real-time programmer usually is only in charge of the computing system and cannot modify the original parameters.
+\\\\
 Another way to classify real-time systems is by dividing them in \textbf{stand-alone systems} and systems that are \textbf{part of a hierarchy}. This course focusses on \textbf{embedded systems}: they are a component built-in to other equipment. They can either work alone or be part of a distributed system.
 
 \begin{exmp}
-An example of a \textbf{embedded system that works alone} is the electric ignition of a car, a modern washing machine or an electronic scale.
+An example of an \textbf{embedded system that works alone} is the electric ignition of a car, a modern washing machine or an electronic scale.
 \end{exmp} 
 
 \begin{exmp}
@@ -54,24 +54,23 @@ The classical architecture of a distributed real-time system is a two layer arch
 The dedicated controller usually handles tasks with critical real-time constraints. Such systems are called \textbf{hard real-time systems}. Decisions taken by the system are done so locally based on the current available information. The software's structure is simple so it offers deterministic and predictable behavior. 
  
 \subsection{Central System}
-The central system often deals with less critical external constraints. The farther we are remote from the controlled system however, the more \textit{unpredictable events} increase the difficulty to satisfy the constraints. 
+The central system often deals with less critical external constraints. However, the farther remote from the controlled system, the more \textit{unpredictable events} increase the difficulty to satisfy the constraints. 
 \\\\
-The system centralizes information in order to provide a global view on the whole system. The operator interface is managed by this system and offers an overview of the situation, consisting of a global view and selected useful details. In a more advanced application the system might suggest action to be undertaken to the user.
+The system centralizes information in order to provide a global view on the whole system. The operator interface is managed by this system and offers an overview of the situation, consisting of a global view and selected useful details. In a more advanced application the system might suggest actions to be undertaken by the user.
 
 \subsection{Connections}
-The connection type between the dedicated controller and the central system depends on the environment. In an industrial environment optical fibers might be preferred to copper wires because they are not sensitive to voltage differences ate the ends of the link. Ethernet can be used on condition its behavior is deterministic. Specialized networks exist for real-time systems (\textbf{field busses}). Although they are not really fast they are cheap and deterministic. Either way regular traffic should be separated from the  real-time traffic of the company. 
+The connection type between the dedicated controller and the central system depends on the environment. In an industrial environment optical fibers might be preferred to copper wires because they are not sensitive to voltage differences ae the ends of the link. Ethernet can be used on condition its behavior is deterministic. Specialized networks exist for real-time systems (\textbf{field bus}): although they are not that fast, they are cheap and deterministic. Either way, regular traffic should be separated from the  real-time traffic of the company. 
 \\\\
-In some cases the internal system bus of the controlling system is used instead of a network. Supplemental procesors are then inserted in this bus, each with its own OS and its own memory.These processors then communicate through shared memory areas.
+In some cases the internal system bus of the controlling system is used instead of a network. Supplemental processors are then inserted in this bus, each with its own OS and its own memory. These processors then communicate through shared memory areas.
 
 \subsection{System Types}
 \begin{itemize}
-	\item \textbf{Co\"ordinating System}
+	\item \textbf{Co\"ordinating System} (must be compatible with the external constraints)
 	\begin{itemize}
 		\item PC or equivalent
 		\item Full fledged operating system (real-time variant of UNIX or Linux)
-		\item The system must be compatible with the external constraints
 	\end{itemize}
-	\item \textbf{Dedicated Controllers}
+	\item \textbf{Dedicated Controllers} (must be compatible with the system dedicated to)
 	\begin{itemize}
 		\item Programmable logic controllers
 		\item Small computers with specialized operating systems
@@ -80,31 +79,31 @@ In some cases the internal system bus of the controlling system is used instead 
 \end{itemize}
 
 \subsubsection{PLC: Programmable Logic Controller}
-PLCs are small computers, generally microcontrollers, executing a programmable logic controller language interpreter. The do not offer interrupts and programs are structured as a single infinite loop. At the beginning of the loop data is read, it is then processed and finally a control signal is outputted.
+PLCs are small computers, generally micro-controllers, executing a programmable logic controller language interpreter. The do not offer interrupts and programs are structured as a single infinite loop. At the beginning of the loop data is read, it is then processed and finally a control signal is outputted.
 \\\\
-The content of the loop might exist of an interpreter simulating a logic circuit. The language interpreted in than called a \textbf{ladder diagram}. Another possibility is the interpreter simulating a simple state machine. The programming language is then called \textbf{GRAFCET}. At each loop iteration a state transition is triggered base on the output of the previous state.
+The content of the loop might exist of an interpreter simulating a logic circuit. The language interpreted in then called a \textbf{ladder diagram}. Another possibility is the interpreter simulating a simple state machine. The programming language is then called \textbf{GRAFCET}. At each loop iteration a state transition is triggered based on the output of the previous state.
 
 \paragraph{Ladder Diagram} 
 The ladder diagram is a language understandable by electrical technicians. Because its expressive power is so limited manufactures have enhanced it. The PLC interprets all the lines of the diagram, which can easily span 20 or more pages, each loop. Note that if variables are used, the order of the lines become important.  
 
-\paragraph{GRAFCET} This is a graphical language loosely inspired by PETRI nets. Rather than using logical circuits, a sequential state machine is used as model. Although this approach is suitable for simple problems, as the problem gets more advanced, the diagram becomes equally complex.
+\paragraph{GRAFCET} This is a graphical language loosely inspired by PETRI nets. Rather than using logical circuits, a sequential state machine is used as a model. Although this approach is suitable for simple problems, as the problem gets more advanced, the diagram becomes equally complex.
 
 \subsubsection{Microcomputer with Dedicated OS}
-The operating system is limited but offers simple but efficient functionalities:
+The operating system is limited but offers simple but efficient functionality:
 \begin{itemize}
 	\item Multitasking
 	\item Fast task switching
 	\item Interrupt support
-	\item Interprocess communication and synchronization
+	\item Inter-process communication and synchronization
 \end{itemize}
-Although the this is more versatile than a PLC, a real programmer is needed to design the software. The more complex the software gets, the harder it becomes to guarantee response times and correctness.
+Although this is more versatile than a PLC, a real programmer is needed to design the software. The more complex the software gets, the harder it becomes to guarantee response times and correctness.
 
 \section{Time in a Real-Time System}
 As mentioned in the first section, timing constraints are different for different types of systems:
 \begin{itemize}
-	\item \textbf{Batch processing} require the amount of throughput in terms of processing to be maximized withing the available time.
-	\item \textbf{Interactive systems} need short response times but only as fast as the user can detect.
-	\item \textbf{Real-Time systems} require the reaction to occur before a specific event.
+	\item \textbf{Batch processing} requires the amount of throughput, in terms of processing, to be maximized withing the available time.
+	\item \textbf{Interactive systems} need short response times but only as short as the user can detect.
+	\item \textbf{Real-Time systems} require the action to occur before a specific event or deadline.
 \end{itemize}
 Unlike the other cases, in a real-time system, the value of work does not decrease with the time needed to do the work. 
 
@@ -114,27 +113,27 @@ Unlike the other cases, in a real-time system, the value of work does not decrea
     \caption{Example: Time in a real-time system.}
     \label{rttime}
 \end{figure}
-The reaction to the stimulus (the event that triggers the response) must be performed within some time interval following it. (this time interval may start with the stimulus or later) During this time interval, the value of the response is constant. When the time interval is elapsed, the value of the response can:
+The reaction to the stimulus (the event that triggers the response) must be performed within a certain time interval following it. (this time interval may start with the stimulus or later) During this time interval, the value of the response is constant. When the time interval is elapsed, the value of the response can:
 \begin{itemize}
 	\item decrease \textit{(like when cooking a soft boiled egg)}
 	\item fall immediately to zero \textit{(the carriage hits the obstacle)}
 	\item become negative \textit{(a hole is drilled in the printed circuit board, but at the wrong place)}
-	\item become temporarilly negative and then become zero\textit{ (the radar flashes the slow car arriving on the right lane instead of the fast car that was speeding on the left lane a moment before)}
+	\item become temporarilly negative and then become zero\textit{ (the radar flashes the slow car driving in the right lane instead of the fast car speeding in the left lane)}
 \end{itemize}
 
 \section{Design Strategy}
-When designing a real-time system the design must be as global ass possible. We have to consider the hard- and software. We have to take into account the system being controlled, which is often a mechanical device and the interface between the device and the controlling system.
+When designing a real-time system the design must be as general ass possible. We have to consider the hard- and software. We have to take into account the system being controlled, which is often a mechanical device and the interface between and device and the controlling system.
 
 \begin{exmp}
 By adding a simple hardware security to the controlled device, the diagram representing the value of the response in function of time can be made non-negative.
 \end{exmp}
 
 \begin{exmp}
-By selecting properly type and position of captors, the controlling system can be warned earlier and expand this way the acceptable reaction time span.
+By selecting the proper type and position of captors, the controlling system can be warned earlier and expand the acceptable reaction time span.
 \end{exmp}
 
 \begin{exmp}
-Adding a DMA controller to the computing system makes higher rate data aquisition possible and inversely, not adding one when none is needed makes the system cheaper.
+Adding a DMA controller to the computing system makes higher rates of data acquisition possible and inversely, not adding one when none is needed makes the system cheaper.
 \end{exmp}
 
 \end{document}
