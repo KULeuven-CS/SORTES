@@ -21,6 +21,7 @@
 \usepackage{mdframed}
 \usepackage{makeidx}
 \usepackage[totoc]{idxlayout}
+\usepackage{mfirstuc}
 
 %\usepackage[printwatermark]{xwatermark}
 %\newwatermark[allpages,color=gray!50,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
@@ -66,8 +67,24 @@
 % Ensures an index is made.
 \makeindex
 
-% add an indexed value and put it in bold.
-\newcommand{\indexb}[1]{\textbf{#1}\index{#1}}
+% Regular Index Entry
+\makeatletter
+\newcommand*\define[1]{%
+  #1%
+  \index{#1@\protect\capitalisewords{#1}}%
+   }
+\makeatother
+
+% Bold Index Entry
+\makeatletter
+\newcommand*\definebf[1]{%
+  \textbf{#1}%
+  \index{#1@\protect\capitalisewords{#1}}%
+   }
+\makeatother
+
+
+
 
 % Theorem Styles
 \theoremstyle{definition}

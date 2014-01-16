@@ -1,4 +1,4 @@
-\documentclass[../main.tex]{subfiles} 
+%\documentclass[../main.tex]{subfiles} 
 
 \begin{document}
 \chapter{Design strategy for embedded real-time systems}
@@ -14,7 +14,7 @@ The following constraints should be carefully examined before designing the syst
 			\item[If you \textbf{can't} choose this]: The first thing to check is if the computer can meet the needed constraints of the device it will control.
 				\item[If you \textbf{can}  chose this] First design the software assuming you have unlimited computing resources. Then select a suitable computing infrastructure.
 		\end{description} 
-		The goal of this strategy is to avoid that the infrastructure you selected is not able to meet the \index{timing constraints} timing constraints.
+		The goal of this strategy is to avoid that the infrastructure you selected is not able to meet the \define{timing constraints}.
 	On top of that it helps to focus on the most important constraints of the device that will be controlled while designing the software.
 \end{itemize}
 
@@ -24,8 +24,8 @@ The following constraints should be carefully examined before designing the syst
 \subsection{Software architecture}
 Real-time software has a two-layer architecture: 
 \begin{enumerate}
-	\item real-time \index{application layer} application layer
-	\item real-time operating \index{system layer} system layer
+	\item real-time \define{application layer}
+	\item real-time operating \define{system layer}
 \end{enumerate}
 
 Both layers are equally important in designing a real-time system and should be carefully designed or chosen.
@@ -38,7 +38,7 @@ These steps are listed below and each step is discussed in further detail in thi
 \begin{enumerate}
 	\item Specify the problem. (see \ref{sss:specify_problem})
 	\item Design the software architecture. (see \ref{sss:design})
-	\item Identify the services the \index{system layer} system layer must provide. (see \ref{sss:services})
+	\item Identify the services the \define{system layer} must provide. (see \ref{sss:services})
 	\item Validation or design of the system layer. (see \ref{sss:valid})
 	\item Specify the data processing activities. (see \ref{sss:activities})
 	\item Write the program(s). (see \ref{sss:write})
@@ -50,8 +50,8 @@ The first and most important step in designing is specifying the problem. This i
 Errors made in this step of the process are most costly so caution is advised. 
 Try to do this without preselecting a solution. The following models can help you model the problem:
 \begin{description}
-	\item[\index{Structural Model} Structural Model] Model of all the components, subsystems that can work in parallel.
-	\item[\index{Behavioral Model} Behavioral Model] Model of the desired behavior e.g. state machines of components. 
+	\item[\define{Structural Model}] Model of all the components, subsystems that can work in parallel.
+	\item[\define{Behavioral Model}] Model of the desired behavior e.g. state machines of components. 
 \end{description}
 
 \subsubsection{Analysis}
@@ -70,23 +70,23 @@ He \textit{must} \textbf{understand} and \textbf{agree} with the model.
 
 \subsection{Design the software architecture}
 \label{sss:design}
-Next the \index{software architecture} software architecture can be designed by refining the \index{behavioral model} behavioral model. 
+Next the \define{software architecture} can be designed by refining the \define{behavioral model}. 
 Two types of systems can be distinguished:
 \begin{description}
-	\item[\index{Reactive system} Reactive system] The desired behavior of the controlled device depends on the commands from the system we are designing.
-		In this case the behavior of the software must be \emph{structurally similar} to that of the \indexb{controlled system}.
+	\item[\define{Reactive system}] The desired behavior of the controlled device depends on the commands from the system we are designing.
+		In this case the behavior of the software must be \emph{structurally similar} to that of the \definebf{controlled system}.
 		The software sends commands to force the expected behavior of the controlled device.
-	\item[\index{Data processing system} Data processing system] The behavior of the software must be \emph{structurally similar} to that of the \indexb{monitored system} and is driven by events occurring in that system.
+	\item[\define{Data processing system}] The behavior of the software must be \emph{structurally similar} to that of the \definebf{monitored system} and is driven by events occurring in that system.
 \end{description}
 
 In both cases the following process should be followed:
 \begin{itemize}
 	\item Model the structure of the physical system. 
-	\item Make a \index{behavioral model} behavioral model of the physical system.
+	\item Make a \define{behavioral model} of the physical system.
 	\item Make a behavioral model of the software system.
 \end{itemize}
 
-The last step should give you a rough skeleton of the \index{application layer} application layer.
+The last step should give you a rough skeleton of the \define{application layer}.
 
 The tasks of the software should be identified.
 A task can be seen as a sequence of states that may evolve in parallel.
@@ -95,7 +95,7 @@ It is always possible to represent a behavior with entirely sequential (mutually
 Generally this is not advised because the amount of states (and transitions) tends to get very large quickly.
 That's why it's advised to try and \emph{maximize parallelism} in the behavioral model.
 This gives us a group of simpler sequential state machines evolving in parallel and interacting only when needed.
-The following \index{task interactions} task interactions are possible:
+The following \define{task interactions} are possible:
 \begin{itemize}
 	\item Information Transfer
 	\item Synchronizations 
@@ -107,7 +107,7 @@ The following \index{task interactions} task interactions are possible:
 
 \subsection{Identify the services the system layer must provide}
 \label{sss:services}
-See what kind of (common) services should be required in the \index{system layer!identify services of} system layer. 
+See what kind of (common) services should be required in the \index{System Layer!Identify Services Of} system layer. 
 This is ``classical'' analysis work of the behavioral model used to deduce the system services need.
 
 
@@ -115,7 +115,7 @@ This is ``classical'' analysis work of the behavioral model used to deduce the s
 
 \subsection{Validation or design of the system layer}
 \label{sss:valid}
-In  this step the \index{system layer!validation of} system layer is evaluated or created depending on whether an OS is available.
+In  this step the \index{System Layer!Validation Of} system layer is evaluated or created depending on whether an OS is available.
 
 If an is OS available it should be evaluated as follows:
 \begin{itemize}
@@ -124,7 +124,7 @@ If an is OS available it should be evaluated as follows:
 	\item If not can the proposed solution for the application layer be adapted to the possibilities of the available OS?
 \end{itemize}
 
-If no OS is available design the \index{system layer!design of} system layer so that it contains all the needed services of step 3.
+If no OS is available design the \index{System Layer!Design Of} system layer so that it contains all the needed services of step 3.
 Firstly the services that should be provided should be specified. 
 Two categories of services exist: 
 \begin{itemize}
@@ -149,7 +149,7 @@ Another categorization is possible based on how services are activated:
 
 \subsection{Specify the data processing activities}
 \label{sss:activities}
-Each of the behavioral states of the software should be complemented with a descriptions of the \index{data processing activities} data processing activities at that state.
+Each of the behavioral states of the software should be complemented with a descriptions of the \define{data processing activities} activities at that state.
 How these activities are represented depending on the type of data to be processed.
 Sometimes these descriptions can be as simple as a few lines of C/C++ or even a ladder diagram.
 
@@ -162,10 +162,10 @@ The design was top down but the writing of the programs should be bottom-up. So 
 Testing is vitally important so test as soon as as possible.
 
 \subsubsection{Implementation of the system layer}
-A minimal \index{system layer!implementation} system layer implementation is described here.
+A minimal \index{System Layer!Implementation} system layer implementation is described here.
 
 \paragraph{Scheduling}
-We simplify \index{task scheduling} scheduling by assuming there are only two kinds of tasks:
+We simplify \define{task scheduling} by assuming there are only two kinds of tasks:
 \begin{itemize}
 	\item Short tasks: Performed in response to an external event.
 	\item Periodic tasks: Tasks re-executed with a fixed periodicity. Periodicity can be absolute (e.g. 2ms) or relative (e.g. X 3 times as often as Y).
@@ -191,7 +191,7 @@ The lengths of the task can also vary a little if the sum of durations remains u
 When calculating the clock period, the interrupt task's duration should be taken into account.
 
 \paragraph{Task synchronization}
-We'll explain a simple form of \index{task synchronization} task synchronization next. 
+We'll explain a simple form of \define{task synchronization} next. 
 The idea is that a tasks can suspend the execution of another until a given event.
 First the scheduler must be warned that the task has been suspended.
 Next some bookkeeping needs to be done in the table of tasks.

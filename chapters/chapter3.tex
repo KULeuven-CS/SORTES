@@ -2,17 +2,17 @@
 
 \begin{document}
 \chapter{Identification of a suitable hardware}
-To select suitable hardware \index{hardware} for a real-time embedded system we should first define what suitable means in this case. Suitable hardware is hardware that can satisfy the given (time) constraints and is not too overdimensioned.
+To select suitable \define{hardware} for a real-time embedded system we should first define what suitable means in this case. Suitable hardware is hardware that can satisfy the given (time) constraints and is not too overdimensioned.
 
 \section{Select a maximal resource structure}
 
 \begin{itemize}
-	\item Each process executes on a different processor \index{processor} and has all the physical resource it needs.
+	\item Each process executes on a different \define{processor} and has all the physical resource it needs.
 	\item Processors are fast enough to satisfy the time constraints in this configuration. If the type of processor is predefined it should be verified that the processor can solve the given problems with a maximal resource structure. Else it means selecting one.
 	\item Adding more resources of the same time is not useful
 \end{itemize}
 
-The following are properties of a maximal resource \index{resource} structure.
+The following are properties of a maximal \define{resource} structure.
 \begin{itemize}
 	\item A process is never ``READY'' (never waiting for a process to run on): It's either ``RUNNING'' or ``WAITING'' (for an event or resource).
 	\item The analysis of the worst case response time is easier to compute because processes don't interfere because of resource access conflicts. The only interferences are thos dictated by the specification.
@@ -22,7 +22,7 @@ The following are properties of a maximal resource \index{resource} structure.
 \section{Reduce the structure by transformation}
 Don't try to find the minimal structure (this problem is NP-complete) but a realistic solution. To do so, follow these to rules to restrict choices:
 \begin{enumerate}
-	\item No process migration \index{process migration} (not a good idea in real-time)
+	\item No \define{process migration} (not a good idea in real-time)
 	\item A processor is never idle if it can run one of the processes assigned to it.
 \end{enumerate}
 
