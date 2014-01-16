@@ -18,4 +18,4 @@ When using the default index command, for example when adding hierarchic entries
 
 ## PDF
 
-The latest version of the PDF can be found [here](http://git.jonasdevlieghere.com:8000/out/SORTES-Course). Log of last build can be found [here](http://git.jonasdevlieghere.com:8000/log/SORTES-Course) (Powered by [InTexration](https://github.com/JDevlieghere/InTeXration))
+The latest version of the PDF can be found [here](http://git.jonasdevlieghere.com:8000/out/SORTES-Course/main). Log of last build can be found [here](http://git.jonasdevlieghere.com:8000/log/SORTES-Course/main) (Powered by [InTexration](https://github.com/JDevlieghere/InTeXration))
