@@ -19,6 +19,7 @@
 \usepackage[strict]{changepage}
 \usepackage{tabularx}
 \usepackage{mdframed}
+\usepackage{makeidx}
 
 %\usepackage[printwatermark]{xwatermark}
 %\newwatermark[allpages,color=gray!50,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
@@ -62,6 +63,8 @@
 % Figure Path
 \graphicspath{{images/}{../images/}}
 
+% Ensures an index is made.
+\makeindex
 
 % Theorem Styles
 \theoremstyle{definition}
@@ -132,6 +135,10 @@
 
 % Appendix
 \appendix 
+
+% Index 
+\printindex
+
 
 % References
 \bibliographystyle{plain}
