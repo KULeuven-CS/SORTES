@@ -3,6 +3,14 @@ SORTES-Course
 
 Software for Real-time and Embedded Systems
 
+## PDF
+
+- Default version (Book): [PDF](http://git.jonasdevlieghere.com:8000/out/SORTES-Course/main) and [LOG](http://git.jonasdevlieghere.com:8000/log/SORTES-Course/main)
+- Paper saving version (Small margins etc.) [PDF](http://git.jonasdevlieghere.com:8000/out/SORTES-Course/print) and [LOG](http://git.jonasdevlieghere.com:8000/log/SORTES-Course/print)
+
+PDF compilation is powered by [InTeXration (https://github.com/JDevlieghere/InTeXration)](https://github.com/JDevlieghere/InTeXration)
+
+
 ## Practicalities
 
 This texts is written in American English, please set your spell or grammar checker accordingly.  
@@ -20,6 +28,3 @@ When using the default index command, for example when adding hierarchic entries
 \index{Top Level Entry!Sub Entry}
 ```
 
-## PDF
-
-The latest version of the PDF can be found [here](http://git.jonasdevlieghere.com:8000/out/SORTES-Course/main). Log of last build can be found [here](http://git.jonasdevlieghere.com:8000/log/SORTES-Course/main) (Powered by [InTexration](https://github.com/JDevlieghere/InTeXration))
