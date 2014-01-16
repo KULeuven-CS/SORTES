@@ -100,7 +100,7 @@ The following \index{task interactions} task interactions are possible:
 	\item Information Transfer
 	\item Synchronizations 
 	\item Exclusions 
-	\item Filiations (Relationships)
+	\item Filiations (relationships)
 \end{itemize}
 
 
@@ -144,12 +144,12 @@ Another categorization is possible based on how services are activated:
 		\item With function calls: system layer must be linked directly to the application layer (single executable). 
 		\item With system calls: Independent modules, context switch is possible and both layers can reside in independent memory.  
 	\end{itemize}
-	\item External Events (e.g. When a character is received, activation by interrupts). 
+	\item External Events (e.g. when a character is received, activation by interrupts). 
 \end{itemize}
 
 \subsection{Specify the data processing activities}
 \label{sss:activities}
-Each of the behavioral states of the software should be complemented with a descriptions of the data processing activities at that state.
+Each of the behavioral states of the software should be complemented with a descriptions of the \index{data processing activities} data processing activities at that state.
 How these activities are represented depending on the type of data to be processed.
 Sometimes these descriptions can be as simple as a few lines of C/C++ or even a ladder diagram.
 
@@ -162,10 +162,10 @@ The design was top down but the writing of the programs should be bottom-up. So 
 Testing is vitally important so test as soon as as possible.
 
 \subsubsection{Implementation of the system layer}
-A minimal system layer implementation is described here.
+A minimal \index{system layer!implementation} system layer implementation is described here.
 
 \paragraph{Scheduling}
-We simplify scheduling by assuming there are only two kinds of tasks:
+We simplify \index{task scheduling} scheduling by assuming there are only two kinds of tasks:
 \begin{itemize}
 	\item Short tasks: Performed in response to an external event.
 	\item Periodic tasks: Tasks re-executed with a fixed periodicity. Periodicity can be absolute (e.g. 2ms) or relative (e.g. X 3 times as often as Y).
@@ -191,7 +191,7 @@ The lengths of the task can also vary a little if the sum of durations remains u
 When calculating the clock period, the interrupt task's duration should be taken into account.
 
 \paragraph{Task synchronization}
-We'll explain a simple form of synchronization next. 
+We'll explain a simple form of \index{task synchronization} task synchronization next. 
 The idea is that a tasks can suspend the execution of another until a given event.
 First the scheduler must be warned that the task has been suspended.
 Next some bookkeeping needs to be done in the table of tasks.
