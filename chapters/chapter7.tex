@@ -2,17 +2,17 @@
 
 \begin{document}
 \chapter{Implementing ASG}
-In this chapter we look at how AS can be implemented on different architectures.
+In this chapter we have a look at how AS can be implemented on different architectures.
 
 \section{Implementing ASG on a Naked Computer}
-The proposed implementation is intended for rather simple systems running on a single processor. It can, of course be elaborated to suit more complex systems.
+The proposed implementation is intended for rather simple systems, a \define{naked computer}, running on a single processor. It can, of course be elaborated to suit more complex systems.
 \subsection{Scheduling Parallel Components}
-A naive way to schedule a set of tasks that may be appropriate in simple systems is the cooperative multitasking loop.
+A naive way to schedule a set of tasks that may be appropriate in simple systems is the \define{cooperative multitasking} loop.
 This is simply having a main loop run with the different tasks in it.
 Depending on the relative frequency the task should run the task is called multiple times.
-This kind of scheduling is non premptive meaning the OS will never interrupt a running task.
+This kind of scheduling is non preemptive meaning the OS will never interrupt a running task.
 Because of this each task should be as short as possible.
-The worse case respone time will be the sum of the maximum execution times of the functions.
+The worse case \define{response time} will be the sum of the maximum execution times of the functions.
 A simple code example can be seen in \ref{ex:coopmulti} the comments there should explain what is being done.
 
 %\includelst[ASGExample.c] << doesn't work inside lstinputlisting
@@ -20,10 +20,10 @@ A simple code example can be seen in \ref{ex:coopmulti} the comments there shoul
 %\lstinputlisting[style=cstyle, caption=Example of cooperative multitasking where task A is run twice as frequent as task B., label=ex:coop_multi]{../code/ASGExample.c}
 
 \subsection{Implementing Rendez-vous}
-Implementing rendez-vous is easy.
+Implementing of the \define{rendez-vous} point is easy.
 The state enumeration variables should be external (outside a function).
 Assume that this is the condition to transition to state zzz in component t:
-The state of component u is aaa or bbb while the state of comonent v is qqq.
+The state of component u is aaa or bbb while the state of component v is qqq.
 
 Then the following can easily be checked in the function representing state t:
 \begin{center}
@@ -42,8 +42,8 @@ If there should only be transitioned to yyy if resource Y is available \lstinlin
  }
 \end{lstlisting}
 \subsection{Handling MINVT \& Timeouts}
-A software counter counting the amount of overflows in a hardware timer should be used.
-The hardware timer usually generates an interrupt when it overflows. 
+A \define{software counter} counting the amount of overflows in a \define{hardware timer} should be used.
+The hardware timer usually generates an \define{interrupt} when it overflows. 
 The most significant bits reside in the software and the least significant in the hardware timer.
 Knowing the duration of a tick one can convert the duration of a minvt or timeout into ticks.
 
@@ -55,8 +55,8 @@ Then the current time can be checked in the xxx\_W state to see if the timeout i
 
 To implement an ASG diagram on top of MicroC/OS-II a couple of changes have to be made.
 We'll discuss them on the basis of the OS function calls.
-Instead of round robin scheduling the OS uses prioritized task scheduling. 
-Because the OS uses static priorities only assign a higher priority to some task if what they do has a much shorter deadline than other tasks.
+Instead of \define{round robin scheduling} the OS uses \definebf{prioritized task scheduling}. 
+Because the OS uses \define{static priorities} only assign a higher priority to some task if what they do has a much shorter deadline than other tasks.
 Since the scheduling is preemptive be careful with shared resources since at any moment any task can be suspended by a tasks with the higher priority. 
 
 \begin{itemize}
@@ -81,7 +81,7 @@ If a state has a minvt, one must first get the value of the current time when en
 
 Timeouts are not implemented by the OS. 
 But it can easily be achieved in the application by creating a ``timeout'' task.
-By default this task is suspended if another tasks that needs a timeout, the temporised task, it starts the timeout task (with \lstinline{OSTaskResume()}).
-The timeout task itselfs then delays for the specified time. After that time it suspends himselfs and sets a flag to wake up the task it was waiting for. 
-If the temporised task exists it's temporised state before the waiting is over it must notify the timeout task.
+By default this task is suspended if another tasks that needs a timeout, the temporized task, it starts the timeout task (with \lstinline{OSTaskResume()}).
+The timeout task itself then creates a delay for the specified time. After that time it suspends itself and sets a flag to wake up the task it was waiting for. 
+If the temporized task exists it's temporized state before the waiting is over it must notify the timeout task.
 \end{document}
