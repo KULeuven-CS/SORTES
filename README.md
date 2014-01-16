@@ -13,8 +13,12 @@ Please use the following commands to define index entries and bold index entries
 ```tex
 \define{term}
 \definebf{term}
+\defineabrv{term}{abreviation}
 ```
-When using the default index command, for example when adding hierarchic entries, make sure all terms are capitalized.
+When using the default index command, for example when adding hierarchic entries, make sure all terms are capitalized. Like this: 
+```tex
+\index{Top Level Entry!Sub Entry}
+```
 
 ## PDF
 
