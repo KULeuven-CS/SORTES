@@ -202,15 +202,15 @@ If more locked tasks have the same unlocking event a choice must be made to eith
 Other synchronizations can be implemented in a similar way.
 
 \paragraph{Communications}
-Two methods can be distinguished communication by shared variables and by messages:
+Two methods can be distinguished for \define{task communication}:
 \begin{description}
-	\item[By shared variables] It's simple and fast but shared variables must be written mutual exclusively. This makes the tasks strongly synchronized (long waits may occur).
-	\item[By messages] The OS acts as a go-between. It can buffer the messages. Mutual exclusion is needed between tasks and OS. Waits can occur when the buffer is full. But messages can also be discarded if necessary an appropriate discarding scheme should then be chosen (often fifo). This buffering cause the tasks to be less synchronized.
+	\item[By Shared Variables] It's simple and fast but shared variables must be written mutual exclusively. This makes the tasks strongly synchronized (long waits may occur).
+	\item[By Messages] The OS acts as a go-between. It can buffer the messages. Mutual exclusion is needed between tasks and OS. Waits can occur when the buffer is full. But messages can also be discarded if necessary an appropriate discarding scheme should then be chosen (often fifo). This buffering cause the tasks to be less synchronized.
 \end{description} 
 
 
 \paragraph{Mutual Exclusion}
-On a mono-processor this can sometimes be achieved with temporarily disabling interrupts.
+On a mono-processor \define{mutual exclusion} can sometimes be achieved with temporarily disabling interrupts.
 In any other case this can be implemented by using atomic READ/MODIFY/WRITE assembly language instructions.
 On a multiprocessor the memory access between the READ and WRITE will be blocked for all but one processor.
 Examples of READ/MODIFY/WRITE instructions are: TSET (test \& set) and ASL (arithmetic shift left). 
@@ -224,12 +224,12 @@ For the latter we refer to image \ref{f:asl}.
 \end{figure}
 
 \subsubsection{Programming}
-Which language should be chosen to implement the system layer? 
+Which \index{Programming Language!!Choice of} programming language should be chosen to implement the system layer? 
 In general assembly language should be avoided, except when there are no other options (e.g. TSET instruction or tiny programs).
-A better choice would be an extensible language (e.g. C or FORTH).
+A better choice would be an \definebf{extensible language} (e.g. C or FORTH).
 Interactions with the system in such languages goes through functions linked with the program that are not part of the language definition. 
 A program can thus be interfaced with any system layer by writing a new set of system interface functions (in the language or assembly).
-There are even some dedicated languages for embedded systems. 
+There are even some \definebf{dedicated languages} for embedded systems. 
 These are usually imperative languages including following built-in functionalities for:
 \begin{itemize}
 	\item Hardware Interaction (e.g. interrupt routines).
@@ -244,7 +244,7 @@ Examples of dedicated languages are: ADA, MODULA 2 and PEARL
 \subsubsection{Deployment}
 After programming appropriate executable modules should be made.
 Most compilers are designed to make programs that run on top of an operating system.
-Executables for Embedded systems have often specific memory allocation constraints:
+Executables for embedded systems have often specific \definebf{memory allocation constraints}:
 \begin{itemize}
 	\item Interrupt Vectors 
 	\item Programs to be put in ROM
@@ -260,7 +260,7 @@ The following are rules the linker/compiler should take into account:
 \end{itemize}
 
 \subsubsection{Documentation}
-Three main documentation documents are required:
+Three main \define{documentation} documents are required:
 \begin{description}
 	\item[For the user] Manual and description of behavior, functionalities of the program.
 	\item[For the system engineer] Guidelines to set up and deploy the program successfully. 
