@@ -1,0 +1,178 @@
+\documentclass[11pt]{article}
+
+% Essential
+\usepackage[USenglish,english,american]{babel}
+\usepackage{titling}
+
+% Optional
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage[official]{eurosym}
+\usepackage{xcolor}
+\usepackage{subfiles}
+\usepackage{framed}
+\usepackage[strict]{changepage}
+\usepackage{tabularx}
+\usepackage{mdframed}
+\usepackage{makeidx}
+\usepackage[totoc]{idxlayout}
+\usepackage{mfirstuc}
+
+%\usepackage[printwatermark]{xwatermark}
+%\newwatermark[allpages,color=gray!50,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
+
+% Titleplage
+\title{SORTES}
+\date{\today}
+\author{Professor Marc Lobelle \\ Jonas Devlieghere \\ Dieter Castel}
+
+% Margins
+\setlength{\topmargin}{0in}
+\setlength{\footskip}{0.5in}
+\setlength{\textwidth}{7.0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{8.9in}
+
+% Listings
+\lstset{
+	basicstyle=\scriptsize,
+	breaklines=true,
+	captionpos=b,
+	extendedchars=true,
+	frame=lines,
+	numbers=left,
+	numberstyle=\tiny,
+	keywordstyle=\bfseries,
+	showstringspaces=false,
+	tabsize=2,
+	title=\lstname
+}
+
+\lstdefinestyle{cstyle}{
+  language=C
+}
+
+% Personal Preferences
+\setlength\parindent{0pt}
+
+% Figure Path
+\graphicspath{{images/}{../images/}}
+
+% Ensures an index is made.
+\makeindex
+
+% Regular Index Entry
+\makeatletter
+\newcommand*\define[1]{%
+  #1%
+  \index{#1@\protect\capitalisewords{#1}}%
+   }
+\makeatother
+
+% Bold Index Entry
+\makeatletter
+\newcommand*\definebf[1]{%
+  \textbf{#1}%
+  \index{#1@\protect\capitalisewords{#1}}%
+   }
+\makeatother
+
+% Bold Abreviation Index Entry
+\makeatletter
+\newcommand*\defineabrv[2]{
+  \textbf{#1} (#2)
+  \index{#2 | see {\protect\capitalisewords{#1}} }%
+  \index{#1@\protect\capitalisewords{#1}}%
+}
+\makeatother
+
+% Theorem Styles
+\theoremstyle{definition}
+\newtheorem{asmdefn}{Definition}[section]
+\newtheorem{asmexmp}{Example}[section]
+
+%Listing with file as first argument and options as second.
+\newcommand\includelisting[2]{
+    \IfFileExists{code/#1}{
+		\lstinputlisting[ #2 ]{code/#1}
+    }{
+		\lstinputlisting[ #2 ]{../code/#1}
+    }
+}
+
+% Boxed Theorems
+\newenvironment{exmp}
+  {\begin{mdframed}\begin{asmexmp}}
+  {\end{asmexmp}\end{mdframed}}
+
+\newenvironment{defn}
+  {\begin{mdframed}\begin{asmdefn}}
+  {\end{asmdefn}\end{mdframed}}
+
+
+
+% Blockquote
+\newenvironment{blockquote}{%
+  \def\FrameCommand{%
+    \hspace{1pt}%
+
+    {\color{black}\vrule width 4pt}%
+    {\color{lightgray}\vrule width 4pt}%
+   % \colorbox{lightgray}%
+  }%
+  \MakeFramed{\advance\hsize-\width\FrameRestore}%
+  \noindent\hspace{-4.55pt}% disable indenting first paragraph
+  \begin{adjustwidth}{}{7pt}%
+  \vspace{2pt}\vspace{2pt}%
+}
+{%
+  \vspace{2pt}\end{adjustwidth}\endMakeFramed%
+}
+
+
+
+\begin{document}
+
+%\frontmatter
+
+% Title Page
+\maketitle
+
+% Table of Contents Page
+\tableofcontents
+
+\newpage
+%\subfile{preface}
+
+%\mainmatter
+\part{Real-Time Systems}
+\subfile{chapters/chapter1}
+\subfile{chapters/chapter2}
+\subfile{chapters/chapter3}
+\subfile{chapters/chapter4}
+\part{Asynchronous State Graphs}
+\subfile{chapters/chapter5}
+\subfile{chapters/chapter6}
+\subfile{chapters/chapter7}
+
+
+% Appendix
+%\appendix
+
+%\backmatter
+
+% Index
+\printindex
+
+% References
+%\bibliographystyle{plain}
+%\bibliography{main}
+%\nocite{*}
+
+\end{document}
