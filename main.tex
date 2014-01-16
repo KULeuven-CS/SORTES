@@ -19,8 +19,6 @@
 \usepackage[strict]{changepage}
 \usepackage{tabularx}
 \usepackage{mdframed}
-\usepackage{makeidx}
-\usepackage[totoc]{idxlayout} % Package to add index to table of contents.
 
 %\usepackage[printwatermark]{xwatermark}
 %\newwatermark[allpages,color=gray!50,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
@@ -28,7 +26,7 @@
 % Titleplage
 \title{SORTES}
 \date{\today}
-\author{Jonas Devlieghere}
+\author{Professor Marc Lobelle \\ Jonas Devlieghere \\ Dieter Castel}
  
 % Margins
 \setlength{\topmargin}{0in}
@@ -63,11 +61,6 @@
 % Figure Path
 \graphicspath{{images/}{../images/}}
 
-% Ensures an index is made.
-\makeindex
-
-% add an indexed value and put it in bold.
-\newcommand{\indexb}[1]{\textbf{#1}\index{#1}}
 
 % Theorem Styles
 \theoremstyle{definition}
@@ -138,10 +131,6 @@
 
 % Appendix
 \appendix 
-
-% Index 
-\printindex
-
 
 % References
 \bibliographystyle{plain}
