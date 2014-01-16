@@ -4,15 +4,15 @@
 \chapter{ASG Language}
 ASG is a graphical \define{specification language} for distributed real-time systems and belongs to the family of \define{hierarchical state languages} such as \textit{\define{STATECHARTS}}, \textit{TTM} (Timed Transition Models) and \textit{\define{MODECHARTS}}.
 All these languages have been introduced progressively from 1987.
-The allow to describe the behavior of systems and have enhanced the expressiveness of state machines by introduction of time, hierarchies and parallelism.
+They allow to describe the behavior of systems and have enhanced the expressiveness of state machines by introduction of time, hierarchies and parallelism.
 This avoids the explosion of the number of states and allows reasoning at different abstraction levels.
 It was intended to be readable by non computer-scientists, in order to be able to verify that what is specified is actually what the client wanted.
 \\\\
 ASG, which was developed by \define{UCLouvain}, has some specific characteristics.
 \begin{itemize}
-	\item It takes into account the impossibility to detect instantaneously a state change in a distributed system if it happens in a remote location (\define{transmission delay}) comment.
+	\item It takes into account the impossibility to detect instantaneously a state change in a distributed system if it happens remotely (\define{transmission delay}).
 	\item It offers more restrictive rules on the destination state of a transition, e.g. it is not allowed to go to any other state that the initial sub-state of a state refined in sub-states if not coming from another sub-state of the same refinement.
-    This allows to reason at a given hierarchical level without considering what happens at lower levels  comment.
+    This allows to reason at a given hierarchical level without considering what happens at lower levels.
     Consequently this promotes a top-down design, by refining states into sub-states when appropriate.
 \end{itemize}
 
@@ -29,7 +29,7 @@ An ASG diagram consists of \textbf{states} and \textbf{transitions}. Crossing a 
 Each state has a name and some \textbf{time-related state properties:}
 \begin{itemize}
 	\item \definebf{MINVT}: The \textbf{minimum visit time} is the minimum time the system remains in the state.
-	\item \definebf{Time-Out}: A time-out counter is started when the state is entered. When this time-out elapses, a boolean variable \texttt{state\_name.timout} becomes true if the system is still in that state.
+	\item \definebf{Time-Out}: A time-out counter is started when the state is entered. When this time-out duration has elapsed, a boolean variable \texttt{state\_name.timout} becomes true if the system is still in that state.
 \end{itemize}
 
 A state has an \definebf{action} which is executed when the state is entered.
@@ -74,7 +74,7 @@ To avoid \definebf{hidden delays} the system works with local state changes and 
     \caption{ASG Regular and Abort Transition}
     \label{asg3}
 \end{figure}
-When an event is detected, the action is not necessarily finished, the time spent in the state is not necessarily larger that MINVT and resources required to enter the destination state are not necessarily available. This gives cause to two families of transitions. The \definebf{crossing condition} depends on the transition family.
+When a \define{transition event} is detected, the action is not necessarily finished, the time spent in the state is not necessarily larger that MINVT and resources required to enter the destination state are not necessarily available. This gives cause to two families of transitions. The \definebf{crossing condition} depends on the transition family.
 \begin{enumerate}
 	\item  The crossing conditions of \definebf{regular transitions} (figure \ref{asg3}, left) are the following:
 	\begin{itemize}
@@ -100,7 +100,7 @@ Any state may be refined in mutually exclusive \define{sub-states}.
 Any such sub-state is a state that may itself be refined.
 The system is both in the outer state as well as in the sub-state.
 Actions may be associated with the outer state and with each sub-state, at any level, including the initial sub-states.
-Action attached to the outer state and to the initial sub-state start simultaneously and are performed in parallel.
+Actions attached to the outer state and to the initial sub-state start simultaneously and are performed in parallel.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{asg5.jpg}
@@ -122,7 +122,7 @@ Conditions of a transition must be satisfied for all the states that would be ex
 (The system might have to wait for several actions to be completed and several MINVT to be elapsed)
 
 \subsection{Parallelism}
-In ASG, parallelism is always explicit: by entering a state that is refined into several parallel components. Exiting a state through 2 transition at a time is also not allowed in ASG.
+In ASG, parallelism is always explicit by refining the state into several parallel components. Note that exiting a state through 2 transition at a time is not allowed in ASG.
 
 \begin{figure}[H]
     \centering
