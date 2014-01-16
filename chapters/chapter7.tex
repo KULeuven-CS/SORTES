@@ -1,4 +1,4 @@
-\documentclass[../main.tex]{subfiles} 
+\documentclass[../main.tex]{subfiles}
 
 \begin{document}
 \chapter{Implementing ASG}
@@ -43,7 +43,7 @@ If there should only be transitioned to yyy if resource Y is available \lstinlin
 \end{lstlisting}
 \subsection{Handling MINVT \& Timeouts}
 A \define{software counter} counting the amount of overflows in a \define{hardware timer} should be used.
-The hardware timer usually generates an \define{interrupt} when it overflows. 
+The hardware timer usually generates an \define{interrupt} when it overflows.
 The most significant bits reside in the software and the least significant in the hardware timer.
 Knowing the duration of a tick one can convert the duration of a minvt or timeout into ticks.
 
@@ -55,15 +55,15 @@ Then the current time can be checked in the xxx\_W state to see if the timeout i
 
 To implement an ASG diagram on top of MicroC/OS-II a couple of changes have to be made.
 We'll discuss them on the basis of the OS function calls.
-Instead of \define{round robin scheduling} the OS uses \definebf{prioritized task scheduling}. 
-Because the OS uses \define{static priorities} only assign a higher priority to some task if what they do has a much shorter deadline than other tasks.
-Since the scheduling is preemptive be careful with shared resources since at any moment any task can be suspended by a tasks with the higher priority. 
+Instead of \define{round robin scheduling}, the OS uses \definebf{prioritized task scheduling}.
+Because the OS uses \define{static priorities}, only assign a higher priority to some task if what they do has a much shorter deadline than other tasks.
+Since the scheduling is preemptive be careful with shared resources since at any moment, any task can be suspended by a tasks with the higher priority.
 
 \begin{itemize}
 	\item \lstinline{OSTaskCreate()} All tasks should be created in the main with this function.
 	\item \lstinline{OSTaskSuspend()} Task can be temporairally suspended with this function. All tasks that do not need to run permanently should be put to sleep imediatly after being created.
 	\item \lstinline{OSTaskResume()} Used to resume a task that has been suspended.
-	\item \lstinline{OSTaskFlagPost()} Sets a certain flag to a certain value. Can be used to indicate that a resource is busy/free or a condition is satisfied.  
+	\item \lstinline{OSTaskFlagPost()} Sets a certain flag to a certain value. Can be used to indicate that a resource is busy/free or a condition is satisfied.
 	\item \lstinline{OSTaskFlagPend()} Reads a certain flag and returns it value. This can be used to wait for a resource or to put the task to sleep till a trasition condition is satisfied.
 	\item \lstinline{OSTaskTimeDLY()} Further execution of the task that calls this is temporairly suspended for the given time.
 	\item \lstinline{OSTimeGet()} Returns the current time.
@@ -77,11 +77,11 @@ With \lstinline{OSTaskFlagPost()} conditions for the rendez-vous can be set and 
 This still has to be implemented with mutexes or semaphores.
 
 \subsection{Handling MINVT \& Timeouts}
-If a state has a minvt, one must first get the value of the current time when entering the state (beginning of case xxx), using \lstinline{OSTimeGet()}, then, when when the action is finished (beginning of case xxx\_W one must again measure time with \lstinline{OSTimeGet()} and if the minvt is not over, one must wait for the remaining time with \lstinline{OSTimeDLY()}. 
+If a state has a minvt, one must first get the value of the current time when entering the state (beginning of case xxx), using \lstinline{OSTimeGet()}, then, when when the action is finished (beginning of case xxx\_W one must again measure time with \lstinline{OSTimeGet()} and if the minvt is not over, one must wait for the remaining time with \lstinline{OSTimeDLY()}.
 
-Timeouts are not implemented by the OS. 
+Timeouts are not implemented by the OS.
 But it can easily be achieved in the application by creating a ``timeout'' task.
 By default this task is suspended if another tasks that needs a timeout, the temporized task, it starts the timeout task (with \lstinline{OSTaskResume()}).
-The timeout task itself then creates a delay for the specified time. After that time it suspends itself and sets a flag to wake up the task it was waiting for. 
+The timeout task itself then creates a delay for the specified time. After that time it suspends itself and sets a flag to wake up the task it was waiting for.
 If the temporized task exists it's temporized state before the waiting is over it must notify the timeout task.
 \end{document}
