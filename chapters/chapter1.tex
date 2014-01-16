@@ -34,7 +34,7 @@ However, since a computer has no notion of distance, specifications in terms of 
 When it comes to specifications on the other hand, it's better to include the original constraint than the computed timing constraint.
 This being said, the real-time programmer usually is only in charge of the computing system and cannot modify the original parameters.
 
-Another way to classify real-time systems is by dividing them in \textbf{stand-alone systems} and systems that are \textbf{part of a hierarchy}. This course focusses on \textbf{embedded systems}: they are a component built-in to other equipment. They can either work alone or be part of a distributed system.
+Another way to classify real-time systems is by dividing them in \indexb{stand-alone systems} and systems that are \textbf{part of a hierarchy}. This course focusses on \indexb{embedded systems}: they are a component built-in to other equipment. They can either work alone or be part of a distributed system.
 
 \begin{exmp}
 An example of an \textbf{embedded system that works alone} is the electric ignition of a car, a modern washing machine or an electronic scale.
@@ -48,12 +48,12 @@ An example of a \textbf{embedded system that is part of a distributed system} is
 \section{Real-Time Architecture}
 The classical architecture of a distributed real-time system is a two layer architecture:
 \begin{enumerate}
-	\item Dedicated System
-	\item Coordinating systems
+	\item \index{Dedicated System} Dedicated System
+	\item \index{Coordinating systems} Coordinating systems
 \end{enumerate}
 
 \subsection{Dedicated Controllers}
-The dedicated controller usually handles tasks with critical real-time constraints. Such systems are called \textbf{hard real-time systems}. Decisions taken by the system are done so locally based on the current available information. The software's structure is simple so it offers deterministic and predictable behavior. 
+The dedicated controller usually handles tasks with critical real-time constraints. Such systems are called \indexb{hard real-time systems}. Decisions taken by the system are done so locally based on the current available information. The software's structure is simple so it offers deterministic and predictable behavior. 
  
 \subsection{Central System}
 The central system often deals with less critical external constraints. However, the farther remote from the controlled system, the more \textit{unpredictable events} increase the difficulty to satisfy the constraints. 
@@ -64,19 +64,19 @@ The system centralizes information in order to provide a global view on the whol
 The connection type between the dedicated controller and the central system depends on the environment.
 In an industrial environment optical fibers might be preferred to copper wires because they are not sensitive to voltage differences at the ends of the link.
 Ethernet can be used on condition its behavior is deterministic.
-Specialized networks exist for real-time systems (\textbf{field busses}).
+Specialized networks exist for real-time systems (\indexb{field busses}).
 Although they are not really fast they are cheap and deterministic. Either way regular traffic should be separated from the  real-time traffic of the company. 
 
 In some cases the internal system bus of the controlling system is used instead of a network. Supplemental processors are then inserted in this bus, each with its own OS and its own memory. These processors then communicate through shared memory areas.
 
 \subsection{System Types}
 \begin{itemize}
-	\item \textbf{Co\"ordinating System} (must be compatible with the external constraints)
+	\item \indexb{Co\"ordinating System} (must be compatible with the external constraints)
 	\begin{itemize}
 		\item PC or equivalent
 		\item Full fledged operating system (real-time variant of UNIX or Linux)
 	\end{itemize}
-	\item \textbf{Dedicated Controllers} (must be compatible with the system dedicated to)
+	\item \indexb{Dedicated Controllers} (must be compatible with the system dedicated to)
 	\begin{itemize}
 		\item Programmable logic controllers
 		\item Small computers with specialized operating systems
@@ -87,7 +87,7 @@ In some cases the internal system bus of the controlling system is used instead 
 \subsubsection{PLC: Programmable Logic Controller}
 PLCs are small computers, generally micro-controllers, executing a programmable logic controller language interpreter. The do not offer interrupts and programs are structured as a single infinite loop. At the beginning of the loop data is read, it is then processed and finally a control signal is outputted.
 \\\\
-The content of the loop might exist of an interpreter simulating a logic circuit. The language interpreted in then called a \textbf{ladder diagram}. Another possibility is the interpreter simulating a simple state machine. The programming language is then called \textbf{GRAFCET}. At each loop iteration a state transition is triggered based on the output of the previous state.
+The content of the loop might exist of an interpreter simulating a logic circuit. The language interpreted in then called a \indexb{ladder diagram}. Another possibility is the interpreter simulating a simple state machine. The programming language is then called \indexb{GRAFCET}. At each loop iteration a state transition is triggered based on the output of the previous state.
 
 \paragraph{Ladder Diagram} 
 The ladder diagram is a language understandable by electrical technicians. Because its expressive power is so limited manufactures have enhanced it. The PLC interprets all the lines of the diagram, which can easily span 20 or more pages, each loop. Note that if variables are used, the order of the lines become important.  
@@ -107,9 +107,9 @@ Although this is more versatile than a PLC, a real programmer is needed to desig
 \section{Time in a Real-Time System}
 As mentioned in the first section, timing constraints are different for different types of systems:
 \begin{itemize}
-	\item \textbf{Batch processing} requires the amount of throughput, in terms of processing, to be maximized withing the available time.
-	\item \textbf{Interactive systems} need short response times but only as short as the user can detect.
-	\item \textbf{Real-Time systems} require the action to occur before a specific event or deadline.
+	\item \indexb{Batch processing} requires the amount of throughput, in terms of processing, to be maximized withing the available time.
+	\item \indexb{Interactive systems} need short response times but only as short as the user can detect.
+	\item \indexb{Real-Time systems} require the action to occur before a specific event or deadline.
 \end{itemize}
 Unlike the other cases, in a real-time system, the value of work does not decrease with the time needed to do the work. 
 
@@ -124,11 +124,11 @@ The reaction to the stimulus (the event that triggers the response) must be perf
 	\item decrease \textit{(like when cooking a soft boiled egg)}
 	\item fall immediately to zero \textit{(the carriage hits the obstacle)}
 	\item become negative \textit{(a hole is drilled in the printed circuit board, but at the wrong place)}
-	\item become temporarilly negative and then become zero\textit{ (the radar flashes the slow car driving in the right lane instead of the fast car speeding in the left lane)}
+	\item become temporarily negative and then become zero\textit{ (the radar flashes the slow car driving in the right lane instead of the fast car speeding in the left lane)}
 \end{itemize}
 
 \section{Design Strategy}
-When designing a real-time system the design must be as general ass possible. We have to consider the hard- and software. We have to take into account the system being controlled, which is often a mechanical device and the interface between and device and the controlling system.
+When designing a real-time system the design must be as general as possible. We have to consider the hard- and software. We have to take into account the system being controlled, which is often a mechanical device and the interface between and device and the controlling system.
 
 \begin{exmp}
 By adding a simple hardware security to the controlled device, the diagram representing the value of the response in function of time can be made non-negative.
@@ -139,7 +139,7 @@ By selecting the proper type and position of captors, the controlling system can
 \end{exmp}
 
 \begin{exmp}
-Adding a DMA controller to the computing system makes higher rates of data acquisition possible and inversely, not adding one when none is needed makes the system cheaper.
+Adding a DMA(Direct Memory Access) controller to the computing system makes higher rates of data acquisition possible and inversely, not adding one when none is needed makes the system cheaper.
 \end{exmp}
 
 \end{document}
