@@ -11,7 +11,7 @@ The table below shows how computing systems can be classified. Please note that 
 	\item \textbf{Non Real-Time Data Processing} \\
 	There is no external stimulation of the system, it justs processes data. There are no time constraints.
 	\item \textbf{Real-Time Data Processing} \\
-	The system is paced by their external environment. The response time constraints are twofold: teh \textbf{accept data} rate is dictated by the producer, the \textbf{processing rate} is dependent on the external environment.
+	The system is paced by their external environment. The response time constraints are twofold: The \textbf{accept data} rate is dictated by the producer, the \textbf{processing rate} is dependent on the external environment.
 	\item \textbf{Non Real-Time Reactive (Interactive)} \\
 	Systems stimulated by the human user. The response time is expected to be as short as possible. The pace is set by the slowest entity: the user.
 	\item \textbf{Real-Time Reactive} \\
@@ -30,7 +30,9 @@ Take for example a carriage that must be stopped before it hits a bumper. The ph
 \end{figure}
 \end{exmp}
 
-However, since a computer has no notion of distance, specifications in terms of physical units have to be converted to a timing constraint. When it comes to specifications on the other hand, it's better to include the original constraint than the computed timing constraint. This being sayd, the real-time programmer usually is only in charge of the computing system and cannot modify the original parameters.
+However, since a computer has no notion of distance, specifications in terms of physical units have to be converted to a timing constraint.
+When it comes to specifications on the other hand, it's better to include the original constraint than the computed timing constraint.
+This being said, the real-time programmer usually is only in charge of the computing system and cannot modify the original parameters.
 
 Another way to classify real-time systems is by dividing them in \textbf{stand-alone systems} and systems that are \textbf{part of a hierarchy}. This course focusses on \textbf{embedded systems}: they are a component built-in to other equipment. They can either work alone or be part of a distributed system.
 
@@ -59,7 +61,11 @@ The central system often deals with less critical external constraints. The fart
 The system centralizes information in order to provide a global view on the whole system. The operator interface is managed by this system and offers an overview of the situation, consisting of a global view and selected useful details. In a more advanced application the system might suggest action to be undertaken to the user.
 
 \subsection{Connections}
-The connection type between the dedicated controller and the central system depends on the environment. In an industrial environment optical fibers might be preferred to copper wires because they are not sensitive to voltage differences ate the ends of the link. Ethernet can be used on condition its behavior is deterministic. Specialized networks exist for real-time systems (\textbf{field busses}). Although they are not really fast they are cheap and deterministic. Either way regular traffic should be separated from the  real-time traffic of the company. 
+The connection type between the dedicated controller and the central system depends on the environment.
+In an industrial environment optical fibers might be preferred to copper wires because they are not sensitive to voltage differences at the ends of the link.
+Ethernet can be used on condition its behavior is deterministic.
+Specialized networks exist for real-time systems (\textbf{field busses}).
+Although they are not really fast they are cheap and deterministic. Either way regular traffic should be separated from the  real-time traffic of the company. 
 \\\\
 In some cases the internal system bus of the controlling system is used instead of a network. Supplemental procesors are then inserted in this bus, each with its own OS and its own memory.These processors then communicate through shared memory areas.
 
