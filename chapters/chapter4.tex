@@ -4,7 +4,8 @@
 \chapter{Real-Time Operating Systems}
 
 \section{Scheduling}
-The scheduling problem in a real-time operating system is finding a suitable order of task  execution, more specifically one that satisfies the real-time constraints. When dealing with \textit{hard real-time systems}, these constraints need to be satisfied, no matter what. The problem is twofold:
+The \define{scheduling problem} in a real-time operating system is finding a suitable order of task execution, more specifically one that satisfies the real-time constraints.
+When dealing with \textit{hard real-time systems}, these constraints need to be satisfied, no matter what. The problem is twofold:
 
 \begin{enumerate}
 	\item \textbf{Are there schedules that satisfy the constraints?} \\
@@ -30,8 +31,8 @@ Dynamic scheduling is used when static scheduling is not appropriate.
 
 Every mutli-tasking operating system (real-time or not) includes a scheduler. The classical qualities expected from the scheduler in an ordinary operating system consist of :
 \begin{itemize}
-	\item \textbf{Fairness}: All tasks should receive a fair chair of computing time.
-	\item Optimization of the mean \textbf{response time} 
+	\item \definebf{Fairness}: All tasks should receive a fair share of computing time.
+	\item Optimization of the \textbf{mean response time} 
 	\item Optimization of \textbf{available processing time} 
 \end{itemize}
 The real-time scheduler on the other hand has only one goal: guarantee that all real-time tasks will be finished before their deadline. 
@@ -48,13 +49,13 @@ At frist sight, a preemptive scheduler who can suspend tasks in favor of more ur
 
 There are 3 techniques available for selecting the next task to run on a non-periodic real-time system.
 \begin{itemize}
-	\item \textbf{Fixed Priorities} \\
+	\item \index{Task Selection!Fixed Priorities} \textbf{Fixed Priorities} \\
 	Each task is assigned a fixed priority which has to be chosen with care. The priority should incorporate the urgency as well as the criticality of the task. The scheduler always selects the task with all its resource available and the highest priority. This technique is easy to implement but if there's always a task with a high priority, the lower priority task might be overrun.
 	
-	\item \textbf{Closest Deadline First} \\
+	\item \index{Task Selection!Closest Deadline First} \textbf{Closest Deadline First} \\
 	The scheduler selects the task closest to its deadline. This implies the deadline of each task is known. This can only be known at run time. 	
 	
-	\item \textbf{Least Laxity First} \\
+	\item \index{Task Selection!Least Laxity First} \textbf{Least Laxity First} \\
 	This scheduling technique selects the tasks with the lowest latency. If the task is started after that time, it cannot respect its deadline. The deadline and maximum execution times of tasks must be known.	
 	\begin{center}
 		$	\textit{laxety} = t_{\textit{deadline}} - t_{\textit{now}} - \textit{task execution time}$
@@ -81,7 +82,7 @@ There are 3 tasks $T_i$ close to their deadlines with priority $i$. If there wer
 \end{enumerate} 
 Because of the resource,$T_2$ has been executes before T1 instead of the opposite: This is called the priority inversion problem. What should have happened is that $T_3$ was allowed to finish so that the resource was released and $T_1$ could run before $T_2$.
 \end{exmp}
-To enforce correct behaviour, \textbf{priority inheritance} is used. The list of resources needed by each task is known by the scheduler. When a lower priority task is running and uses a necessary recource, that task temporarily inherits the more urgent task's priority untill the resource is freed.
+To enforce correct behaviour, \definebf{priority inheritance} is used. The list of resources needed by each task is known by the scheduler. When a lower priority task is running and uses a necessary recource, that task temporarily inherits the more urgent task's priority untill the resource is freed.
 \\\\
 Notes:
 \begin{itemize}
@@ -98,7 +99,9 @@ The scheduler of the operating system can only allocate the processing time left
 For timing calculations, one can try to estimate the maximum amount of time lost by interrupt routines and add this value to the task's own processing time.
 
 \subsubsection{Periodic Tasks}
-An interesting special case is that of systems that only  have periodic tasks but with a different value of periodicity. If all tasks are independent and if it is possible to satisfy all timing constraints then the scheduler that always activates the task with the highest repetition rate will meet all the deadlines. This approach is called \textbf{rate monotonic scheduling}. Unfortunately, situations where all tasks are independent are rare.
+An interesting special case is that of systems that only  have periodic tasks but with a different value of periodicity.
+If all tasks are independent and if it is possible to satisfy all timing constraints then the scheduler that always activates the task with the highest repetition rate will meet all the deadlines.
+This approach is called \definebf{rate monotonic scheduling}. Unfortunately, situations where all tasks are independent are rare.
 
 \subsection{Reservation Scheduling}
 Rather than executing the scheduling algorithm every time a new task must be selected, \textbf{Reservation Scheduling} will make this choice on beforehand, as soon as the necessary information is available. 
@@ -149,7 +152,9 @@ The operating system is simply linked with the application: the main() function 
 
 \includelisting{microcosii.c}{style=cstyle, label=l:microc}
 
-The private memory areas of each task mus be declared as a global static variable, arrays are used to store the stack of tasks. Variables shared by several tasks (there is none in this example) must also be declared as global static variables. The EVENT structures associated with events that tasks can be waiting for must be declared as global static variables too:
+The private memory areas of each task must be declared as a global static variable, arrays are used to store the stack of tasks.
+Variables shared by several tasks (there is none in this example) must also be declared as global static variables.
+The EVENT structures associated with events that tasks can be waiting for must be declared as global static variables too:
 \begin{itemize}
 	\item Interrupts
 	\item Mutex and semaphores,
@@ -167,10 +172,14 @@ All this is performed by the function \texttt{OSTaskCreate()}. The rest of the p
 \subsection{Tasks in MicroC/OS-II}
 The code of the functions inside the body of a task in MicroC/OS-II must respect two constraints:
 \begin{enumerate}
-	\item \textbf{It may never reach the final bracket of the fonction nor call \texttt{return()}.} Indeed, each tasks has its own stack, and the function that is the body of a task is at the absolute top of this stack: there is nothing above, so, it is impossible to return to a calling program. A way to satisfy this requirement is to include in this function, possibly after an initialization phase an infinite loop. Another option is calling a self destruction function when the task has finished its job \texttt{OSTaskDel(OS\_PRIO\_SELF);}.
+	\item \textbf{It may never reach the final bracket of the function nor call \lstinline{return()}.} Indeed, each tasks has its own stack, and the function that is the body of a task is at the absolute top of this stack: there is nothing above, so, it is impossible to return to a calling program. A way to satisfy this requirement is to include in this function, possibly after an initialization phase an infinite loop. Another option is calling a self destruction function when the task has finished its job \texttt{OSTaskDel(OS\_PRIO\_SELF);}.
 	\item \textbf{It may not run continuously.} Since  MicroC/OS-II is preemptive, if a task could run continuously, no task of lower priority would ever be allowed to run.
 \end{enumerate}
-If you want a task to be allowed to run as often as possible you could give it the lowest priority. If the application must include several such tasks, a function should be written for each one and the lowest priority task might be an infinite loop calling all these functions. However, it should be noted that it is rarely useful to let a task run continuously. Running the function more frequently than needed therefore is wasted activity. It is often sufficient to wake up the task an certain amount of times per second and let it go back to sleep afterwards.
+If you want a task to be allowed to run as often as possible you could give it the lowest priority.
+If the application must include several such tasks, a function should be written for each one and the lowest priority task might be an infinite loop calling all these functions.
+However, it should be noted that it is rarely useful to let a task run continuously.
+Running the function more frequently than needed therefore is wasted activity.
+It is often sufficient to wake the task up a certain amount of times per second and let it go back to sleep afterwards.
 
 \subsubsection{Task States in MicroC/OS-II}
 \begin{figure}[H]
@@ -180,7 +189,7 @@ If you want a task to be allowed to run as often as possible you could give it t
     \label{mcosii}
 \end{figure}
 
-A task is in either of the states shown in figure \ref{mcosii}.
+A task is in either of the \define{task states} shown in figure \ref{mcosii}.
 \begin{itemize}
 	\item When the task is created, the task is \textbf{ready} to run.
 	\item When the task is selected by the scheduler it's in the \textbf{running} state.
@@ -199,14 +208,15 @@ A task is in either of the states shown in figure \ref{mcosii}.
 \end{itemize}
 
 \subsubsection{The Main Task Management Functions}
-The tasks of a real-time application generally require to cooperate with each other. In order to do this in an organized manner, we need two techniques: \textbf{mutual exclusion} to gain exclusive access to a shared resource and a \textbf{rendez-vous} or \textbf{barrier} to meet each other after each task has completed.
+The tasks of a real-time application generally require to cooperate with each other.
+In order to do this in an organized manner, we need two techniques: \index{Mutual Exclusion!in MicroC/OS-II} \textbf{mutual exclusion} to gain exclusive access to a shared resource and a \index{Rendez-vous!in MicroC/OS-II| see {Barrier}}\textbf{rendez-vous} or \definebf{barrier} to meet each other after each task has completed.
 
 \paragraph{Mutual Exclusion} The most useful service offered by MicroC/OS-II is the mutual exclusion \textbf{mutex} which is associated with each shared resource. When a task wants to obtain a mutex that is not free, it waits. It's also possible to check the availability of the mutex without moving to the waiting state. Priority inheritance is supported.
 
 \paragraph{Barrier} Event Flags organize the \textit{rendez-vous} between tasks. They are sets of bits (8/16/32) that may be set to 0 or 1 by tasks or ISRs. Tasks wait for a given pattern of bits to appear. Because this mechanism is so general it allows for complex conditions. 
 
 \section{Peripherals and IO}
-System services will be as simple as possible. The more complex the system is, the harder it is to guarantee its constraints. This approach is called the \textbf{RISC Philosophy}. 
+System services will be as simple as possible. The more complex the system is, the harder it is to guarantee its constraints. This approach is called the \index{RISC | see {Reduced Instruction Set Computing}} \index{Reduced Instruction Set Computing} \textbf{RISC (Reduced Instruction Set Computing) Philosophy}. 
 \\\\
 From a technical point of view interrupts routines are short to avoid interference with scheduling. Disk management, if any, tries to avoid disk access in actions that must be performed before a hard deadline. Contiguous files have sometimes been recommended for real-time systems. Their inconvenience however, exceed their advantages: each one must be created with the maximum size (which is a waste of space) and there is no advantage if blocks are read one by one.
 
@@ -229,7 +239,7 @@ The communication model should not be mistaken for its implementation. The messa
 The message model is easy to implement and has the advantage that it is asynchronous: the logistics are handled by the system, thus no need of mutex like for shared data.
 
 \subsection{Communication with MicroC/OS-II}
-MicroC/OS-II functions allow 3 types of communications, all based on shared data structures but corresponding either to a shared data model or a message model.
+MicroC/OS-II functions allow 3 types of \index{Task Communication! in MicroC/OS-II} task communications, all based on shared data structures but corresponding either to a shared data model or a message model.
 
 \subsubsection{Communication by Shared Data}
 Shared data structures are declared, for instance, as static global variables. To avoid interference between tasks, mutexes can be used to reserve exclusive access when needed.
@@ -243,18 +253,20 @@ The mboxes allow synchronizing a task on arrival of data produced by another tas
 Message queues are a solution to this problem. Instead of a pointer to a message, they include a pointer to an array of pointers to messages. Like in any queue, the first message in the queue is the first message received.
 
 \section{Time Management and Synchronization}
-We expect a good clock to be \textbf{measurable}, \textbf{chronoscopic} (increasing monotonously and without discontinuities), to have a known precision and to be fault tolerant. In a centralised system, there is no real problem if the quartz is sufficiently precise and stable. A clock can be derived from this and all times can be measured with this clock
+We expect a good clock to be \textbf{measurable}, \definebf{chronoscopic} (increasing monotonously and without discontinuities), to have a known precision and to be fault tolerant. In a centralised system, there is no real problem if the quartz is sufficiently precise and stable. A clock can be derived from this and all times can be measured with this clock
 
-\subsection{Time Management with MicroC/OS-II}
+\subsection{\index{Time Management!with MicroC/OS-II} Time Management with MicroC/OS-II}
 MicroC/OS-II includes a few time related functions based on regular interrupts of a timer. These interrupts are called \textbf{ticks}. At each tick, a 32 bit counter is incremented. If ticks happen every millisecond, there will be $85.4 10^6$ a day. This counter will reset to 0 after a little less than 50 days.
 
 \subsection{Clocks in Distributed Systems}
-Computer clocks are based on quartz oscillators that provide a stable frequency. However, although stable, the frequencies of different quartz oscillators are never identical. In order to synchronize clocks, a mean time must be defined.
+Computer clocks are based on quartz oscillators that provide a stable frequency.
+However, although stable, the frequencies of different quartz oscillators are never identical.
+In order to \index{Time Synchronization} synchronize clocks, a mean time must be defined.
 \\\\
 Clock adjustments must be progressive: increase the rate of slow clocks and decrease that of fast clock. Setting the time is no option since that would invalidate the chronoscopic property. Doing this might require a special electrical circuit.
 \\\\
-\subsubsection{ault Tolerant Average}
-The FTA Algorithm is designed to synchronize clocks in a distributed system. There are two variants. The first ignores communication delays between systems, the second don't.
+\subsubsection{Fault Tolerant Average}
+The \index{FTA | see {Fault Tolerant Average}}\define{Fault Tolerant Average} (FTA) Algorithm is designed to synchronize clocks in a distributed system. There are two variants. The first ignores communication delays between systems, the second don't.
 \\\\
 When communication delays are ignored, each system broadcasts a message announcing its local time. Each system deduces the time-lag between its own clock and the others. The $k$ most different values from the mean are ignored. The correction to apply is the mean value of the time lags that have not been rejected.The correction is applied progressively, by slightly modifying the clock rate for a limited amount of time.
 \[
@@ -310,6 +322,7 @@ d_p( a \rightarrow a) = d_E + d_{t,ab} + d_{t,ba} + d_R
 According to the relative positions of the stations, one knows the relation between $d_{r,ab}$ and $d_{r,ba}$.
 
 \subsubsection{Clock Resolution}
+\index{Clock Resolution}
 The following symbols are used:
 \begin{itemize}
 	\item $\Delta$: accuracy of the synchronization
