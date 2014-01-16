@@ -216,7 +216,9 @@ In order to do this in an organized manner, we need two techniques: \index{Mutua
 \paragraph{Barrier} Event Flags organize the \textit{rendez-vous} between tasks. They are sets of bits (8/16/32) that may be set to 0 or 1 by tasks or ISRs. Tasks wait for a given pattern of bits to appear. Because this mechanism is so general it allows for complex conditions. 
 
 \section{Peripherals and IO}
-System services will be as simple as possible. The more complex the system is, the harder it is to guarantee its constraints. This approach is called the \index{RISC | see {Reduced Instruction Set Computing}} \index{Reduced Instruction Set Computing} \textbf{RISC (Reduced Instruction Set Computing) Philosophy}. 
+System services will be as simple as possible.
+The more complex the system is, the harder it is to guarantee its constraints.
+This approach is called the \defineabrv{Reduced Instruction Set Computing}{RISC} Philosophy. 
 \\\\
 From a technical point of view interrupts routines are short to avoid interference with scheduling. Disk management, if any, tries to avoid disk access in actions that must be performed before a hard deadline. Contiguous files have sometimes been recommended for real-time systems. Their inconvenience however, exceed their advantages: each one must be created with the maximum size (which is a waste of space) and there is no advantage if blocks are read one by one.
 
@@ -266,7 +268,7 @@ In order to \index{Time Synchronization} synchronize clocks, a mean time must be
 Clock adjustments must be progressive: increase the rate of slow clocks and decrease that of fast clock. Setting the time is no option since that would invalidate the chronoscopic property. Doing this might require a special electrical circuit.
 \\\\
 \subsubsection{Fault Tolerant Average}
-The \index{FTA | see {Fault Tolerant Average }}\define{Fault Tolerant Average} (FTA) Algorithm is designed to synchronize clocks in a distributed system. There are two variants. The first ignores communication delays between systems, the second don't.
+The \defineabrv{Fault Tolerant Average}{FTA} Algorithm is designed to synchronize clocks in a distributed system. There are two variants. The first ignores communication delays between systems, the second don't.
 \\\\
 When communication delays are ignored, each system broadcasts a message announcing its local time. Each system deduces the time-lag between its own clock and the others. The $k$ most different values from the mean are ignored. The correction to apply is the mean value of the time lags that have not been rejected.The correction is applied progressively, by slightly modifying the clock rate for a limited amount of time.
 \[
