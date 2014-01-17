@@ -1,4 +1,4 @@
-\documentclass[../main.tex]{subfiles} 
+\documentclass[../main.tex]{subfiles}
 
 \begin{document}
 \chapter{Real-Time Operating Systems}
@@ -9,7 +9,7 @@ When dealing with \textit{hard real-time systems}, these constraints need to be 
 
 \begin{enumerate}
 	\item \textbf{Are there schedules that satisfy the constraints?} \\
-	Can deadlines be maintained? What's the worst case processing time? To answer these questions processing time must be bound, resources must be available and interaction between processes possible. 
+	Can deadlines be maintained? What's the worst case processing time? To answer these questions processing time must be bound, resources must be available and interaction between processes possible.
 	\item \textbf{If such schedule(s) exist, find one!}
 \end{enumerate}
 
@@ -22,9 +22,9 @@ Interrupts are often disabled, since they are not really necessary when we know 
 Static scheduling is only suitable for simple and immutable systems. However, system that do not change do not exist, so when anything changes the scheduling analysis needs to be repeated. This can be a problem, for example when a component needs urgent replacement by a non-identical one.
 
 \subsubsection{Dynamic Scheduling}
-Dynamic scheduling is used when static scheduling is not appropriate. 
+Dynamic scheduling is used when static scheduling is not appropriate.
 \begin{enumerate}
-	\item Perform a rough static scheduling analysis to evaluate the \textbf{worst-case processing time}. Also verify that, unless the scheduler makes a gross fault, the scheduler will be able to satisfy all timing constraints. 
+	\item Perform a rough static scheduling analysis to evaluate the \textbf{worst-case processing time}. Also verify that, unless the scheduler makes a gross fault, the scheduler will be able to satisfy all timing constraints.
 	\item Let a dynamic scheduler chose the order of execution of tasks.
 	\item Unless it can be proven that the scheduler always makes the right choice, test should cover as many situations as possible in order to verify timing constraints are met.
 \end{enumerate}
@@ -32,15 +32,15 @@ Dynamic scheduling is used when static scheduling is not appropriate.
 Every mutli-tasking operating system (real-time or not) includes a scheduler. The classical qualities expected from the scheduler in an ordinary operating system consist of :
 \begin{itemize}
 	\item \definebf{Fairness}: All tasks should receive a fair share of computing time.
-	\item Optimization of the \textbf{mean response time} 
-	\item Optimization of \textbf{available processing time} 
+	\item Optimization of the \textbf{mean response time}
+	\item Optimization of \textbf{available processing time}
 \end{itemize}
-The real-time scheduler on the other hand has only one goal: guarantee that all real-time tasks will be finished before their deadline. 
+The real-time scheduler on the other hand has only one goal: guarantee that all real-time tasks will be finished before their deadline.
 \\\\
 Independent of whether the scheduler is real-time, they can be divided in two classes:
 \begin{itemize}
 	\item \textbf{Non preemptive}: when the a task is allowed to run, the scheduler waits for the task to finish before allowing another task to run.
-	\item \textbf{Preemptive}: the scheduler may suspend the execution of a running task when it judges appropriate.  
+	\item \textbf{Preemptive}: the scheduler may suspend the execution of a running task when it judges appropriate.
 \end{itemize}
 
 \begin{blockquote}
@@ -51,17 +51,17 @@ There are 3 techniques available for selecting the next task to run on a non-per
 \begin{itemize}
 	\item \index{Task Selection!Fixed Priorities} \textbf{Fixed Priorities} \\
 	Each task is assigned a fixed priority which has to be chosen with care. The priority should incorporate the urgency as well as the criticality of the task. The scheduler always selects the task with all its resource available and the highest priority. This technique is easy to implement but if there's always a task with a high priority, the lower priority task might be overrun.
-	
+
 	\item \index{Task Selection!Closest Deadline First} \textbf{Closest Deadline First} \\
-	The scheduler selects the task closest to its deadline. This implies the deadline of each task is known. This can only be known at run time. 	
-	
+	The scheduler selects the task closest to its deadline. This implies the deadline of each task is known. This can only be known at run time.
+
 	\item \index{Task Selection!Least Laxity First} \textbf{Least Laxity First} \\
-	This scheduling technique selects the tasks with the lowest latency. If the task is started after that time, it cannot respect its deadline. The deadline and maximum execution times of tasks must be known.	
+	This scheduling technique selects the tasks with the lowest latency. If the task is started after that time, it cannot respect its deadline. The deadline and maximum execution times of tasks must be known.
 	\begin{center}
 		$	\textit{laxety} = t_{\textit{deadline}} - t_{\textit{now}} - \textit{task execution time}$
 	\end{center}
 	\end{itemize}
-	
+
 \subsubsection{Priority Inheritance}
 A scheduler always selects one of the tasks that are ready to run, which means all its resources are available. This can be a problem when several tasks need the same resource and one tasks needs the resource without it being released between subsequent runs.
 
@@ -71,7 +71,7 @@ A task could have to send a message over the network to another machine. As long
 
 To avoid the problem mentioned, a task can use a \textbf{mutex} on the resource he needs. If the mutex is free, the task can reserve it for itself, otherwise it waits for it to be released. The task is then suspended and only restarted when the resource is free.
 \\\\
-Consider the following problem called the \textbf{priority inversion} problem illustrated below.
+Consider the following problem, called the \textbf{priority inversion} as illustrated below.
 \begin{exmp}
 There are 3 tasks $T_i$ close to their deadlines with priority $i$. If there were no resource problems the scheduler would select them in the following order: $T_1, T_2, T_3$. Task $T_1$ and $T_3$ need the same resource. Assume that $T_3$ is running and using the resource and the scheduler learns that $T_1$ and $T_2$ must be run urgently. This is what would happen:
 \begin{enumerate}
@@ -79,14 +79,14 @@ There are 3 tasks $T_i$ close to their deadlines with priority $i$. If there wer
 	\item Since $T_1$ cannot run, $T_2$ is chosen.
 	\item After $T_2$ only $T_3$ is available and the scheduler consequently activates it.
 	\item Finally $T_1$ is run as soon as $T_3$ finishes.
-\end{enumerate} 
+\end{enumerate}
 Because of the resource,$T_2$ has been executes before T1 instead of the opposite: This is called the priority inversion problem. What should have happened is that $T_3$ was allowed to finish so that the resource was released and $T_1$ could run before $T_2$.
 \end{exmp}
 To enforce correct behaviour, \definebf{priority inheritance} is used. The list of resources needed by each task is known by the scheduler. When a lower priority task is running and uses a necessary recource, that task temporarily inherits the more urgent task's priority untill the resource is freed.
 \\\\
 Notes:
 \begin{itemize}
-	\item The higher the number of tasks with different priorities who need the same resource, the more often this problem arises. 
+	\item The higher the number of tasks with different priorities who need the same resource, the more often this problem arises.
 	\item The longer a task uses a resource, the more this task will slow down a higher priority task even with our solution.
 	\item If several tasks need a same set of resources at the same time, they must lock all resources atomically. If not, a deadlock might occur.
 \end{itemize}
@@ -104,7 +104,7 @@ If all tasks are independent and if it is possible to satisfy all timing constra
 This approach is called \definebf{rate monotonic scheduling}. Unfortunately, situations where all tasks are independent are rare.
 
 \subsection{Reservation Scheduling}
-Rather than executing the scheduling algorithm every time a new task must be selected, \textbf{Reservation Scheduling} will make this choice on beforehand, as soon as the necessary information is available. 
+Rather than executing the scheduling algorithm every time a new task must be selected, \textbf{Reservation Scheduling} will make this choice on beforehand, as soon as the necessary information is available.
 
 If it is possible to schedule a task between the current time and the moment there will be no known tasks left to execute, a schedule is prepared. If the previous is not possible, the scheduler decides what tasks should be sacrificed, based on their importance (criticality) rather than their urgency. Sacrificed tasks may be replaced by shorter ones aimed at limiting the impact of sacrificing the task. Tasks that are urgent but not critical may simply be dropped.
 
@@ -116,7 +116,7 @@ This scheduling approach is implemented in two parts:
 \begin{enumerate}
 	\item \textbf{Pre-Scheduler} prepares a scenario.
 	\item \textbf{Dispatcher} activates tasks according to the scenario. It resembles the static scheduler, it has nothing to decide.
-\end{enumerate} 
+\end{enumerate}
 
 \subsubsection{Reservation Scheduling Types}
 
@@ -125,7 +125,7 @@ The first variant has the pre-scheduler simply check that the timing constraints
 \\\\
 The second variant has the pre-scheduler build itself a schedule that it has proved to meet the requirements. The dispatcher then executes it without changing anything. This variant is considered to be the best.
 \\\\
-The dispatcher can be preemptive or non preemptive. In the first case The pre-scheduler must decide when the dispatcher will suspend each running task. The problem here is that there must be a way to make sure a long task is not cut at the wrong moment. The solution is making use of \textbf{critical sections}. The scheduler then knows not to cut the task at that time. 
+The dispatcher can be preemptive or non preemptive. In the first case The pre-scheduler must decide when the dispatcher will suspend each running task. The problem here is that there must be a way to make sure a long task is not cut at the wrong moment. The solution is making use of \textbf{critical sections}. The scheduler then knows not to cut the task at that time.
 \\\\
 When non preemptive scheduling is used no task can have a shorter guaranteed response time than the duration of the longest task.
 \\\\
@@ -133,7 +133,7 @@ In conclusion there are 3 acceptable solutions:
 \begin{itemize}
 	\item \textbf{Non preemptive with short tasks}. It's up to the programmer to decide where to cut.
 	\item \textbf{Preemptive with a scheduler that knows were not to cut}. The programmer must indicate these sections.
-	\item \textbf{Preemptive with short critical sections}. Sections are so short that the chance of them being cut is negligible. 
+	\item \textbf{Preemptive with short critical sections}. Sections are so short that the chance of them being cut is negligible.
 \end{itemize}
 
 \subsubsection{Assessment of Reservation Schedulers}
@@ -213,12 +213,12 @@ In order to do this in an organized manner, we need two techniques: \index{Mutua
 
 \paragraph{Mutual Exclusion} The most useful service offered by MicroC/OS-II is the mutual exclusion \textbf{mutex} which is associated with each shared resource. When a task wants to obtain a mutex that is not free, it waits. It's also possible to check the availability of the mutex without moving to the waiting state. Priority inheritance is supported.
 
-\paragraph{Barrier} Event Flags organize the \textit{rendez-vous} between tasks. They are sets of bits (8/16/32) that may be set to 0 or 1 by tasks or ISRs. Tasks wait for a given pattern of bits to appear. Because this mechanism is so general it allows for complex conditions. 
+\paragraph{Barrier} Event Flags organize the \textit{rendez-vous} between tasks. They are sets of bits (8/16/32) that may be set to 0 or 1 by tasks or ISRs. Tasks wait for a given pattern of bits to appear. Because this mechanism is so general it allows for complex conditions.
 
 \section{Peripherals and IO}
 System services will be as simple as possible.
 The more complex the system is, the harder it is to guarantee its constraints.
-This approach is called the \defineabrv{Reduced Instruction Set Computing}{RISC} Philosophy. 
+This approach is called the \defineabrv{Reduced Instruction Set Computing}{RISC} Philosophy.
 \\\\
 From a technical point of view interrupts routines are short to avoid interference with scheduling. Disk management, if any, tries to avoid disk access in actions that must be performed before a hard deadline. Contiguous files have sometimes been recommended for real-time systems. Their inconvenience however, exceed their advantages: each one must be created with the maximum size (which is a waste of space) and there is no advantage if blocks are read one by one.
 
@@ -251,7 +251,7 @@ MicroC/OS-II provides a service called \textbf{mbox}, allowing to transfer a poi
 
 
 \subsubsection{Communication by messages queue}
-The mboxes allow synchronizing a task on arrival of data produced by another task. However, because only 1 message at a time can be in a mbox, the sender (producer) can run ahead of the receiver (comsumer). This is a common problem in a data processing system. 
+The mboxes allow synchronizing a task on arrival of data produced by another task. However, because only 1 message at a time can be in a mbox, the sender (producer) can run ahead of the receiver (comsumer). This is a common problem in a data processing system.
 Message queues are a solution to this problem. Instead of a pointer to a message, they include a pointer to an array of pointers to messages. Like in any queue, the first message in the queue is the first message received.
 
 \section{Time Management and Synchronization}
@@ -305,7 +305,7 @@ Ethernet is symmetrical but unpredictable because of collisions. So, the previou
 \[
 d_1( a \rightarrow b) = d_E + d_{t,ab} + d_R
 \]
-Here is 
+Here is
 \begin{itemize}
 	\item $d_E$ the processing delay at the sender
 	\item $d_{rab}$ the network transmission delay
