@@ -5,8 +5,8 @@ Software for Real-time and Embedded Systems
 
 ## PDF
 
-- Default version (Book): [PDF](http://git.jonasdevlieghere.com:8000/out/SORTES-Course/main) and [LOG](http://git.jonasdevlieghere.com:8000/log/SORTES-Course/main)
-- Paper saving version (Small margins etc.): [PDF](http://git.jonasdevlieghere.com:8000/out/SORTES-Course/print) and [LOG](http://git.jonasdevlieghere.com:8000/log/SORTES-Course/print)
+- Default version (Book): [PDF](http://git.jonasdevlieghere.com:8000/out/JDevlieghere/SORTES-Course/main) and [LOG](http://git.jonasdevlieghere.com:8000/log/JDevlieghere/SORTES-Course/main)
+- Paper saving version (Small margins etc.): [PDF](http://git.jonasdevlieghere.com:8000/out/JDevlieghere/SORTES-Course/print) and [LOG](http://git.jonasdevlieghere.com:8000/log/JDevlieghere/SORTES-Course/print)
 
 PDF compilation is powered by [InTeXration](https://github.com/JDevlieghere/InTeXration).
 
