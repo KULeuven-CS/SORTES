@@ -10,7 +10,6 @@ Software for Real-time and Embedded Systems
 
 PDF compilation is powered by [InTeXration](https://github.com/JDevlieghere/InTeXration).
 
-
 ## Practicalities
 
 This texts is written in American English, please set your spell or grammar checker accordingly.  
