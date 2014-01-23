@@ -25,7 +25,7 @@ Static scheduling is only suitable for simple and immutable systems. However, sy
 Dynamic scheduling is used when static scheduling is not appropriate.
 \begin{enumerate}
 	\item Perform a rough static scheduling analysis to evaluate the \textbf{worst-case processing time}. Also verify that, unless the scheduler makes a gross fault, the scheduler will be able to satisfy all timing constraints.
-	\item Let a dynamic scheduler chose the order of execution of tasks.
+	\item Let a dynamic scheduler choose the order of execution of tasks.
 	\item Unless it can be proven that the scheduler always makes the right choice, test should cover as many situations as possible in order to verify timing constraints are met.
 \end{enumerate}
 
@@ -44,7 +44,7 @@ Independent of whether the scheduler is real-time, they can be divided in two cl
 \end{itemize}
 
 \begin{blockquote}
-At frist sight, a preemptive scheduler who can suspend tasks in favor of more urgent tasks will obtain better results. This is not always the case because resource conflicts can arise. If  the lower priority task has locked a resource which is needed by the more urgent task, this tasks may not be suspend before this resource is freed. If this is not the case, the higher priority task would simply block, waiting for the resource.
+At first sight, a preemptive scheduler who can suspend tasks in favor of more urgent tasks will obtain better results. This is not always the case because resource conflicts can arise. If  the lower priority task has locked a resource which is needed by the more urgent task, this tasks may not be suspend before this resource is freed. If this is not the case, the higher priority task would simply block, waiting for the resource.
 \end{blockquote}
 
 There are 3 techniques available for selecting the next task to run on a non-periodic real-time system.
@@ -80,9 +80,9 @@ There are 3 tasks $T_i$ close to their deadlines with priority $i$. If there wer
 	\item After $T_2$ only $T_3$ is available and the scheduler consequently activates it.
 	\item Finally $T_1$ is run as soon as $T_3$ finishes.
 \end{enumerate}
-Because of the resource,$T_2$ has been executes before T1 instead of the opposite: This is called the priority inversion problem. What should have happened is that $T_3$ was allowed to finish so that the resource was released and $T_1$ could run before $T_2$.
+Because of the resource,$T_2$ has been executed before T1 instead of the opposite: This is called the priority inversion problem. What should have happened is that $T_3$ was allowed to finish so that the resource was released and $T_1$ could run before $T_2$.
 \end{exmp}
-To enforce correct behaviour, \definebf{priority inheritance} is used. The list of resources needed by each task is known by the scheduler. When a lower priority task is running and uses a necessary recource, that task temporarily inherits the more urgent task's priority untill the resource is freed.
+To enforce correct behaviour, \definebf{priority inheritance} is used. The list of resources needed by each task is known by the scheduler. When a lower priority task is running and uses a necessary resource, that task temporarily inherits the more urgent task's priority untill the resource is freed.
 \\\\
 Notes:
 \begin{itemize}
@@ -125,7 +125,7 @@ The first variant has the pre-scheduler simply check that the timing constraints
 \\\\
 The second variant has the pre-scheduler build itself a schedule that it has proved to meet the requirements. The dispatcher then executes it without changing anything. This variant is considered to be the best.
 \\\\
-The dispatcher can be preemptive or non preemptive. In the first case The pre-scheduler must decide when the dispatcher will suspend each running task. The problem here is that there must be a way to make sure a long task is not cut at the wrong moment. The solution is making use of \textbf{critical sections}. The scheduler then knows not to cut the task at that time.
+The dispatcher can be preemptive or non preemptive. In the first case the pre-scheduler must decide when the dispatcher will suspend each running task. The problem here is that there must be a way to make sure a long task is not cut at the wrong moment. The solution is making use of \textbf{critical sections}. The scheduler then knows not to cut the task at that time.
 \\\\
 When non preemptive scheduling is used no task can have a shorter guaranteed response time than the duration of the longest task.
 \\\\
@@ -160,7 +160,7 @@ The EVENT structures associated with events that tasks can be waiting for must b
 	\item Mutex and semaphores,
 	\item Task synchronization
 \end{itemize}
-The \texttt{main()} function initializes the operating system abd the data structures used and one or several tasks. Each task can launch other tasks. The last operation of \texttt{main()} is to start the scheduler. Initializing a task means associate with that task:
+The \texttt{main()} function initializes the operating system and the data structures used and one or several tasks. Each task can launch other tasks. The last operation of \texttt{main()} is to start the scheduler. Initializing a task means associate with that task:
 \begin{itemize}
 	\item The function can execute the tasks.
 	\item A pointer to the data structure of the task (where static variables are stored)
@@ -223,7 +223,7 @@ This approach is called the \defineabrv{Reduced Instruction Set Computing}{RISC}
 From a technical point of view interrupts routines are short to avoid interference with scheduling. Disk management, if any, tries to avoid disk access in actions that must be performed before a hard deadline. Contiguous files have sometimes been recommended for real-time systems. Their inconvenience however, exceed their advantages: each one must be created with the maximum size (which is a waste of space) and there is no advantage if blocks are read one by one.
 
 \subsection{I/O with MicroC/OS-II}
-MicroC/OS-II is a portable operating system. It consists of architecture independent and architecture dependent functions. Porting MicroC/OS-II means rewriting the latters; these are generally not visible by the application programs: they are underneath the architecture independent functions
+MicroC/OS-II is a portable operating system. It consists of architecture independent and architecture dependent functions. Porting MicroC/OS-II means rewriting the latters; these are generally not visible by the application programs: they are underneath the architecture independent functions.
 \\\\
 I/O functions are the exception: they are architecture dependent but visible by application programs. They are not part of the MicroC/OS-II distribution because they can differ as well by their interface as by their implementation in each application. They must thus be written by the application developper.
 
@@ -251,11 +251,11 @@ MicroC/OS-II provides a service called \textbf{mbox}, allowing to transfer a poi
 
 
 \subsubsection{Communication by messages queue}
-The mboxes allow synchronizing a task on arrival of data produced by another task. However, because only 1 message at a time can be in a mbox, the sender (producer) can run ahead of the receiver (comsumer). This is a common problem in a data processing system.
+The mboxes allow synchronizing a task on arrival of data produced by another task. However, because only 1 message at a time can be in a mbox, the sender (producer) can run ahead of the receiver (consumer). This is a common problem in a data processing system.
 Message queues are a solution to this problem. Instead of a pointer to a message, they include a pointer to an array of pointers to messages. Like in any queue, the first message in the queue is the first message received.
 
 \section{Time Management and Synchronization}
-We expect a good clock to be \textbf{measurable}, \definebf{chronoscopic} (increasing monotonously and without discontinuities), to have a known precision and to be fault tolerant. In a centralised system, there is no real problem if the quartz is sufficiently precise and stable. A clock can be derived from this and all times can be measured with this clock
+We expect a good clock to be \textbf{measurable}, \definebf{chronoscopic} (increasing monotonously and without discontinuities), to have a known precision and to be fault tolerant. In a centralised system, there is no real problem if the quartz is sufficiently precise and stable. A clock can be derived from this and all times can be measured with this clock.
 
 \subsection{\index{Time Management!with MicroC/OS-II} Time Management with MicroC/OS-II}
 MicroC/OS-II includes a few time related functions based on regular interrupts of a timer. These interrupts are called \textbf{ticks}. At each tick, a 32 bit counter is incremented. If ticks happen every millisecond, there will be $85.4 10^6$ a day. This counter will reset to 0 after a little less than 50 days.
@@ -268,7 +268,7 @@ In order to \index{Time Synchronization} synchronize clocks, a mean time must be
 Clock adjustments must be progressive: increase the rate of slow clocks and decrease that of fast clock. Setting the time is no option since that would invalidate the chronoscopic property. Doing this might require a special electrical circuit.
 \\\\
 \subsubsection{Fault Tolerant Average}
-The \defineabrv{Fault Tolerant Average}{FTA} Algorithm is designed to synchronize clocks in a distributed system. There are two variants. The first ignores communication delays between systems, the second don't.
+The \defineabrv{Fault Tolerant Average}{FTA} Algorithm is designed to synchronize clocks in a distributed system. There are two variants. The first ignores communication delays between systems, the second doesn't.
 \\\\
 When communication delays are ignored, each system broadcasts a message announcing its local time. Each system deduces the time-lag between its own clock and the others. The $k$ most different values from the mean are ignored. The correction to apply is the mean value of the time lags that have not been rejected.The correction is applied progressively, by slightly modifying the clock rate for a limited amount of time.
 \[

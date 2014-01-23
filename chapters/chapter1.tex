@@ -85,9 +85,9 @@ In some cases the internal system bus of the controlling system is used instead 
 \end{itemize}
 
 \subsubsection{PLC: Programmable Logic Controller}
-PLCs are small computers, generally micro-controllers, executing a programmable logic controller language interpreter. The do not offer interrupts and programs are structured as a single infinite loop. At the beginning of the loop data is read, it is then processed and finally a control signal is outputted.
+PLCs are small computers, generally micro-controllers, executing a programmable logic controller language interpreter. They do not offer interrupts and programs are structured as a single infinite loop. At the beginning of the loop data is read, it is then processed and finally a control signal is outputted.
 \\\\
-The content of the loop might exist of an interpreter simulating a logic circuit. The language interpreted in then called a \definebf{ladder diagram}. Another possibility is the interpreter simulating a simple state machine. The programming language is then called \definebf{GRAFCET}. At each loop iteration a state transition is triggered based on the output of the previous state.
+The content of the loop might exist of an interpreter simulating a logic circuit. The language interpreted is then called a \definebf{ladder diagram}. Another possibility is the interpreter simulating a simple state machine. The programming language is then called \definebf{GRAFCET}. At each loop iteration a state transition is triggered based on the output of the previous state.
 
 \paragraph{Ladder Diagram} 
 The ladder diagram is a language understandable by electrical technicians. Because its expressive power is so limited manufactures have enhanced it. The PLC interprets all the lines of the diagram, which can easily span 20 or more pages, each loop. Note that if variables are used, the order of the lines become important.  
@@ -128,7 +128,7 @@ The reaction to the stimulus (the event that triggers the response) must be perf
 \end{itemize}
 
 \section{Design Strategy}
-When designing a real-time system the design must be as general as possible. We have to consider the hard- and software. We have to take into account the system being controlled, which is often a mechanical device and the interface between and device and the controlling system.
+When designing a real-time system the design must be as general as possible. We have to consider the hard- and software. We have to take into account the system being controlled, which is often a mechanical device and the interface between the device and the controlling system.
 
 \begin{exmp}
 By adding a simple hardware security to the controlled device, the diagram representing the value of the response in function of time can be made non-negative.
