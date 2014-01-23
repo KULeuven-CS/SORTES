@@ -15,7 +15,7 @@ To select suitable \define{hardware} for a real-time embedded system we should f
 The following are properties of a maximal \define{resource} structure.
 \begin{itemize}
 	\item A process is never ``READY'' (never waiting for a process to run on): It's either ``RUNNING'' or ``WAITING'' (for an event or resource).
-	\item The analysis of the worst case response time is easier to compute because processes don't interfere because of resource access conflicts. The only interferences are thos dictated by the specification.
+	\item The analysis of the worst case response time is easier to compute because processes don't interfere because of resource access conflicts. The only interferences are those dictated by the specification.
 	\item It satisfies response time constraints if all the different stimuli occur simultaneously at boot time. And if there is no accumulation of debts from the past (calculations of a process finished before the next stimulus arrives).
 \end{itemize}
 
