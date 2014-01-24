@@ -1,7 +1,9 @@
-SORTES-Course
-=============
+SORTES
+======
+The course **Software for Real-time and Embedded Systems** is part of the *Master of Engineering: Computer Science* at the KU Leuven. It is given by Professor Marc Lobelle.
 
-Software for Real-time and Embedded Systems
+This document contains a transcription of the course material found on the [Foditic](foditic.org) website.
+
 
 ## PDF
 
