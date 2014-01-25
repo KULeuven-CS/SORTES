@@ -7,8 +7,8 @@ This document contains a transcription of the course material found on the [Fodi
 
 ## PDF
 
-- Default version (Book): [PDF](http://git.jonasdevlieghere.com:8000/pdf/JDevlieghere/SORTES-Course/main) and [LOG](http://git.jonasdevlieghere.com:8000/log/JDevlieghere/SORTES-Course/main)
-- Paper saving version (Small margins etc.): [PDF](http://git.jonasdevlieghere.com:8000/pdf/JDevlieghere/SORTES-Course/print) and [LOG](http://git.jonasdevlieghere.com:8000/log/JDevlieghere/SORTES-Course/print)
+- Default version (Book): [PDF](http://intexration.jonasdevlieghere.com:8000/pdf/JDevlieghere/SORTES-Course/main) and [LOG](http://intexration.jonasdevlieghere.com:8000/log/JDevlieghere/SORTES-Course/main)
+- Paper saving version (Small margins etc.): [PDF](http://intexration.jonasdevlieghere.com:8000/pdf/JDevlieghere/SORTES-Course/print) and [LOG](http://intexration.jonasdevlieghere.com:8000/log/JDevlieghere/SORTES-Course/print)
 
 PDF compilation is powered by [InTeXration](https://github.com/JDevlieghere/InTeXration).
 
