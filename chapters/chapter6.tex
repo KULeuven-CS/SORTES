@@ -141,7 +141,7 @@ One of the \definebf{crossability conditions} of a transition is to have the hig
 \\\\
 \define{Priority Rules}:
 \begin{enumerate}
-	\item An abort transition has a higher priority that a regular transition. If the state can be exited through several abort transition, one is selected according to the following rules.
+	\item An abort transition has a higher priority than a regular transition. If the state can be exited through several abort transition, one is selected according to the following rules.
 	\item If the outermost state exited by an abort transition encloses that of another abort transition, the former will have a higher priority.
 	\item Numbered transitions with a lower number have a higher priority. Unnumbered transitions have the lowest priority.
 	\item A transition activated before another has a higher priority than the latter.
@@ -178,7 +178,7 @@ In a distributed system, the detection of a rendez-vous is not necessarily immed
 \end{figure}
 
 \subsection{Resources}
-\define{Resources} allow the system to get temporarily \define{exclusive access} to a shared component. When resources are needed in u sub-state of some parallel component, the sub-states are labeled with their required resource.
+\define{Resources} allow the system to get temporarily \define{exclusive access} to a shared component. When resources are needed in a sub-state of some parallel component, the sub-states are labeled with their required resource.
 
 
 \begin{figure}[H]
@@ -192,7 +192,7 @@ A parallel component must have obtained the \define{exclusive right} to use of a
 Resources are requested by a parallel component as soon as the transition to enter this state is activated.
 Resources are held until either a higher priority transition (through which the source state could exit) is activated or until the state that needed the resource is exited.
 \\
-Obtaining a requested resources may take some time.
+Obtaining requested resources may take some time.
 The system might have to wait until the resources are freed by the previous user, especially when several resources are needed to enter a state.
 In order to avoid \define{deadlocks} when gathering resources needed to cross a transition, a parallel component must always obtain resources in the reverse order of their declaration
 
