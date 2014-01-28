@@ -2,7 +2,7 @@
 
 \begin{document}
 \chapter{Implementing ASG}
-In this chapter we have a look at how AS can be implemented on different architectures.
+In this chapter we have a look at how ASG can be implemented on different architectures.
 
 \section{Implementing ASG on a Naked Computer}
 The proposed implementation is intended for rather simple systems, a \define{naked computer}, running on a single processor. It can, of course be elaborated to suit more complex systems.
@@ -64,7 +64,7 @@ Since the scheduling is preemptive be careful with shared resources since at any
 	\item \lstinline{OSTaskSuspend()} Task can be temporairally suspended with this function. All tasks that do not need to run permanently should be put to sleep imediatly after being created.
 	\item \lstinline{OSTaskResume()} Used to resume a task that has been suspended.
 	\item \lstinline{OSTaskFlagPost()} Sets a certain flag to a certain value. Can be used to indicate that a resource is busy/free or a condition is satisfied.
-	\item \lstinline{OSTaskFlagPend()} Reads a certain flag and returns it value. This can be used to wait for a resource or to put the task to sleep till a trasition condition is satisfied.
+	\item \lstinline{OSTaskFlagPend()} Reads a certain flag and returns it value. This can be used to wait for a resource or to put the task to sleep till a transition condition is satisfied.
 	\item \lstinline{OSTaskTimeDLY()} Further execution of the task that calls this is temporairly suspended for the given time.
 	\item \lstinline{OSTimeGet()} Returns the current time.
 \end{itemize}
