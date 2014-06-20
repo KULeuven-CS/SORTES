@@ -23,15 +23,20 @@
 \usepackage[totoc]{idxlayout}
 \usepackage{mfirstuc}
 \usepackage[margin=3cm]{geometry}
+\usepackage{titling}
 
 
 %\usepackage[printwatermark]{xwatermark}
 %\newwatermark[allpages,color=gray!50,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
 
 % Titleplage
-\title{SORTES}
+\newcommand{\theauthors}{Dieter Castel \\ Jonas Devlieghere}
+\newcommand{\thecontributors}{Wout Scheepers}
+\newcommand{\theprofs}{Marc Lobelle}
+
+\title{Software for Real-time \& Embedded \\ Systems (B-KUL-H04L2A)}
 \date{\today}
-\author{Professor Marc Lobelle \\ Jonas Devlieghere \\ Dieter Castel}
+\author{\theauthors}
 
 % Listings
 \lstset{
@@ -56,7 +61,7 @@
 \setlength\parindent{0pt}
 
 % Figure Path
-\graphicspath{{images/}{../images/}}
+\graphicspath{{figures/}{../figures/}}
 
 % Ensures an index is made.
 \makeindex
@@ -134,7 +139,43 @@
 \frontmatter
 
 % Title Page
-\maketitle
+\begin{titlepage}
+\thispagestyle{empty}
+
+\begin{minipage}{\textwidth}
+	\includegraphics[width=60mm]{logokuleng.pdf}
+\end{minipage}
+
+\vspace{40mm}
+
+\begin{minipage}{\textwidth}
+	\Huge
+	\sffamily
+	\thetitle
+\end{minipage}
+
+\vspace{50mm}
+
+\hfill
+\begin{minipage}[t]{0.5\textwidth}
+	\Large
+	\sffamily
+	\textbf{Professor(s)} \\
+	\theprofs
+\end{minipage}%
+\begin{minipage}[t]{0.5\textwidth}
+\begin{flushright}
+	\Large
+	\sffamily
+	\textbf{Authors} \\
+	\theauthor
+	\vspace{10mm} \\
+	\textbf{Contributors} \\
+	\thecontributors
+\end{flushright}
+\end{minipage}
+\vfill
+\end{titlepage}
 
 % Table of Contents Page
 \tableofcontents
