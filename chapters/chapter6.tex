@@ -70,7 +70,7 @@ In a distributed system some time is needed in order to detect a state change of
 To avoid \definebf{hidden delays} the system works with local state changes and the local perception of the remote state.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.3\textwidth]{asg3.jpg}
+    \includegraphics[width=0.3\textwidth]{asg3.pdf}
     \caption{ASG Regular and Abort Transition}
     \label{asg3}
 \end{figure}
@@ -92,7 +92,7 @@ As with similar languages, there are two ways to structure the diagrams: \define
 \subsection{Hierarchy}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{asg4.jpg}
+    \includegraphics[width=0.4\textwidth]{asg4.pdf}
     \caption{ASG Hierarchy}
     \label{asg4}
 \end{figure}
@@ -103,7 +103,7 @@ Actions may be associated with the outer state and with each sub-state, at any l
 Actions attached to the outer state and to the initial sub-state start simultaneously and are performed in parallel.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{asg5.jpg}
+    \includegraphics[width=0.6\textwidth]{asg5.pdf}
     \caption{ASG Hierarchic State Leaving}
     \label{asg5}
 \end{figure}
@@ -113,7 +113,7 @@ A state can be exited trough a transition leaving this state itself, leaving a s
 State A could be exited trough transitions $i$, $j$ and $k$.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{asg6.jpg}
+    \includegraphics[width=0.4\textwidth]{asg6.pdf}
     \caption{ASG Example Leaving State}
     \label{asg6}
 \end{figure}
@@ -126,7 +126,7 @@ In ASG, parallelism is always explicit by refining the state into several parall
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{asg7.jpg}
+    \includegraphics[width=0.6\textwidth]{asg7.pdf}
     \caption{ASG Parallelism}
     \label{asg7}
 \end{figure}
@@ -161,7 +161,7 @@ If necessary, a empty state (without an action) can be added for this purpose.
 Another use of the rendez vous is allowing a parallel decomposition to exit in a disciplined way.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{asg8.jpg}
+    \includegraphics[width=0.6\textwidth]{asg8.pdf}
     \caption{ASG Rendez-Vous}
     \label{asg8}
 \end{figure}
@@ -172,7 +172,7 @@ This is because transition conditions could be delayed and if the system is dist
 In a distributed system, the detection of a rendez-vous is not necessarily immediate, but all rendez-vous will be detected, on condition that the time intervals in which the rendez-vous states are occupied overlap at least in part.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{asg9.jpg}
+    \includegraphics[width=0.6\textwidth]{asg9.pdf}
     \caption{ASG Rendez-Vous}
     \label{asg9}
 \end{figure}
@@ -183,7 +183,7 @@ In a distributed system, the detection of a rendez-vous is not necessarily immed
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{asg10.jpg}
+    \includegraphics[width=0.6\textwidth]{asg10.pdf}
     \caption{ASG Resources}
     \label{asg10}
 \end{figure}
@@ -200,7 +200,7 @@ In order to avoid \define{deadlocks} when gathering resources needed to cross a 
 The left component will cause a deadlock if it does not respect the last rule.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{asg11.jpg}
+    \includegraphics[width=0.5\textwidth]{asg11.pdf}
     \caption{Deadlock}
     \label{asg11}
 \end{figure}
@@ -210,7 +210,7 @@ The aim of resources is to express \define{mutual exclusion} between states of d
 Creating starvation situations with resources, making some states unaccessible is easy, as illustrated below.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{asg12.jpg}
+    \includegraphics[width=0.4\textwidth]{asg12.pdf}
     \caption{Deadlock}
     \label{asg12}
 \end{figure}
@@ -239,7 +239,7 @@ A sluice has two doors $P_1$ and $P_2$ and 5 sensors $X,Y,Z,V,W$ to detect the p
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.3\textwidth]{asg13.jpg}
+    \includegraphics[width=0.3\textwidth]{asg13.pdf}
     \caption{Sluice}
     \label{asg13}
 \end{figure}
@@ -249,7 +249,7 @@ Only one of the sluice's doors may be opened at a time. Outgoing traffic (from X
 The sequential solution simply expresses that there are two sequences that are allowed.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{asg14.jpg}
+    \includegraphics[width=0.5\textwidth]{asg14.pdf}
     \caption{Sequential Solution}
     \label{asg14}
 \end{figure}
@@ -259,7 +259,7 @@ To be complete, each state should be refined in two sub-states: door sliding and
 A resource is used to prevent the two doors to open simultaneously.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{asg15.jpg}
+    \includegraphics[width=0.5\textwidth]{asg15.pdf}
     \caption{Parallel Solution}
     \label{asg15}
 \end{figure}
