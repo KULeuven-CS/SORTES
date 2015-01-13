@@ -5,13 +5,13 @@
 
 \section{Classification}
 
-The table below shows how computing systems can be classified. Please note that a system can refer to a simple program or a whole computer system. A system can be classified by its response time requirements or by the need of external interaction. 
+The items below shows how computing systems can be classified. Please note that a system can refer to a simple program or a whole computer system. A system can be classified by its response time requirements or by the need for external interaction. 
 
 \begin{itemize}
 	\item \definebf{Non Real-Time Data Processing} 
-	There is no external stimulation of the system, it justs processes data. There are no time constraints.
+	There is no external stimulation of the system, it just processes data. There are no time constraints.
 	\item \definebf{Real-Time Data Processing}
-	The system is paced by their external environment. The response time constraints are twofold: The \textbf{accept data} rate is dictated by the producer, the \textbf{processing rate} is dependent on the external environment.
+	The system is paced by its external environment. The response time constraints are twofold: The \textbf{accept data rate} is dictated by the producer, the \textbf{processing rate} is dependent on the external environment.
 	\item \definebf{Non Real-Time Reactive (Interactive)}
 	Systems stimulated by the human user. The response time is expected to be as short as possible. The pace is set by the slowest entity: the user.
 	\item \definebf{Real-Time Reactive}
@@ -53,7 +53,7 @@ The classical architecture of a distributed real-time system is a two layer arch
 \end{enumerate}
 
 \subsection{Dedicated Controllers}
-The dedicated controller usually handles tasks with critical real-time constraints. Such systems are called \definebf{hard real-time systems}. Decisions taken by the system are done so locally based on the current available information. The software's structure is simple so it offers deterministic and predictable behavior. 
+The dedicated controller usually handles tasks with critical real-time constraints. Such systems are called \definebf{hard real-time systems}. Decisions taken by the system are done locally based on the current available information. The software's structure is simple in order to offer deterministic and predictable behavior. 
  
 \subsection{Central System}
 The central system often deals with less critical external constraints. However, the farther remote from the controlled system, the more \textit{unpredictable events} increase the difficulty to satisfy the constraints. 
@@ -95,7 +95,7 @@ The ladder diagram is a language understandable by electrical technicians. Becau
 \paragraph{GRAFCET} This is a graphical language loosely inspired by PETRI nets. Rather than using logical circuits, a sequential state machine is used as a model. Although this approach is suitable for simple problems, as the problem gets more advanced, the diagram becomes equally complex.
 
 \subsubsection{Microcomputer with Dedicated OS}
-The operating system is limited but offers simple but efficient functionality:
+The operating system is limited, offering simple yet efficient functionality:
 \begin{itemize}
 	\item Multitasking
 	\item Fast task switching
@@ -128,10 +128,10 @@ The reaction to the stimulus (the event that triggers the response) must be perf
 \end{itemize}
 
 \section{Design Strategy}
-When designing a real-time system the design must be as general as possible. We have to consider the hard- and software. We have to take into account the system being controlled, which is often a mechanical device and the interface between the device and the controlling system.
+When designing a real-time system the design must be as general as possible. We have to consider the hard- and software. We have to take into account the system being controlled, which is often a mechanical device and the interface between the device and the controlling system. The examples below illustrate that whenever possible, real-time system design should not be limited to software aspects.
 
 \begin{exmp}
-By adding a simple hardware security to the controlled device, the diagram representing the value of the response in function of time can be made non-negative.
+By adding a simple hardware security mechanism to the controlled device, the diagram representing the value of the response in function of time can be made non-negative.
 \end{exmp}
 
 \begin{exmp}
