@@ -9,6 +9,8 @@ This document contains a transcription of the course material found on the [Fodi
 
 [![PDF Status](https://www.sharelatex.com/github/repos/KULeuven-CS/SORTES/builds/latest/badge.svg)](https://www.sharelatex.com/github/repos/KULeuven-CS/SORTES/builds/latest/output.pdf)
 
+Please **star** this repository if you found its content useful!
+
 ## Practicalities
 
 This texts is written in American English, please set your spell or grammar checker accordingly.  
