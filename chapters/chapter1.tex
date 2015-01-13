@@ -46,42 +46,20 @@ An example of a \textbf{embedded system that is part of a distributed system} is
 
 
 \section{Real-Time Architecture}
-The classical architecture of a distributed real-time system is a two layer architecture:
+The classical architecture of a distributed real-time system is two-layered:
 \begin{enumerate}
-	\item \define{Dedicated System} 
-	\item \define{Coordinating systems}
+	\item \define{Dedicated Systems}: controls a subsystem directly.
+	\item \define{Coordinating System}: controls the various dedicated systems.
 \end{enumerate}
 
 \subsection{Dedicated Controllers}
-The dedicated controller usually handles tasks with critical real-time constraints. Such systems are called \definebf{hard real-time systems}. Decisions taken by the system are done locally based on the current available information. The software's structure is simple in order to offer deterministic and predictable behavior. 
- 
-\subsection{Central System}
-The central system often deals with less critical external constraints. However, the farther remote from the controlled system, the more \textit{unpredictable events} increase the difficulty to satisfy the constraints. 
+The dedicated controller usually handles tasks with critical real-time constraints. Such systems are called \definebf{hard real-time systems}. Decisions taken by the system are done locally, based on the current available information. The software's structure is simple in order to offer deterministic and predictable behavior.
 \\\\
-The system centralizes information in order to provide a global view on the whole system. The operator interface is managed by this system and offers an overview of the situation, consisting of a global view and selected useful details. In a more advanced application the system might suggest actions to be undertaken by the user.
-
-\subsection{Connections}
-The connection type between the dedicated controller and the central system depends on the environment.
-In an industrial environment optical fibers might be preferred to copper wires because they are not sensitive to voltage differences at the ends of the link.
-Ethernet can be used on condition its behavior is deterministic.
-Specialized networks exist for real-time systems (\definebf{field busses}).
-Although they are not really fast they are cheap and deterministic. Either way regular traffic should be separated from the  real-time traffic of the company. 
-
-In some cases the internal system bus of the controlling system is used instead of a network. Supplemental processors are then inserted in this bus, each with its own OS and its own memory. These processors then communicate through shared memory areas.
-
-\subsection{System Types}
+The type of a dedicated controller is typically one of the following:
 \begin{itemize}
-	\item \definebf{Co\"ordinating System} (must be compatible with the external constraints)
-	\begin{itemize}
-		\item PC or equivalent
-		\item Full fledged operating system (real-time variant of UNIX or Linux)
-	\end{itemize}
-	\item \definebf{Dedicated Controllers} (must be compatible with the system dedicated to)
-	\begin{itemize}
-		\item Programmable logic controllers
-		\item Small computers with specialized operating systems
-		\item Embedded Linux devices
-	\end{itemize}
+	\item Programmable logic controllers
+	\item Small computers with specialized operating systems
+	\item Embedded Linux devices
 \end{itemize}
 
 \subsubsection{PLC: Programmable Logic Controller}
@@ -94,8 +72,8 @@ The ladder diagram is a language understandable by electrical technicians. Becau
 
 \paragraph{GRAFCET} This is a graphical language loosely inspired by PETRI nets. Rather than using logical circuits, a sequential state machine is used as a model. Although this approach is suitable for simple problems, as the problem gets more advanced, the diagram becomes equally complex.
 
-\subsubsection{Microcomputer with Dedicated OS}
-The operating system is limited, offering simple yet efficient functionality:
+\subsubsection{Microcomputer with dedicated OS}
+A dedicated controller can also be realised through a microcomputer with a dedicated operating system. Such an OS is limited, offering simple yet efficient functionality:
 \begin{itemize}
 	\item Multitasking
 	\item Fast task switching
@@ -103,6 +81,22 @@ The operating system is limited, offering simple yet efficient functionality:
 	\item Inter-process communication and synchronization
 \end{itemize}
 Although this is more versatile than a PLC, a real programmer is needed to design the software. The more complex the software gets, the harder it becomes to guarantee response times and correctness.
+ 
+\subsection{Coordinating System}
+The central coordinating system often deals with less critical external constraints. However, the farther remote from the controlled system, the more \textit{unpredictable events} increase the difficulty to satisfy the constraints. 
+\\\\
+The system centralizes information in order to provide a global view on the whole system. The operator interface is managed by this system and offers an overview of the situation, consisting of a global view and selected useful details. In a more advanced application the system might suggest actions to be undertaken by the user.
+\\\\
+The type of a coordinating system is typically a PC or equivalent, featuring a full fledged operating system (real-time variant of UNIX or Linux). Whereas the availability of a ``complete'' operating system eases the tasks of the coordinating system, it should also be compatible with the external constraints (usually translated into response time constraints).
+
+\subsection{Connections}
+The connection type between the dedicated controller and the central system depends on the environment.
+In an industrial environment optical fibers might be preferred to copper wires because they are not sensitive to voltage differences at the ends of the link.
+Ethernet can be used on condition its behavior is deterministic.
+Specialized networks exist for real-time systems (\definebf{field busses}).
+Although they are not really fast they are cheap and deterministic. Either way regular traffic should be separated from the  real-time traffic of the company. 
+
+In some cases the internal system bus of the controlling system is used instead of a network. Supplemental processors are then inserted in this bus, each with its own OS and its own memory. These processors then communicate through shared memory areas.
 
 \section{Time in a Real-Time System}
 As mentioned in the first section, timing constraints are different for different types of systems:
@@ -111,15 +105,15 @@ As mentioned in the first section, timing constraints are different for differen
 	\item \definebf{Interactive systems} need short response times but only as short as the user can detect.
 	\item \definebf{Real-Time systems} require the action to occur before a specific event or deadline.
 \end{itemize}
-Unlike the other cases, in a real-time system, the value of work does not decrease with the time needed to do the work. 
+Unlike the other cases, in a real-time system, the value of work does not decrease regularly with the time needed to do the work (as depicted in Figure~\ref{fig:reactiontime}). 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{reactiontime.jpg}
-    \caption{Example: Time in a real-time system.}
+    \caption{Example: Time in a real-time system. \label{fig:reactiontime}}
     \label{rttime}
 \end{figure}
-The reaction to the stimulus (the event that triggers the response) must be performed within a certain time interval following it. (this time interval may start with the stimulus or later) During this time interval, the value of the response is constant. When the time interval is elapsed, the value of the response can:
+The reaction to the stimulus (the event that triggers the response) must be performed within a certain time interval following it (this time interval may start with the stimulus or later). During this time interval, the value of the response is constant. When the time interval is elapsed, the value of the response can:
 \begin{itemize}
 	\item decrease \textit{(like when cooking a soft boiled egg)}
 	\item fall immediately to zero \textit{(the carriage hits the obstacle)}
