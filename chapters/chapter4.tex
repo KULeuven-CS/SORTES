@@ -29,7 +29,7 @@ Dynamic scheduling is used when static scheduling is not appropriate.
 	\item Unless it can be proven that the scheduler always makes the right choice, test should cover as many situations as possible in order to verify timing constraints are met.
 \end{enumerate}
 
-Every mutli-tasking operating system (real-time or not) includes a scheduler. The classical qualities expected from the scheduler in an ordinary operating system consist of :
+Every multi-tasking operating system (real-time or not) includes a scheduler. The classical qualities expected from the scheduler in an ordinary operating system consist of :
 \begin{itemize}
 	\item \definebf{Fairness}: All tasks should receive a fair share of computing time.
 	\item Optimization of the \textbf{mean response time}
@@ -71,7 +71,7 @@ A task could have to send a message over the network to another machine. As long
 
 To avoid the problem mentioned, a task can use a \textbf{mutex} on the resource he needs. If the mutex is free, the task can reserve it for itself, otherwise it waits for it to be released. The task is then suspended and only restarted when the resource is free.
 \\\\
-Consider the following problem, called the \textbf{priority inversion} as illustrated below.
+Consider the following problem, called \textbf{priority inversion} as illustrated below.
 \begin{exmp}
 There are 3 tasks $T_i$ close to their deadlines with priority $i$. If there were no resource problems the scheduler would select them in the following order: $T_1, T_2, T_3$. Task $T_1$ and $T_3$ need the same resource. Assume that $T_3$ is running and using the resource and the scheduler learns that $T_1$ and $T_2$ must be run urgently. This is what would happen:
 \begin{enumerate}
@@ -80,9 +80,9 @@ There are 3 tasks $T_i$ close to their deadlines with priority $i$. If there wer
 	\item After $T_2$ only $T_3$ is available and the scheduler consequently activates it.
 	\item Finally $T_1$ is run as soon as $T_3$ finishes.
 \end{enumerate}
-Because of the resource,$T_2$ has been executed before T1 instead of the opposite: This is called the priority inversion problem. What should have happened is that $T_3$ was allowed to finish so that the resource was released and $T_1$ could run before $T_2$.
+Because of the resource, $T_2$ has been executed before $T_1$ instead of the opposite. This is called the priority inversion problem. What should have happened is that $T_3$ was allowed to finish so that the resource was released and $T_1$ could run before $T_2$.
 \end{exmp}
-To enforce correct behaviour, \definebf{priority inheritance} is used. The list of resources needed by each task is known by the scheduler. When a lower priority task is running and uses a necessary resource, that task temporarily inherits the more urgent task's priority untill the resource is freed.
+To enforce correct behaviour, \definebf{priority inheritance} is used. The list of resources needed by each task is known by the scheduler. When a lower priority task is running and uses a necessary resource, that task temporarily inherits the more urgent task's priority until the resource is freed.
 \\\\
 Notes:
 \begin{itemize}
@@ -109,7 +109,7 @@ Rather than executing the scheduling algorithm every time a new task must be sel
 If it is possible to schedule a task between the current time and the moment there will be no known tasks left to execute, a schedule is prepared. If the previous is not possible, the scheduler decides what tasks should be sacrificed, based on their importance (criticality) rather than their urgency. Sacrificed tasks may be replaced by shorter ones aimed at limiting the impact of sacrificing the task. Tasks that are urgent but not critical may simply be dropped.
 
 \begin{exmp}
-The considered system is an airplane. An example of a shorter task to replace the sacrificed task is the case where, if the plane cannot be saved, he is ejected. An example of a dropped task is fuel optimization when it must be leveled urgently.
+The considered system is an airplane. An example of a shorter task to replace the sacrificed task is the case where, if the plane cannot be saved, he is ejected. An example of a dropped task is fuel optimization when it must be levelled urgently.
 \end{exmp}
 
 This scheduling approach is implemented in two parts:
@@ -121,7 +121,7 @@ This scheduling approach is implemented in two parts:
 \subsubsection{Reservation Scheduling Types}
 
 There are two types of reservation schedulers for both the scheduler and the dispatcher. We're considering the scheduler first.\\\\
-The first variant has the pre-scheduler simply check that the timing constraints can be satisficed and accepts or rejects tasks. The dispatcher works like a classical dynamic scheduler. This introduces the risk that the fact that there is one schedule that meets all timing requirements does not mean that all possible schedule do. The dispatcher could still make the wrong choice.
+The first variant has the pre-scheduler simply check that the timing constraints can be satisfied and accepts or rejects tasks. The dispatcher works like a classical dynamic scheduler. This introduces the risk that the fact that there is one schedule that meets all timing requirements does not mean that all possible schedule do. The dispatcher could still make the wrong choice.
 \\\\
 The second variant has the pre-scheduler build itself a schedule that it has proved to meet the requirements. The dispatcher then executes it without changing anything. This variant is considered to be the best.
 \\\\
@@ -172,10 +172,10 @@ All this is performed by the function \texttt{OSTaskCreate()}. The rest of the p
 \subsection{Tasks in MicroC/OS-II}
 The code of the functions inside the body of a task in MicroC/OS-II must respect two constraints:
 \begin{enumerate}
-	\item \textbf{It may never reach the final bracket of the function nor call \lstinline{return()}.} Indeed, each tasks has its own stack, and the function that is the body of a task is at the absolute top of this stack: there is nothing above, so, it is impossible to return to a calling program. A way to satisfy this requirement is to include in this function, possibly after an initialization phase an infinite loop. Another option is calling a self destruction function when the task has finished its job \texttt{OSTaskDel(OS\_PRIO\_SELF);}.
+	\item \textbf{It may never reach the final bracket of the function nor call \lstinline{return()}.} Indeed, each tasks has its own stack, and the function that is the body of a task is at the absolute top of this stack: there is nothing above, so, it is impossible to return to a calling program. A way to satisfy this requirement is to include in this function, possibly after an initialization phase an infinite loop. Another option is calling a self destruction function when the task has finished its job: \texttt{OSTaskDel(OS\_PRIO\_SELF)}.
 	\item \textbf{It may not run continuously.} Since  MicroC/OS-II is preemptive, if a task could run continuously, no task of lower priority would ever be allowed to run.
 \end{enumerate}
-If you want a task to be allowed to run as often as possible you could give it the lowest priority.
+If you want a task to be allowed to run as often as possible you could give it the lowest priority number.
 If the application must include several such tasks, a function should be written for each one and the lowest priority task might be an infinite loop calling all these functions.
 However, it should be noted that it is rarely useful to let a task run continuously.
 Running the function more frequently than needed therefore is wasted activity.
@@ -225,7 +225,7 @@ From a technical point of view interrupts routines are short to avoid interferen
 \subsection{I/O with MicroC/OS-II}
 MicroC/OS-II is a portable operating system. It consists of architecture independent and architecture dependent functions. Porting MicroC/OS-II means rewriting the latters; these are generally not visible by the application programs: they are underneath the architecture independent functions.
 \\\\
-I/O functions are the exception: they are architecture dependent but visible by application programs. They are not part of the MicroC/OS-II distribution because they can differ as well by their interface as by their implementation in each application. They must thus be written by the application developper.
+I/O functions are the exception: they are architecture dependent but visible by application programs. They are not part of the MicroC/OS-II distribution because they can differ as well by their interface as by their implementation in each application. They must thus be written by the application developer.
 
 
 
