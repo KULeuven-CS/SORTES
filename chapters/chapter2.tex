@@ -1,4 +1,4 @@
-%\documentclass[../main.tex]{subfiles} 
+	%\documentclass[../main.tex]{subfiles} 
 
 \begin{document}
 \chapter{Design strategy for embedded real-time systems}
@@ -12,7 +12,7 @@ The following constraints should be carefully examined before designing the syst
 	\item Constraints related to the computer(s) running the software. 
 		\begin{description}
 			\item[If you \textbf{can't} choose this]: The first thing to check is if the computer can meet the needed constraints of the device it will control.
-				\item[If you \textbf{can}  chose this] First design the software assuming you have unlimited computing resources. Then select a suitable computing infrastructure.
+				\item[If you \textbf{can}  chose this]: First design the software assuming you have unlimited computing resources. Then select a suitable computing infrastructure.
 		\end{description} 
 		The goal of this strategy is to avoid that the infrastructure you selected is not able to meet the \define{timing constraints}.
 	On top of that it helps to focus on the most important constraints of the device that will be controlled while designing the software.
@@ -149,8 +149,8 @@ Another categorization is possible based on how services are activated:
 
 \subsection{Specify the data processing activities}
 \label{sss:activities}
-Each of the behavioral states of the software should be complemented with a descriptions of the \define{data processing activities} activities at that state.
-How these activities are represented depending on the type of data to be processed.
+Each of the behavioral states of the software should be complemented with a description of the \define{data processing activities} at that state.
+How these activities are represented depends on the type of data to be processed.
 Sometimes these descriptions can be as simple as a few lines of C/C++ or even a ladder diagram.
 
 
@@ -177,7 +177,7 @@ Controlling these tasks can be done with interrupt masks and (static) priorities
 Periodic tasks should be implemented with a timer/clock (naive implementation is possible but dirty).
 To do so use clock interrupts and at each tick launch the needed tasks.
 It's important that the sum of the durations of the tasks launched at any given clock tick must be less than the clock period. 
-An example can be seen in figure \ref{f:perd_ex}.
+An example can be seen in Figure~\ref{f:perd_ex}.
 
 \begin{figure}[H]
 	\centering
@@ -192,7 +192,7 @@ When calculating the clock period, the interrupt task's duration should be taken
 
 \paragraph{Task synchronization}
 We'll explain a simple form of \define{task synchronization} next. 
-The idea is that a tasks can suspend the execution of another until a given event.
+The idea is that a task can suspend the execution of another until a given event.
 First the scheduler must be warned that the task has been suspended.
 Next some bookkeeping needs to be done in the table of tasks.
 Make the appropriate task un-runnable by adding a code representing an event that reactivates it in the ``lock'' field.
@@ -201,7 +201,7 @@ If more locked tasks have the same unlocking event a choice must be made to eith
 
 Other synchronizations can be implemented in a similar way.
 
-\paragraph{Communications}
+\paragraph{Task communication}
 Two methods can be distinguished for \define{task communication}:
 \begin{description}
 	\item[By Shared Variables] It's simple and fast but shared variables must be written mutual exclusively. This makes the tasks strongly synchronized (long waits may occur).
@@ -211,10 +211,10 @@ Two methods can be distinguished for \define{task communication}:
 
 \paragraph{Mutual Exclusion}
 On a mono-processor \define{mutual exclusion} can sometimes be achieved with temporarily disabling interrupts.
-In any other case this can be implemented by using atomic READ/MODIFY/WRITE assembly language instructions.
-On a multiprocessor the memory access between the READ and WRITE will be blocked for all but one processor.
-Examples of READ/MODIFY/WRITE instructions are: TSET (test \& set) and ASL (arithmetic shift left). 
-For the latter we refer to image \ref{f:asl}. 
+In any other case this can be implemented by using atomic \texttt{READ/MODIFY/WRITE} assembly language instructions.
+On a multiprocessor the memory access between the \texttt{READ} and \texttt{WRITE} will be blocked for all but one processor.
+Examples of \texttt{READ/MODIFY/WRITE} instructions are: \texttt{TSET} (test \& set) and \texttt{ASL} (arithmetic shift left). 
+For the latter we refer to Figure~\ref{f:asl}. 
 
 \begin{figure}
 	\centering
@@ -225,7 +225,7 @@ For the latter we refer to image \ref{f:asl}.
 
 \subsubsection{Programming}
 Which \index{Programming Language!!Choice of} programming language should be chosen to implement the system layer? 
-In general assembly language should be avoided, except when there are no other options (e.g. TSET instruction or tiny programs).
+In general assembly language should be avoided, except when there are no other options (e.g. \texttt{TSET} instruction or tiny programs).
 A better choice would be an \definebf{extensible language} (e.g. C or FORTH).
 Interactions with the system in such languages goes through functions linked with the program that are not part of the language definition. 
 A program can thus be interfaced with any system layer by writing a new set of system interface functions (in the language or assembly).
@@ -243,13 +243,13 @@ Examples of dedicated languages are: ADA, MODULA 2 and PEARL
 
 \subsubsection{Deployment}
 After programming appropriate executable modules should be made.
-Most compilers are designed to make programs that run on top of an operating system.
-Executables for embedded systems have often specific \definebf{memory allocation constraints}:
+Most compilers are designed to make programs that run on top of an operating system. Such a binary can simply assume it is loaded starting at virtual address 0.
+Executables for embedded systems on the other hand often have specific \definebf{memory allocation constraints}. They have to consider predefined memory addresses and types for:
 \begin{itemize}
 	\item Interrupt Vectors 
-	\item Programs to be put in ROM
-	\item Data 
 	\item Stack
+	\item Programs (to be put in ROM)
+	\item Data (to be put in RAM)
 \end{itemize}
 The linker should be able to manage these facts and accept directives specifying the desired location and type of memory where the sections of the program should be placed in. 
 The following are rules the linker/compiler should take into account:
@@ -264,6 +264,6 @@ Three main \define{documentation} documents are required:
 \begin{description}
 	\item[For the user] Manual and description of behavior, functionalities of the program.
 	\item[For the system engineer] Guidelines to set up and deploy the program successfully. 
-	\item[For the designer] This should be extensive documentation of all 6 steps for the designer himself or his possible successors. When documenting a posteriori there is a risk to forget important design decisions or strategic choices by focusing to much on the last implementation details. 
+	\item[For the designer] This should be extensive documentation of all 6 steps for the designer himself or his possible successors. When documenting a posteriori there is a risk to forget important design decisions or strategic choices by focusing too much on the final implementation details. 
 \end{description}
 \end{document}
