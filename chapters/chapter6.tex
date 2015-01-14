@@ -17,7 +17,7 @@ ASG, which was developed by \define{UCLouvain}, has some specific characteristic
 \end{itemize}
 
 \section{Language Elements}
-An ASG diagram consists of \textbf{states} and \textbf{transitions}. Crossing a \define{transition} is instantaneous: the system is thus always in a state.
+An ASG diagram, as depicted in Figure~\ref{asg1}, consists of \textbf{states} and \textbf{transitions}. Crossing a \define{transition} is instantaneous: the system is thus always in a state.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.25\textwidth]{asg1.pdf}
@@ -26,7 +26,7 @@ An ASG diagram consists of \textbf{states} and \textbf{transitions}. Crossing a 
 \end{figure}
 
 \subsection{States}
-Each state has a name and some \textbf{time-related state properties:}
+Each state has a name and some optional \textbf{time-related state properties:}
 \begin{itemize}
 	\item \defineabrv{Minimum Visit Time}{MINVT}: Is the minimum time the system remains in the state.
 	\item \definebf{Time-Out}: A time-out counter is started when the state is entered. When this time-out duration has elapsed, a boolean variable \texttt{state\_name.timout} becomes true if the system is still in that state.
@@ -76,14 +76,14 @@ To avoid \definebf{hidden delays} the system works with local state changes and 
 \end{figure}
 When a \define{transition event} is detected, the action is not necessarily finished, the time spent in the state is not necessarily larger that MINVT and resources required to enter the destination state are not necessarily available. This gives cause to two families of transitions. The \definebf{crossing condition} depends on the transition family.
 \begin{enumerate}
-	\item  The crossing conditions of \definebf{regular transitions} (figure \ref{asg3}, left) are the following:
+	\item  The crossing conditions of \definebf{regular transitions} (Figure~\ref{asg3}, left) are the following:
 	\begin{itemize}
 		\item The action is finished.
-		\item The time spent in the state $/geq$ MINVT.
+		\item The time spent in the state $\geq$ MINVT.
 		\item All resources are available.
 		\item No transition with a higher priority is active.
 	\end{itemize}
-	\item The crossing conditions of \definebf{abort transitions} (figure \ref{asg3}, right) is limited to the absence of a higher priority transition allowed to leave its state.
+	\item The crossing conditions of \definebf{abort transitions} (Figure~\ref{asg3}, right) is limited to the absence of a higher priority transition allowed to leave its state.
 \end{enumerate}
 
 \section{Diagram Structure}
@@ -142,7 +142,7 @@ One of the \definebf{crossability conditions} of a transition is to have the hig
 \define{Priority Rules}:
 \begin{enumerate}
 	\item An abort transition has a higher priority than a regular transition. If the state can be exited through several abort transition, one is selected according to the following rules.
-	\item If the outermost state exited by an abort transition encloses that of another abort transition, the former will have a higher priority.
+	\item If the outermost state exited by a transition encloses that of another, the former will have a higher priority.
 	\item Numbered transitions with a lower number have a higher priority. Unnumbered transitions have the lowest priority.
 	\item A transition activated before another has a higher priority than the latter.
 	\item If none of the above rules apply, a transition is selected at random.
