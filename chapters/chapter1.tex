@@ -80,8 +80,14 @@ The content of the loop might exist of an interpreter simulating a logic circuit
     \caption{Ladder diagram structure}
     \label{ladderdiagram}
 \end{figure}
-The ladder diagram is a language understandable by electrical technicians. Because its expressive power is so limited manufactures have enhanced it. The PLC interprets all the lines of the diagram, which can easily span 20 or more pages, each loop. Note that if variables are used, the order of the lines become important.
-
+The ladder diagram is a language understandable by electrical technicians. Because its expressive power is so limited manufactures have enhanced it. The PLC interprets all the lines of the diagram, which can easily span several pages of 20 to 30 lines, each loop. Note that if variables are used, the order of the lines become important.
+ 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{grafcet.pdf}
+    \caption{GRAFCET program}
+    \label{grafcet}
+\end{figure}
 \paragraph{GRAFCET} This is a graphical language loosely inspired by PETRI nets. Rather than using logical circuits, a sequential state machine is used as a model. Although this approach is suitable for simple problems, as the problem gets more advanced, the diagram becomes equally complex.
 
 \subsubsection{Microcomputer with dedicated OS}
