@@ -148,15 +148,17 @@ It's the system itself that warns the maintenance service.
 The module that has been repaired or replaced is synchronized without stopping the active module (copy of the memory contents, etc.) under control of the OS. There can be up to 16 pairs.
 
 \section{Multiple Systems}
-The principle of doubled systems is to transfer the activity as quickly as possible from a failing main system to a working spare. The idea of multiple systems is to have enough running resources to let them have a \textbf{vote}. This mean there must be at least 3 modules. Moreover, the system should not have a \textbf{fail/stop} behavior, since errors will be detected through voting.
+The principle of doubled systems is to transfer the activity as quickly as possible from a failing main system to a working spare. The idea of multiple systems is to have enough running resources to let them \textbf{vote} by majority to produce a single output, as illustrated in Figure~\ref{tmr1}. Note that voting by majority implies having at least three modules. Moreover, such a set-up allows non \textbf{fail/stop} behavior. Indeed, if one of the systems makes an error, the other systems can correct the result through voting.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{tmr1.pdf}
-    \caption{3 Modules}
+    \caption{Triple Modular Redundancy set-up determining the output through majority voting.}
     \label{tmr1}
 \end{figure}
-\textbf{Triple Modular Redundancy} or \textbf{TMR} is a particular case for $M=2$ and $N=3$. We assume the the system consisting of $N$ components survives if at least $M$ components survive.
+
+Generally, we assume a system consisting of $N$ components that survives if at least $M$ components survive.
+\textbf{Triple Modular Redundancy} or \textbf{TMR} is a particular case for $M=2$ and $N=3$. With TMR, only one component may fail without disrupting the end result as the other two components should correct it through majority voting.
 
 \subsection{Survival Probability}
 In order to calculate the \definebf{probability of survival} we have to make some assumptions:
