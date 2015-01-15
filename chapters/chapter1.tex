@@ -46,6 +46,12 @@ An example of a \textbf{embedded system that is part of a distributed system} is
 
 
 \section{Real-Time Architecture}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\linewidth]{systems.pdf}
+    \caption{Classical architecture of distributed real-time system.}
+    \label{systems}
+\end{figure}
 The classical architecture of a distributed real-time system is two-layered:
 \begin{enumerate}
 	\item \define{Dedicated Systems}: controls a subsystem directly.
@@ -68,6 +74,12 @@ PLCs are small computers, generally micro-controllers, executing a programmable 
 The content of the loop might exist of an interpreter simulating a logic circuit. The language interpreted is then called a \definebf{ladder diagram}. Another possibility is the interpreter simulating a simple state machine. The programming language is then called \definebf{GRAFCET}. At each loop iteration a state transition is triggered based on the output of the previous state.
 
 \paragraph{Ladder Diagram}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{ladder.pdf}
+    \caption{Ladder diagram structure}
+    \label{ladderdiagram}
+\end{figure}
 The ladder diagram is a language understandable by electrical technicians. Because its expressive power is so limited manufactures have enhanced it. The PLC interprets all the lines of the diagram, which can easily span 20 or more pages, each loop. Note that if variables are used, the order of the lines become important.
 
 \paragraph{GRAFCET} This is a graphical language loosely inspired by PETRI nets. Rather than using logical circuits, a sequential state machine is used as a model. Although this approach is suitable for simple problems, as the problem gets more advanced, the diagram becomes equally complex.
