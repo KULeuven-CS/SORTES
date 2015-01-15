@@ -108,9 +108,9 @@ Actions attached to the outer state and to the initial sub-state start simultane
     \label{asg5}
 \end{figure}
 A transition leaving a state may only end in a \define{sibling state} (a state belonging to the same refinement), an \define{ancestor state} (a state enclosing the current state) or the sibling of an ancestor.
-A state can be exited trough a transition leaving this state itself, leaving a state enclosing this state or leaving a state included in this state.
+A state can be exited through a transition leaving this state itself, leaving a state enclosing this state or leaving a state included in this state.
 \begin{exmp}
-State A could be exited trough transitions $i$, $j$ and $k$.
+State A could be exited through transitions $i$, $j$ and $k$.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\textwidth]{asg6.pdf}
@@ -132,7 +132,7 @@ In ASG, parallelism is always explicit by refining the state into several parall
 \end{figure}
 When a state, refined in parallel components is entered, the initial sub-states of all the parallel components are entered at the same time.
 If the refined state is exited from one of the parallel components, all the parallel components are terminated.
-(Exiting the refined state may be through a regular or trough an abort transition)
+(Exiting the refined state may be through a regular or through an abort transition)
 
 \section{ASG Components}
 
