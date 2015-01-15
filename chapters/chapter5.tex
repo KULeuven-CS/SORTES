@@ -43,7 +43,7 @@ Reliability is measured by looking at what happens to a set of similar items. Wi
 \end{itemize}
 Now we can define the \definebf{reliability} of this kind of items as 
 \[
-R(t) = \frac{S(T)}{N}
+R(t) = \frac{S(t)}{N}
 \]
 We define the \definebf{failure rate} as:
 \[
@@ -51,9 +51,9 @@ We define the \definebf{failure rate} as:
 \]
 We define the \defineabrv{Mean Time Between Failures}{MTBF} as:
 \[
-\text{MTBF} = \int_0^{\infty} R(T) dt
+\text{MTBF} = \int_0^{\infty} R(t) dt
 \]
-R is a dimensionless value representing time. The MTBF is the surface under the curve representing the evolution with respect to $R(t)$, which is the percentage of surviving items after $t$.
+R is a dimensionless value parametrized by time. The MTBF is the surface under the curve representing the evolution with respect to $R(t)$, which is the percentage of surviving items after $t$.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{mtbf1.pdf}
@@ -78,7 +78,7 @@ A(t) = \frac{T_{\text{on}}}{T_{\text{on}} + T_{\text{off}}}
 A(t) = \frac{T_{\text{on}}}{T_{\text{on}} + (N_{\text{faults}} \times \text{MTTR})}
 \]
 \[
-N_{\text{faults}} = \frac{T_{text{ON}}}{\text{MTBF}}
+N_{\text{faults}} = \frac{T_{\text{on}}}{\text{MTBF}}
 \]
 \[
 A(t) = \frac{\text{MTBF}}{\text{MTBF} + \text{MTTR}}
@@ -107,7 +107,7 @@ The problem with active redundancy is threefold:
     \label{acre}
 \end{figure}
 
-A health report consists or a regular message indicating that the system is still alive, assuming the system is a \textbf{fail/stop system}.
+A health report consists of a regular message indicating that the system is still alive, assuming the system is a \textbf{fail/stop system}.
 An alternative might be a signature based on significant components of the system.
 This signature may be created at regular intervals or at each significant state change.
 Synchronization is handled by the events occurring at the controller system. A watchdog decides to switch to the spare processor. 
@@ -148,24 +148,26 @@ It's the system itself that warns the maintenance service.
 The module that has been repaired or replaced is synchronized without stopping the active module (copy of the memory contents, etc.) under control of the OS. There can be up to 16 pairs.
 
 \section{Multiple Systems}
-The principle of doubled systems is to transfer the activity as quickly as possible from a failing main system to a working spare. The idea of multiple systems is to have enough running resources to let them have a \textbf{vote}. This mean there must be at least 3 modules, and the system should have a \textbf{fail/stop} behavior.
+The principle of doubled systems is to transfer the activity as quickly as possible from a failing main system to a working spare. The idea of multiple systems is to have enough running resources to let them \textbf{vote} by majority to produce a single output, as illustrated in Figure~\ref{tmr1}. Note that voting by majority implies having at least three modules. Moreover, such a set-up allows non \textbf{fail/stop} behavior. Indeed, if one of the systems makes an error, the other systems can correct the result through voting.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{tmr1.pdf}
-    \caption{3 Modules}
+    \caption{Triple Modular Redundancy set-up determining the output through majority voting.}
     \label{tmr1}
 \end{figure}
-\textbf{Triple Modular Redundancy} or \textbf{TMR} is a particular case for $M$ and $N$. We assume the the system consisting of $N$ components survives if at least $M$ components survive.
+
+Generally, we assume a system consisting of $N$ components that survives if at least $M$ components survive.
+\textbf{Triple Modular Redundancy} or \textbf{TMR} is a particular case for $M=2$ and $N=3$. With TMR, only one component may fail without disrupting the end result as the other two components should correct it through majority voting.
 
 \subsection{Survival Probability}
 In order to calculate the \definebf{probability of survival} we have to make some assumptions:
 \begin{itemize}
 	\item Malfunctions of the different components are independent.
 	\item $R$ is the survival probability of a single module alone.
-	\item $R_n$ is the probability that a single module fails.
+	\item $R^n$ is the probability that not a single module fails in a set up of n modules.
 \end{itemize}
-The probability that one of the modules fails is
+The probability that only one out of n modules fails is
 \[
 R^{n-1} \cdot (1 - R) \cdot C^{n-1}_{n}
 \]
@@ -189,8 +191,8 @@ In case of TMR this becomes
 
 \begin{align*}
 R_\text{TMR} & = R_v \cdot \left( \sum^{1}_{k=0} R^{3-k} \cdot (1 - R)^k \cdot \frac{3!}{k!(3-k!)} \right) \\
-& = \left( R^3 + R^2 \cdot (1-R) \cdot 3 \right) \\
-& = \left( 3R^2 - 2R^3 \right)
+& = R_v \cdot \left( R^3 + R^2 \cdot (1-R) \cdot 3 \right) \\
+& = R_v \cdot \left( 3R^2 - 2R^3 \right)
 \end{align*}
 We consider the case where $R_{\text{TMR}} > R$. Assuming that $R_v = 1$ and $0 < R < 1$. This means
 \[
