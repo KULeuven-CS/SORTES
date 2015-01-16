@@ -205,7 +205,7 @@ Other synchronizations can be implemented in a similar way.
 Two methods can be distinguished for \define{task communication}:
 \begin{description}
 	\item[By Shared Variables] It's simple and fast but shared variables must be written mutual exclusively. This makes the tasks strongly synchronized (long waits may occur).
-	\item[By Messages] The OS acts as a go-between. It can buffer the messages. Mutual exclusion is needed between tasks and OS. Waits can occur when the buffer is full. The system may block the writer(\definbf{flow control}) to avoid losing data. But messages can also be discarded if necessary an appropriate discarding scheme should then be chosen (often fifo). This buffering cause the tasks to be less synchronized.
+	\item[By Messages] The OS acts as a go-between. It can buffer the messages. Mutual exclusion is needed between tasks and OS. Waits can occur when the buffer is full. The system may block the writer(\definebf{flow control}) to avoid losing data. But messages can also be discarded if necessary an appropriate discarding scheme should then be chosen (often fifo). This buffering cause the tasks to be less synchronized.
 \end{description} 
 
 
